@@ -1,0 +1,191 @@
+<?php 
+$this->Html->addCrumb('Itens', '/items');
+$this->Html->addCrumb('Adicionar', '/items/add'); 
+
+echo $this->Html->link(
+	$this->Html->image('back'),
+	array('controller'=>'items', 'action'=>'index'),
+	array('escape'=>false)		
+);
+?>
+<div class="well">
+	<?php echo $this->Form->create('Item', array('type'=>'file', 'class'=>'form-horizontal')); ?>
+		<?php echo $this->Form->input('complete', array('type'=>'hidden', 'value'=>'true'));?>
+		<fieldset>
+			<legend>Adicionar item</legend>
+			<div class="control-group required">
+				<label class="control-label" for="grupo do item">Grupo</label>
+				<div class="controls">
+					<?php 
+					echo $this->Form->input('item_group_id', 
+						array(
+							'label'=>false, 
+							'class'=>'span6',
+							'options'=>$groups
+						)
+					);
+					?>
+				</div>
+			</div>
+			<div class="control-group required">
+				<label class="control-label" for="Classe do item">Classe</label>
+				<div class="controls">
+					<?php 
+					echo $this->Form->input('item_class_id', 
+						array(
+							'label'=>false, 
+							'class'=>'span6',
+							'options'=>array(''=>'Selecione um grupo')
+						)
+					);
+					?>
+				</div>
+			</div>
+			<div class="control-group required">
+				<label class="control-label" for="PNGC">PNGC</label>
+				<div class="controls">
+					<?php 
+					echo $this->Form->input('pngc_code_id', 
+						array(
+							'label'=>false, 
+							'class'=>'span6',
+						)
+					);
+					?>
+				</div>
+			</div>
+			<div class="control-group required">
+				<label class="control-label" for="nome do item">Nome</label>
+				<div class="controls">
+					<?php 
+					echo $this->Form->input('name', 
+						array(
+							'label'=>false, 
+							'class'=>'span6',
+						)
+					);
+					?>
+				</div>
+			</div>
+			<div class="control-group required">
+				<label class="control-label" for="nome do item">Descrição</label>
+				<div class="controls">
+					<?php 
+					echo $this->Tinymce->input('Item.description', 
+						array(
+							'label'=>false,
+							'class'=>'span6',
+							'rows'=>10
+						),array(
+							'language'=>'pt',
+							'onchange_callback'=>'function(editor) {
+								tinyMCE.triggerSave();
+								$("#" + editor.id).valid();
+							}'
+						),
+						'basic'
+					);
+					?>
+				</div>
+			</div>
+			<div class="control-group required">
+				<label class="control-label" for="nome do item">Especificação</label>
+				<div class="controls">
+					<?php 
+					echo $this->Tinymce->input('Item.specification', 
+						array(
+							'label'=>false,
+							'class'=>'span6',
+							'rows'=>10
+						),array(
+							'language'=>'pt',
+							'onchange_callback'=>'function(editor) {
+								tinyMCE.triggerSave();
+								$("#" + editor.id).valid();
+							}'
+						),
+						'basic'
+					);
+					?>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="nome do item">Imagem</label>
+				<div class="controls">
+					<?php 
+					echo $this->Form->file('image', 
+						array(
+							'label'=>false, 
+						)
+					);
+					?>
+				</div>
+			</div>			
+			<div class="form-actions">
+				<?php echo $this->Form->button('Enviar', array('id'=>'submit-ite','class'=>'btn btn-primary', 'type'=>'submit'));?>
+      			<?php echo $this->Html->link('Cancelar', array('controller'=>'items', 'action'=>'index'), array('class'=>'btn'));?>
+    		</div>
+		</fieldset>
+	<?php echo $this->Form->end(); ?>
+</div>
+<script>
+$('#ItemAddForm').validate({
+	ignore: "",
+	rules: {
+		'data[Item][item_group_id]': {
+		    required: true
+		},
+		'data[Item][item_class_id]': {
+		    required: true
+		},
+		'data[Item][pngc_code_id]': {
+		    required: true
+		},
+		'data[Item][name]': {
+		    required: true
+		},
+		'data[Item][description]': {
+		    required: true
+		},
+	    'data[Item][specification]': {
+		    required: true
+		},
+	},
+	messages: {
+		'data[Item][item_group_id]': {
+		    required: 'Campo obrigatório'
+		},
+		'data[Item][item_class_id]': {
+		    required: 'Campo obrigatório'
+		},
+		'data[Item][pngc_code_id]': {
+		    required: 'Campo obrigatório'
+		},
+		'data[Item][name]': {
+		    required: 'Campo obrigatório'
+		},
+		'data[Item][description]': {
+		    required: 'Campo obrigatório'
+		},
+		'data[Item][specification]': {
+			required: 'Campo obrigatório'			
+		},
+	},
+	highlight: function(label) {
+		$(label).closest('.control-group').addClass('error');
+	},
+	success: function(label) {
+		label
+		.text('OK!').addClass('valid')
+		.closest('.control-group').addClass('success');
+	},
+	errorPlacement: function(label, element) {
+		// position error label after generated textarea
+		if (element.is("textarea")) {
+			label.insertAfter(element.next());
+		} else {
+			label.insertAfter(element)
+		}
+	}
+});
+</script>

@@ -1,0 +1,56 @@
+<?php 
+$this->Html->addCrumb('Minhas Solicitações', '/solicitations');
+$this->Html->addCrumb('Visualizar', '/solicitations/view/'.$solicitation[0]['Solicitation']['id']);
+if(!$ajax) {
+	echo $this->Html->link(
+		$this->Html->image('back'),
+		'javascript:window.history.go(-1)',
+		array('escape'=>false)
+	);
+?>
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active"><a title="Descrição da solicitação" href="#text"><?php echo __('Descrição')?></a></li>
+		<li><a title="Itens da solicitação" href="#items"><?php echo __('Itens')?></a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active well" id="text">	
+			<div id="validation"></div>
+			<?php echo $this->Form->create('Solicitation', array('class'=>'form-horizontal')); ?>
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label" for="Nº da solicitação">Nº da solicitação</label>
+					<div class="controls">
+						<?php echo $solicitation[0]['Solicitation']['keycode']; ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="Nº do memorando">Nº do memorando</label>
+					<div class="controls">
+						<?php echo $solicitation[0]['Solicitation']['memo_number']; ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="Decrição da solicitação">Texto</label>
+					<div class="controls">
+						<?php echo $solicitation[0]['Solicitation']['description'];?>
+					</div>
+				</div>
+			</fieldset>
+			<?php echo $this->Form->end();?>
+		</div>
+		<div class="tab-pane well" id="items">
+			<?php echo $this->element('ajax/solicitations/view');?>
+		</div>		
+	</div>
+<?php 
+}else {	
+	echo $this->element('ajax/solicitations/view');
+}
+?>
+
+<script>
+$('#myTab a').click(function (e) {
+  e.preventDefault();
+  $(this).tab('show');
+});
+</script>

@@ -1,0 +1,107 @@
+<?php 
+$this->Html->addCrumb('Gerência', '/manager/');
+$this->Html->addCrumb('Grupos dos Itens', '/item_groups/');
+$this->Html->addCrumb('Editar', '/item_groups/edit/'.$this->request->data['ItemGroup']['id']);
+
+echo $this->Html->link(
+	$this->Html->image('back'),
+	array('controller'=>'item_groups', 'action'=>'index'),
+	array('escape'=>false)		
+);
+?>
+<div class="well">
+	<?php echo $this->Form->create('ItemGroup', array('class'=>'form-horizontal')); ?>
+		<?php echo $this->Form->input('id', array('type'=>'hidden'));?>
+		<fieldset>
+			<legend>Editar Grupo do Item</legend>
+			<div class="control-group required">
+				<label class="control-label" for="Tipo do grupo">Tipo do Grupo</label>
+				<div class="controls">
+					<?php 
+					echo $this->Form->input('group_type_id', 
+						array(
+							'label'=>false, 
+							'class'=>'input',
+							'options'=>$types,
+							'value'=>$this->request->data['ItemGroup']['group_type_id']
+						)
+					);
+					?>
+				</div>
+			</div>
+			<div class="control-group required">
+				<label class="control-label" for="Código do grupo">Código</label>
+				<div class="controls">
+					<?php 
+					echo $this->Form->input('keycode', 
+						array(
+							'label'=>false, 
+							'class'=>'input',
+						)
+					);
+					?>
+				</div>
+			</div>
+			<div class="control-group required">
+				<label class="control-label" for="Nome do grupo do item">Nome</label>
+				<div class="controls">
+					<?php 
+					echo $this->Form->input('name', 
+						array(
+							'label'=>false, 
+							'class'=>'input',
+						)
+					);
+					?>
+				</div>
+			</div>
+			<div class="form-actions">
+				<?php echo $this->Form->button('Enviar', array('class'=>'btn btn-primary', 'type'=>'submit'));?>
+      			<?php echo $this->Html->link('Cancelar', array('controller'=>'item_groups', 'action'=>'index'), array('class'=>'btn'));?>
+    		</div>
+		</fieldset>
+	<?php echo $this->Form->end(); ?>
+</div>
+<script>
+$('#ItemGroupEditForm').validate({
+	ignore: "",
+	rules: {
+		'data[ItemGroup][group_type_id]': {
+		    required: true
+		},
+		'data[ItemGroup][keycode]': {
+		    required: true
+		},
+		'data[ItemGroup][name]': {
+		    required: true
+		}
+	},
+	messages: {
+		'data[ItemGroup][group_type_id]': {
+			required: 'Campo obrigatório'
+		},
+		'data[ItemGroup][keycode]': {
+			required: 'Campo obrigatório'
+		},
+		'data[UnityType][name]': {
+		    required: 'Campo obrigatório'
+		}
+	},
+	highlight: function(label) {
+		$(label).closest('.control-group').addClass('error');
+	},
+	success: function(label) {
+		label
+		.text('OK!').addClass('valid')
+		.closest('.control-group').addClass('success');
+	},
+	errorPlacement: function(label, element) {
+		// position error label after generated textarea
+		if (element.is("textarea")) {
+			label.insertAfter(element.next());
+		} else {
+			label.insertAfter(element)
+		}
+	}
+});
+</script>
