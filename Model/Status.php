@@ -1,5 +1,7 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * Status Model
  *
@@ -14,56 +16,56 @@ class Status extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'name';
+    public $displayField = 'name';
 
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * hasMany associations
  *
  * @var array
  */
-	public $hasMany = array(
-		'Item' => array(
-			'className' => 'Item',
-			'foreignKey' => 'status_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'SolicitationItem' => array(
-			'className' => 'SolicitationItem',
-			'foreignKey' => 'status_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'Solicitation' => array(
-			'className' => 'Solicitation',
-			'foreignKey' => 'status_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
+    public $hasMany = array(
+        'Item' => array(
+            'className' => 'Item',
+            'foreignKey' => 'status_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'SolicitationItem' => array(
+            'className' => 'SolicitationItem',
+            'foreignKey' => 'status_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'Solicitation' => array(
+            'className' => 'Solicitation',
+            'foreignKey' => 'status_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
+    );
 
 }

@@ -67,8 +67,7 @@ class CartItemsController extends AppController {
 		$this->autoRender = false;
 		if($this->request->is('AJAX')) {
 			$user_id = $this->Auth->user('id');
-			$item_id = 
-
+			
 			$data['CartItem']['user_id'] = $this->Auth->user('id');
 			$data['CartItem']['item_id'] = $this->request->data['item_id'];
 			$data['CartItem']['quantity'] = 1;

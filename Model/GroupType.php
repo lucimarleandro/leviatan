@@ -1,5 +1,7 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * GroupType Model
  *
@@ -12,30 +14,30 @@ class GroupType extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'name';
+    public $displayField = 'name';
 
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * hasMany associations
  *
  * @var array
  */
-	public $hasMany = array(
-		'ItemGroup' => array(
-			'className' => 'ItemGroup',
-			'foreignKey' => 'group_type_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
+    public $hasMany = array(
+        'ItemGroup' => array(
+            'className' => 'ItemGroup',
+            'foreignKey' => 'group_type_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
+    );
 
 }

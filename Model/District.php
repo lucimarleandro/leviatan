@@ -1,5 +1,7 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * District Model
  *
@@ -13,45 +15,45 @@ class District extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'name';
+    public $displayField = 'name';
 
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
  *
  * @var array
  */
-	public $belongsTo = array(
-		'City' => array(
-			'className' => 'City',
-			'foreignKey' => 'city_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
+    public $belongsTo = array(
+        'City' => array(
+            'className' => 'City',
+            'foreignKey' => 'city_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
+    );
 
 /**
  * hasMany associations
  *
  * @var array
  */
-	public $hasMany = array(
-		'Address' => array(
-			'className' => 'Address',
-			'foreignKey' => 'district_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
+    public $hasMany = array(
+        'Address' => array(
+            'className' => 'Address',
+            'foreignKey' => 'district_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
+    );
 
 }

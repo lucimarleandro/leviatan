@@ -145,6 +145,7 @@ Cache::config('default', array('engine' => 'File'));
 
  CakePlugin::load('AclExtras');
  CakePlugin::load('Acl', array('bootstrap' => true));
+ CakePlugin::load('CdiGadgets');
  //CakePlugin::load('CakePdf', array('bootstrap' => true, 'routes' => true));
  
  /*

@@ -31,19 +31,21 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+    
+    public $actsAs = array('CdiGadgets.Auditor');
 	
-	function begin() {
-		$db =& ConnectionManager::getDataSource($this->useDbConfig);
-		$db->begin($this);
-	}
-	
-	function commit() {
-		$db =& ConnectionManager::getDataSource($this->useDbConfig);
-		$db->commit($this);
-	}
-	
-	function rollback() {
-		$db =& ConnectionManager::getDataSource($this->useDbConfig);
-		$db->rollback($this);
-	}
+    function begin() {
+            $db =& ConnectionManager::getDataSource($this->useDbConfig);
+            $db->begin($this);
+    }
+
+    function commit() {
+            $db =& ConnectionManager::getDataSource($this->useDbConfig);
+            $db->commit($this);
+    }
+
+    function rollback() {
+            $db =& ConnectionManager::getDataSource($this->useDbConfig);
+            $db->rollback($this);
+    }
 }
