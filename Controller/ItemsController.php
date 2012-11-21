@@ -303,6 +303,10 @@ class ItemsController extends AppController {
             foreach ($items as $i => $value) {
                 $response[$i] = array('label' => $value['Item']['name']);
             }
+            
+            if(empty($items)) {
+                $response[] = array('label'=>'Nenhum item com os filtros especificados');
+            }
 
             echo json_encode($response);
             exit;
