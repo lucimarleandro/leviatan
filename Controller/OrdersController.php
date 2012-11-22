@@ -26,10 +26,52 @@ class OrdersController extends AppController {
  * 
  */
     public function index() {
+        
+        $user = $this->Auth->user();
+        $unitySectorId = $user['Employee']['unity_sector_id'];
+        
+        $this->OrderItem->recursive = -1;
+        $options['joins'] = array(
+            array(
+                'table'=>'solicitation_items',
+                'alias'=>'SolicitationItem',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'OrderItem.solicitation_item_id = SolicitationItem.id'
+                )
+             ),
+            array(
+                'table'=>'items',
+                'alias'=>'Item',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'SolicitationItem.item_id = Item.id'
+                )
+             ),
+             array(
+                'table'=>'head_orders',
+                'alias'=>'HeadOrder',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = HeadOrder.item_class_id',
+                    'HeadOrder.unity_sector_id'=>$unitySectorId
+                )
+            )
+        );
+        $options['fields'] = array('OrderItem.order_id');
+        $options['group'] = array('OrderItem.order_id');
+        
+        $order_ids = $this->OrderItem->find('list', $options);
+        
+        unset($options);
+        
         $options['limit'] = 10;
         $options['order'] = array('Order.created' => 'asc');
-        $options['group'] = array('Order.created');
+        $options['group'] = array('DATE_FORMAT(Order.created, "%Y-%m-%d")');
         $options['fields'] = array('Order.created');
+        $options['conditions'] = array(
+          'Order.id'=>$order_ids  
+        );
 
         $this->paginate = $options;
         $this->Order->recursive = -1;
@@ -42,10 +84,52 @@ class OrdersController extends AppController {
  * 
  */
     public function view($date = null) {
-        $optoins['limit'] = 10;
+        
+        $user = $this->Auth->user();
+        $unitySectorId = $user['Employee']['unity_sector_id'];
+        
+        $this->OrderItem->recursive = -1;
+        $options['joins'] = array(
+            array(
+                'table'=>'solicitation_items',
+                'alias'=>'SolicitationItem',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'OrderItem.solicitation_item_id = SolicitationItem.id'
+                )
+             ),
+            array(
+                'table'=>'items',
+                'alias'=>'Item',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'SolicitationItem.item_id = Item.id'
+                )
+             ),
+             array(
+                'table'=>'head_orders',
+                'alias'=>'HeadOrder',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = HeadOrder.item_class_id',
+                    'HeadOrder.unity_sector_id'=>$unitySectorId
+                )
+            )
+        );
+        $options['fields'] = array('OrderItem.order_id');
+        $options['group'] = array('OrderItem.order_id');
+        
+        $order_ids = $this->OrderItem->find('list', $options);
+        
+        unset($options);
+        
+        $date = date('Y-m-d', strtotime($date));
+        $options['limit'] = 10;
         $options['order'] = array('Order.keycode' => 'asc');
+        $options['fields'] = array('Order.*', 'DATE_FORMAT(Order.created, "%Y-%m-%d")');
         $options['conditions'] = array(
-            'Order.created' => $date
+            'Order.id'=>$order_ids,
+            'Order.created LIKE'=>$date."%",
         );
 
         $this->paginate = $options;
@@ -76,6 +160,7 @@ class OrdersController extends AppController {
                     $this->OrderItem->create();
                     $data['OrderItem'][]['solicitation_item_id'] = $v;
                 endforeach;
+
                 if (!$this->Order->saveAll($data)) {
                     $flag = false;
                     break;
@@ -84,26 +169,39 @@ class OrdersController extends AppController {
             //Algo deu errado, então não salva nenhum pedido
             if (!$flag) {
                 $this->Order->rollback();
+                return json_encode(array('return'=>false));
             }
-            //Atualiza as solicitações para o status concluído
-            $conditions = array(
-                'Solicitation.id' => $solicitation_ids
+            
+            //Verifica se existe algum item da solicitação que não foi analisado
+            $options['conditions'] = array(
+              'SolicitationItem.solicitation_id'=>$solicitation_ids,
+              'SolicitationItem.status_id'=>PENDENTE
             );
-            $fields = array(
-                'Solicitation.status_id' => CONCLUIDO
-            );
+            $count = $this->SolicitationItem->find('count', $options);
+            
+            if($count == 0) {
+                //Atualiza as solicitações para o status concluído
+                $conditions = array(
+                    'Solicitation.id' => $solicitation_ids
+                );
+                $fields = array(
+                    'Solicitation.status_id' => CONCLUIDO
+                );
 
-            $this->Solicitation->begin();
-            $updateSolicitations = $this->Solicitation->updateAll($fields, $conditions);
-
-            if (!$updateSolicitations) {
-                $this->Order->rollback();
-            }
-
-            $this->Solicitation->commit();
+                $this->Solicitation->begin();
+                $updateSolicitations = $this->Solicitation->updateAll($fields, $conditions);
+                
+                if(!$updateSolicitations) {
+                    $this->Order->rollback();
+                    return json_encode(array('return'=>false));
+                }
+                
+                $this->Solicitation->commit();
+            }            
+            
             $this->Order->commit();
 
-            return json_encode(array('return' => true));
+            return json_encode(array('return'=>true));
         }
     }
 
@@ -145,7 +243,6 @@ class OrdersController extends AppController {
 
         ksort($consolidation);
         $this->set(compact('data', 'columns', 'consolidation', 'descriptions'));
-        //debug(APP.'View'.DS.'Elements'.DS.'pds'.DS.'header.ctp');exit;
         $this->WkHtmlToPdf->createPdf();
     }
 
@@ -200,6 +297,22 @@ class OrdersController extends AppController {
                 )
             ),
             array(
+                'table' => 'items',
+                'alias' => 'Item',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'SolicitationItem.item_id = Item.id'
+                )
+            ), 
+            array(
+                'table'=>'head_orders',
+                'alias'=>'HeadOrder',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = HeadOrder.item_class_id',
+                )
+            ), 
+            array(
                 'table' => 'solicitations',
                 'alias' => 'Solicitation',
                 'type' => 'INNER',
@@ -246,12 +359,36 @@ class OrdersController extends AppController {
                 'conditions' => array(
                     'UnitySector.sector_id = Sector.id'
                 )
+            ),
+             array(
+                'table' => 'unity_sectors',
+                'alias' => 'UnitySectorResponsible',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'UnitySectorResponsible.id = HeadOrder.unity_sector_id'
+                )
+            ),
+            array(
+                'table' => 'unities',
+                'alias' => 'UnityResponsible',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'UnityResponsible.id = UnitySectorResponsible.unity_id'
+                )
+            ),
+            array(
+                'table' => 'sectors',
+                'alias' => 'SectorResponsible',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'SectorResponsible.id = UnitySectorResponsible.sector_id'
+                )
             )
         );
         $options['conditions'] = array('OrderItem.order_id' => $order_id);
         $options['fields'] = array(
             'Solicitation.id', 'Solicitation.keycode', 'Solicitation.memo_number', 'Solicitation.description', 'Solicitation.created',
-            'Employee.name', 'Employee.surname', 'Unity.name', 'Sector.name'
+            'Employee.name', 'Employee.surname', 'Unity.name', 'Sector.name', 'UnityResponsible.name', 'SectorResponsible.name'
         );
         $options['group'] = array('SolicitationItem.solicitation_id');
 
@@ -263,7 +400,10 @@ class OrdersController extends AppController {
  */
     private function __getSolicitationItems($solicitation_ids) {
         $this->SolicitationItem->recursive = -1;
-
+        
+        $user = $this->Auth->user();
+        $unitySectorId = $user['Employee']['unity_sector_id'];
+        
         $options['joins'] = array(
             array(
                 'table' => 'items',
@@ -271,6 +411,15 @@ class OrdersController extends AppController {
                 'type' => 'INNER',
                 'conditions' => array(
                     'SolicitationItem.item_id = Item.id'
+                )
+            ),
+             array(
+                'table'=>'head_orders',
+                'alias'=>'HeadOrder',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = HeadOrder.item_class_id',
+                    'HeadOrder.unity_sector_id'=>$unitySectorId
                 )
             )
         );

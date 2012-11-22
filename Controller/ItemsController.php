@@ -9,7 +9,7 @@ App::uses('AppController', 'Controller');
  */
 class ItemsController extends AppController {
 
-    public $uses = array('Item', 'ItemGroup', 'ItemClass', 'PngcCode');
+    public $uses = array('Item', 'ItemGroup', 'ItemClass', 'PngcCode', 'HeadOrder');
     public $components = array('Upload');
     public $helpers = array('Tinymce');
 
@@ -46,14 +46,28 @@ class ItemsController extends AppController {
         } else {
             $this->Session->delete('options');
         }
-
+        
+        $user = $this->Auth->user();
+        $unitySectorId = $user['Employee']['unity_sector_id'];
+       
         $options['limit'] = 10;
         $options['order'] = array('Item.keycode' => 'asc');
+        $options['joins'] = array(
+            array(
+                'table'=>'head_orders',
+                'alias'=>'HeadOrder',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = HeadOrder.item_class_id',
+                    'HeadOrder.unity_sector_id'=>$unitySectorId
+                )
+            )
+        );
 
         $this->paginate = $options;
         $items = $this->paginate();
 
-        $groups = $this->__getItemGroups();
+        $groups = $this->__getItemGroupsBySector(true);
         $complete = 'false';
 
         $this->set(compact('items', 'groups', 'ajax', 'complete'));
@@ -209,7 +223,7 @@ class ItemsController extends AppController {
             }
         }
 
-        $groups = $this->__getItemGroups();
+        $groups = $this->__getItemGroupsBySector();
         $pngcCodes = $this->__getPngcCodes();
 
         $this->set(compact('groups', 'pngcCodes'));
@@ -247,7 +261,7 @@ class ItemsController extends AppController {
         }
 
         $this->request->data = $this->Item->read();
-        $groups = $this->__getItemGroups();
+        $groups = $this->__getItemGroupsBySector();
         $pngcCodes = $this->__getPngcCodes();
 
         $this->set(compact('groups', 'pngcCodes'));
@@ -330,6 +344,79 @@ class ItemsController extends AppController {
 
             echo json_encode(array('result' => $result));
         }
+    }
+    
+/**
+ * 
+ */
+    private function __getItemGroupsBySector($registered = false) {
+        
+        $user = $this->Auth->user();
+        $unitySectorId = $user['Employee']['unity_sector_id'];
+        
+        $this->HeadOrder->recursive = -1;
+        $options['joins'] = array(
+            array(
+                'table'=>'item_classes',
+                'alias'=>'ItemClass',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'HeadOrder.item_class_id = ItemClass.id'
+                )
+            )
+        );
+        $options['conditions'] = array(
+            'HeadOrder.unity_sector_id'=>$unitySectorId            
+        );
+        $options['fields'] = array('ItemClass.id', 'ItemClass.keycode');
+        
+        $itemClassIds = $this->HeadOrder->find('list', $options);
+        
+        unset($options);
+        
+        $this->ItemClass->recursive = -1;
+        
+        $join = array();
+        if($registered) {            
+            $join = array(
+                'table'=>'items',
+                'alias'=>'Item',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = ItemClass.id'
+                )
+            );           
+        }else {
+            $join = null;
+        }
+
+        
+        $options['joins'] = array(
+            array(
+                'table'=>'item_groups',
+                'alias'=>'ItemGroup',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'ItemClass.item_group_id = ItemGroup.id'
+                )
+            ),
+            $join
+        );        
+        $options['conditions'] = array(
+            'ItemClass.keycode'=>$itemClassIds
+        );
+        $options['group'] = array('ItemClass.item_group_id');
+        $options['fields'] = array('ItemGroup.id', 'ItemGroup.keycode', 'ItemGroup.name');
+
+        $itemGroups = $this->ItemClass->find('all', $options);
+        
+        $values = array();
+        foreach($itemGroups as $key=>$value):
+            $values[$value['ItemGroup']['id']] = $value['ItemGroup']['keycode'].'-'.$value['ItemGroup']['name'];
+        endforeach;
+        $values = array(''=>'Selecione um grupo') + $values;
+        
+        return $values;
     }
 
 /**

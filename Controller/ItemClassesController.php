@@ -9,7 +9,7 @@ App::uses('AppController', 'Controller');
  */
 class ItemClassesController extends AppController {
 
-    public $uses = array('ItemClass', 'ItemGroup', 'Item');
+    public $uses = array('ItemClass', 'ItemGroup', 'Item', 'HeadOrder');
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -165,22 +165,76 @@ class ItemClassesController extends AppController {
             $item_group_id = $this->request->data['item_group_id'];
             $this->ItemClass->recursive = -1;
 
-            if ($this->request->data['complete'] == 'false') {
-                $options['joins'] = array(
-                    array(
-                        'table' => 'items',
-                        'alias' => 'Item',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'Item.item_class_id = ItemClass.id'
-                        )
+  
+            $options['joins'] = array(
+                array(
+                    'table' => 'items',
+                    'alias' => 'Item',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'Item.item_class_id = ItemClass.id'
                     )
-                );
-            }
-
+                )
+            );
             $options['fields'] = array('id', 'keycode-name');
             $options['conditions'] = array(
-                'ItemClass.item_group_id' => $item_group_id,
+                'ItemClass.item_group_id' => $item_group_id
+            );
+            $options['order'] = array('ItemClass.keycode-name' => 'asc');
+
+            $item_classes = $this->ItemClass->find('all', $options);
+
+            foreach ($item_classes as $value):
+                $values[$value['ItemClass']['id']] = $value['ItemClass']['keycode-name'];
+            endforeach;
+            $values = array('' => 'Selecione uma classe') + $values;
+
+            echo json_encode($values);
+            exit;
+        }
+    }
+    
+/**
+ * Recupera a classe dos itens de acordo com o setor e o grupo da classe
+ */
+    public function get_item_classes_by_sectors($registered = false) {
+        $this->autoRender = false;
+        if ($this->request->is('AJAX')) {
+            $item_group_id = $this->request->data['item_group_id'];
+            $this->ItemClass->recursive = -1;
+            
+            $user = $this->Auth->user();
+            $unitySectorId = $user['Employee']['unity_sector_id'];
+            
+            if($registered) {
+                $join = array(
+                    'table' => 'items',
+                    'alias' => 'Item',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'Item.item_class_id = ItemClass.id'
+                    )  
+                );
+            }else {
+                $join = null;
+            }
+            
+            $options['joins'] = array(               
+                array(
+                    'table' => 'head_orders',
+                    'alias' => 'HeadOrder',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'ItemClass.id = HeadOrder.item_class_id',
+                        'HeadOrder.unity_sector_id'=>$unitySectorId
+                    )                        
+                ),
+                $join
+            );
+
+            $options['fields'] = array('ItemClass.id', 'ItemClass.keycode-name');
+            $options['conditions'] = array(
+                'ItemClass.item_group_id' => $item_group_id
             );
             $options['order'] = array('ItemClass.keycode-name' => 'asc');
 

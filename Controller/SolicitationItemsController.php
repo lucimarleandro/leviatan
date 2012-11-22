@@ -9,7 +9,7 @@ App::uses('AppController', 'Controller');
  */
 class SolicitationItemsController extends AppController {
 
-    public $uses = array('SolicitationItem', 'Item', 'CartItem');
+    public $uses = array('SolicitationItem', 'Item', 'CartItem', 'HeadOrder');
     public $helpers = array('Tinymce');
 
 /**
@@ -77,7 +77,31 @@ class SolicitationItemsController extends AppController {
         } else {
             $this->Session->delete('options');
         }
-
+        
+        $user = $this->Auth->user();
+        $unitySectorId = $user['Employee']['unity_sector_id'];
+        
+        $this->SolicitationItem->recursive = -1;
+        
+        $options['joins'] = array(
+            array(
+                'table'=>'items',
+                'alias'=>'Item',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'SolicitationItem.item_id = Item.id'
+                )
+            ),
+            array(
+                'table'=>'head_orders',
+                'alias'=>'HeadOrder',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = HeadOrder.item_class_id',
+                    'HeadOrder.unity_sector_id'=>$unitySectorId
+                )
+            )
+        );
         $options['conditions'] = array(
             'SolicitationItem.solicitation_id' => $solicitation_id
         );
@@ -102,6 +126,30 @@ class SolicitationItemsController extends AppController {
     public function check() {
         $this->autoRender = false;
         if ($this->request->is('AJAX')) {
+            
+            $user = $this->Auth->user();
+            $unitySectorId = $user['Employee']['unity_sector_id'];
+
+            $this->SolicitationItem->recursive = -1;
+            $options['joins'] = array(
+                array(
+                    'table'=>'items',
+                    'alias'=>'Item',
+                    'type'=>'INNER',
+                    'conditions'=>array(
+                        'SolicitationItem.item_id = Item.id'
+                    )
+                 ),
+                 array(
+                    'table'=>'head_orders',
+                    'alias'=>'HeadOrder',
+                    'type'=>'INNER',
+                    'conditions'=>array(
+                        'Item.item_class_id = HeadOrder.item_class_id',
+                        'HeadOrder.unity_sector_id'=>$unitySectorId
+                    )
+                )
+            );
 
             $options['conditions'] = array(
                 'SolicitationItem.solicitation_id' => $this->request->data['solicitation_ids'],

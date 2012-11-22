@@ -22,7 +22,7 @@ echo $this->Html->link(
 						array(
 							'label'=>false, 
 							'class'=>'input-xlarge',
-							'optoins'=>$unities
+							'options'=>$unities
 						)
 					);
 					?>

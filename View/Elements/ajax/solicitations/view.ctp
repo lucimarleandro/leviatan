@@ -4,6 +4,8 @@
             <tr>
                 <th><?php echo __('Código') ?></th>
                 <th><?php echo __('Nome'); ?></th>
+                <th><?php echo __('Unidade') ?></th>
+                <th><?php echo __('Setor') ?></th>
                 <th><?php echo __('Quantidade'); ?></th>
                 <th><?php echo __('Situação'); ?></th>
             </tr>
@@ -11,7 +13,8 @@
         <tbody>
             <?php foreach($solicitation AS $item): ?>
                 <tr>
-                    <td><?php echo $item['Item']['keycode']; ?></td>
+                    
+                    <td style="white-space: nowrap"><?php echo $item['Item']['keycode']; ?></td>
                     <td>
                         <?php
                         echo $this->Html->link(
@@ -19,6 +22,8 @@
                         );
                         ?>
                     </td>
+                    <td><?php echo $item['Unity']['name']; ?></td>
+                    <td><?php echo $item['Sector']['name']; ?></td>
                     <td><?php echo $item['SolicitationItem']['quantity'] ?></td>
                     <td>
                         <?php
