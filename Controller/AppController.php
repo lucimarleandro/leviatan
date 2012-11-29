@@ -32,24 +32,46 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-
+    
+/**
+ *
+ * @var type 
+ */
     public $components = array(
-        'Acl',
         'Auth' => array(
             'authorize' => array(
-                'Actions' => array('actionPath' => 'controllers/')
+                'Controller'
             )
         ),
         'Session',
         'RequestHandler'
     );
+    
+/**
+ *
+ * @var type 
+ */
     public $helpers = array('Html', 'Form', 'Session', 'Js');
+    
+/**
+ *
+ * @var type 
+ */
+    public $uses = array('Permission', 'Module');
 
-    /**
-     * (non-PHPdoc)
-     * @see Controller::beforeFilter()
-     */
+/**
+ * (non-PHPdoc)
+ * @see Controller::beforeFilter()
+ */
     public function beforeFilter() {
+        
+         if (Configure::read('App.maintenance')) {
+            if ($this->Auth->user('group_id') != 1) {                   
+                $this->layout = 'maintenance';
+                $this->Auth->deny('*');
+            }
+        }
+        
         //Configure AuthComponent
         $this->Auth->loginAction = array('controller' => 'items', 'action' => 'home');
         $this->Auth->logoutRedirect = array('controller' => 'items', 'action' => 'home');
@@ -63,11 +85,50 @@ class AppController extends Controller {
         }
         $menus = $this->__getMenus();
         $this->set(compact('menus'));
+        
+        //$this->Auth->allow('*');
+    }
+    
+/**
+ * 
+ * @param type $user
+ * @return boolean
+ */
+    public function isAuthorized($user) {
+        
+        $group_id = $user['group_id'];
+        
+        $options['conditions'] = array(
+            'Permission.group_id'=>$group_id,
+            'Permission.permission'=>1
+        );
+        $options['fields'] = array(
+            'Module.controller', 'Module.action'
+        );
+        
+        $permissions = $this->Permission->find('all', $options);
+        
+        $allow = array();
+        foreach($permissions as $permission) {
+            $allows[] = array($permission['Module']['controller']=>$permission['Module']['action']);
+        }
+
+        if(!empty($allows)) {            
+            $controller = Inflector::camelize($this->params['controller']);
+            $action = $this->params['action'];
+            $module = array($controller=>$action);
+
+            if(in_array($module, $allows)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
-    /**
-     * 
-     */
+/**
+ * 
+ */
     public function __getMenus() {
 
         $menus['Home'] = array('controller' => 'items', 'action' => 'home', 'admin' => false, 'plugin' => false);

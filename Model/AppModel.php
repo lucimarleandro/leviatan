@@ -32,7 +32,7 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model {
     
-    public $actsAs = array('CdiGadgets.Auditor');
+    //public $actsAs = array('CdiGadgets.Auditor');
 	
     function begin() {
             $db =& ConnectionManager::getDataSource($this->useDbConfig);

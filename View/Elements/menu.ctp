@@ -20,7 +20,7 @@
 				<?php 
 				echo $this->Html->link(
 					'<i class="icon-chevron-right"></i>Permissões',
-					array('plugin'=>false, 'admin'=>false, 'controller'=>'admin', 'action'=>'acl'),
+					array('plugin'=>false, 'admin'=>false, 'controller'=>'manager', 'action'=>'permissions'),
 					array('escape'=>false)	
 				);
 				?>

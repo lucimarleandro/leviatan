@@ -74,7 +74,7 @@ class User extends AppModel {
  *
  * @var type 
  */
-    public $actsAs = array('Acl' => array('type' => 'requester'));
+   // public $actsAs = array('Acl' => array('type' => 'requester'));
 
 /**
  * 

@@ -143,15 +143,15 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 
- CakePlugin::load('AclExtras');
- CakePlugin::load('Acl', array('bootstrap' => true));
- CakePlugin::load('CdiGadgets');
+ //CakePlugin::load('AclExtras');
+ //CakePlugin::load('Acl', array('bootstrap' => true));
+ //CakePlugin::load('CdiGadgets');
  //CakePlugin::load('CakePdf', array('bootstrap' => true, 'routes' => true));
  
  /*
   * The model name used for the user role (typically 'Role' or 'Group')
  */
- Configure :: write('acl.aro.role.model', 'Group');
+ //Configure :: write('acl.aro.role.model', 'Group');
  
 
 /**
@@ -214,3 +214,6 @@ define("ERROR", 2);
 define("ERROR_DELETE", 3);
 define("INVALID_RECORD", 4);
 define("BAD_REQUEST", 5);
+
+//Sistema em manutenção
+Configure::write('App.maintenance', false); 
