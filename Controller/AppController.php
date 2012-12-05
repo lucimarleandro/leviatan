@@ -57,7 +57,7 @@ class AppController extends Controller {
  *
  * @var type 
  */
-    public $uses = array('Permission', 'Module');
+    public $uses = array('Permission', 'Module', 'SolicitationItem', 'CartItem');
 
 /**
  * (non-PHPdoc)
@@ -66,7 +66,7 @@ class AppController extends Controller {
     public function beforeFilter() {
         
          if (Configure::read('App.maintenance')) {
-            if ($this->Auth->user('group_id') != 1) {                   
+            if($this->Auth->user('group_id') != ADMIN) {                   
                 $this->layout = 'maintenance';
                 $this->Auth->deny('*');
             }
@@ -84,6 +84,17 @@ class AppController extends Controller {
             $this->set(compact('user'));
         }
         $menus = $this->__getMenus();
+        
+        if($this->Auth->user('group_id') == HOMOLOGADOR) {
+            $pendingSolicitationItems = $this->__getPendingSolicitationItems();
+            $this->set(compact('pendingSolicitationItems'));
+        }
+        
+        if($this->Auth->user('group_id') == DIRETOR) {
+            $pendingCartItems = $this->__getPendingCartItems();
+            $this->set(compact('pendingCartItems'));
+        }
+
         $this->set(compact('menus'));
         
         //$this->Auth->allow('*');
@@ -136,12 +147,14 @@ class AppController extends Controller {
         if ($this->Auth->user()) {
             switch ($this->Auth->user('group_id')) {
                 case ADMIN:
-                    $menus['Itens'] = array('controller' => 'items', 'action' => 'index', 'admin' => false, 'plugin' => false);
+                    /*$menus['Itens'] = array('controller' => 'items', 'action' => 'index', 'admin' => false, 'plugin' => false);
                     $menus['Minhas Solicitações'] = array('controller' => 'solicitations', 'action' => 'index', 'admin' => false, 'plugin' => false);
                     $menus['Fazer Solicitação'] = array('controller' => 'solicitation_items', 'action' => 'index', 'admin' => false, 'plugin' => false);
                     $menus['Finalizar Solicitação'] = array('controller' => 'cart_items', 'action' => 'index', 'admin' => false, 'plugin' => false);
                     $menus['Analisar solicitações'] = array('controller' => 'solicitations', 'action' => 'analyze', 'admin' => false, 'plugin' => false);
                     $menus['Pedidos'] = array('controller' => 'orders', 'action' => 'index', 'admin' => false, 'plugin' => false);
+                     * 
+                     */
                     break;
                 case CADASTRADOR:
                     $menus['Itens'] = array('controller' => 'items', 'action' => 'index', 'admin' => false, 'plugin' => false);
@@ -166,5 +179,87 @@ class AppController extends Controller {
 
         return $menus;
     }
+    
+/**
+ * 
+ */
+    private function __getPendingSolicitationItems() {
+        
+        $this->SolicitationItem->recursive = -1;
+        $options['joins'] = array(
+            array(
+                'table'=>'items',
+                'alias'=>'Item',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.id = SolicitationItem.item_id'
+                )
+            ),
+            array(
+                'table'=>'solicitations',
+                'alias'=>'Solicitation',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'SolicitationItem.solicitation_id = Solicitation.id'
+                )
+            ),
+            array(
+                'table'=>'users',
+                'alias'=>'User',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'User.id'=>$this->Auth->user('id')
+                )
+            ),
+            array(
+                'table'=>'employees',
+                'alias'=>'Employee',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Employee.id = User.employee_id'
+                )
+            ),
+            array(
+                'table'=>'unity_sectors',
+                'alias'=>'UnitySector',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'UnitySector.id = Employee.unity_sector_id'
+                )
+            ),     
+           array(
+                'table'=>'head_orders',
+                'alias'=>'HeadOrder',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'HeadOrder.item_class_id = Item.item_class_id',
+                    'HeadOrder.unity_sector_id = UnitySector.id'
+                )
+            ),
+            
+        );
+        
+        $options['conditions'] = array(
+            'SolicitationItem.status_id'=>PENDENTE  
+        );
+        
+        $pending = $this->SolicitationItem->find('count', $options);
 
+        return $pending;
+    }
+    
+/**
+ * 
+ */
+    private function __getPendingCartItems() {
+        
+        $options['conditions'] = array(
+            'CartItem.user_id'=>$this->Auth->user('id')
+        );
+        
+        $pending = $this->CartItem->find('count', $options);
+        
+        return $pending;
+    }
+    
 }

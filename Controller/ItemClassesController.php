@@ -243,7 +243,7 @@ class ItemClassesController extends AppController {
             foreach ($item_classes as $value):
                 $values[$value['ItemClass']['id']] = $value['ItemClass']['keycode-name'];
             endforeach;
-            $values = array('' => 'Selecione uma classe') + $values;
+            $values = array(''=>'Selecione uma classe') + $values;
 
             echo json_encode($values);
             exit;

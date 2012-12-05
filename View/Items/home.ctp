@@ -28,7 +28,11 @@
         success: function(result){
             var options = "";    		
             $.each(result, function(key, val) {
-                options += '<option value="' + key + '">' + val + '</option>';
+                 if(key == '') {
+                    options = '<option value="' + key + '">' + val + '</option>' + options;
+                }else {
+                    options += '<option value="' + key + '">' + val + '</option>';
+                }
             });
 
             $('#ItemItemClassId').html(options);

@@ -26,7 +26,7 @@ class OrdersController extends AppController {
  * 
  */
     public function index() {
-        
+        $this->set('title_for_layout', 'Pedidos');
         $user = $this->Auth->user();
         $unitySectorId = $user['Employee']['unity_sector_id'];
         
@@ -146,10 +146,10 @@ class OrdersController extends AppController {
         $this->autoRender = false;
         if ($this->request->is('AJAX')) {
             $solicitation_ids = $this->request->data['solicitation_ids'];
-
+            
             //Recupera as solicitações que possuem itens com a mesma classe			
             $solicitationItems = $this->__getSolicitationItems($solicitation_ids);
-
+            
             $this->Order->begin();
             $flag = true;
             foreach ($solicitationItems as $value):
@@ -166,28 +166,43 @@ class OrdersController extends AppController {
                     break;
                 }
             endforeach;
+            
             //Algo deu errado, então não salva nenhum pedido
             if (!$flag) {
                 $this->Order->rollback();
+                $this->SolicitationItem->rollback();
                 return json_encode(array('return'=>false));
             }
             
-            //Verifica se existe algum item da solicitação que não foi analisado
+            //Verifica se de todas as solicitações foram gerados os pedidos
+            //----------
             $options['conditions'] = array(
-              'SolicitationItem.solicitation_id'=>$solicitation_ids,
-              'SolicitationItem.status_id'=>PENDENTE
+                'SolicitationItem.solicitation_id'=>$solicitation_ids,
+                'SolicitationItem.status_id'=>PENDENTE
             );
-            $count = $this->SolicitationItem->find('count', $options);
+            $options['fields'] = array(
+                'SolicitationItem.id'
+            );
             
-            if($count == 0) {
+            $solicitationItemIds = $this->SolicitationItem->find('count', $options);
+
+            $completed = false;
+            if($solicitationItemIds == 0) {
+                $completed = true;
+            }
+                                  
+            //Se foram geradas os pedidos de todas as solicitações
+            //Muda o status da solicitação para concluído 
+            //-----------
+            if($completed) {
                 //Atualiza as solicitações para o status concluído
                 $conditions = array(
-                    'Solicitation.id' => $solicitation_ids
+                    'Solicitation.id'=>$solicitation_ids
                 );
                 $fields = array(
-                    'Solicitation.status_id' => CONCLUIDO
+                    'Solicitation.status_id'=>CONCLUIDO
                 );
-
+                
                 $this->Solicitation->begin();
                 $updateSolicitations = $this->Solicitation->updateAll($fields, $conditions);
                 
@@ -233,7 +248,7 @@ class OrdersController extends AppController {
             $unity = $value['Unity']['name'];
             foreach ($value['solicitation_items'] as $item):
                 $descriptions[$item['Item']['keycode']] = array('name' => $item['Item']['name'], 'description' => $item['Item']['description'], 'specification' => $item['Item']['specification']);
-                if (isset($items[$item['Item']['keycode']][$unity])) {
+                if(isset($consolidation[$item['Item']['keycode']][$unity])) {
                     $consolidation[$item['Item']['keycode']][$unity] += $item['SolicitationItem']['quantity'];
                 } else {
                     $consolidation[$item['Item']['keycode']][$unity] = $item['SolicitationItem']['quantity'];
@@ -439,9 +454,9 @@ class OrdersController extends AppController {
         $solicitationItems = array();
         foreach ($item_class_ids as $value) {
             $options['conditions'] = array(
-                'SolicitationItem.solicitation_id' => $solicitation_ids,
-                'SolicitationItem.status_id' => APROVADO,
-                'Item.item_class_id' => $value
+                'SolicitationItem.solicitation_id'=>$solicitation_ids,
+                'SolicitationItem.status_id'=>APROVADO,
+                'Item.item_class_id'=>$value
             );
             $options['fields'] = array('SolicitationItem.id');
             $solicitationItems[] = $this->SolicitationItem->find('list', $options);

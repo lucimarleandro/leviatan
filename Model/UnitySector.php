@@ -55,5 +55,16 @@ class UnitySector extends AppModel {
             'counterQuery' => ''
         )
     );
+    
+/**
+ * Função chamada antes de deletar o registro
+ * @see lib/Cake/Model/Model::beforeDelete()
+ */
+    public function beforeDelete($cascade = true) {
+        $register = $this->read(null, $this->id);
+        if (!empty($register['Employee'])) {
+            return false;
+        }
+    }
 
 }

@@ -1,7 +1,7 @@
 <?php 
-$this->Html->addCrumb('Gerência', '/manager/');
-$this->Html->addCrumb('Grupos de Gastos', '/expense_groups/');
-$this->Html->addCrumb('Visualizar', '/expense_groups/view/'.$group['ExpenseGroup']['id']);
+$this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
+$this->Html->addCrumb('Grupos de Gastos', array('controller'=>'expense_groups', 'action'=>'index'));
+$this->Html->addCrumb('Visualizar', array('controller'=>'expense_groups', 'action'=>'view', 'id'=>$group['ExpenseGroup']['id']));
 
 echo $this->Html->link(
 	$this->Html->image('back'),

@@ -26,6 +26,7 @@ class ItemsController extends AppController {
  * 
  */
     public function index() {
+        $this->set('title_for_layout', 'Itens');
         $ajax = false;
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
@@ -78,9 +79,9 @@ class ItemsController extends AppController {
  * @param integer $id
  */
     public function view($id = null) {
+        $this->set('title_for_layout', 'Visualizar Item');
         $this->Item->id = $id;
         $this->Item->recursive = -1;
-
         if (!$this->Item->exists()) {
             $this->Session->setFlash(__('Item inválido'), 'default', array('class' => 'alert alert-error'));
             $this->redirect(array('controller' => 'items', 'action' => 'index'));
@@ -156,6 +157,7 @@ class ItemsController extends AppController {
  * 
  */
     public function home() {
+        $this->set('title_for_layout', 'Home');
         $ajax = false;
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
@@ -192,7 +194,7 @@ class ItemsController extends AppController {
  * 
  */
     public function add() {
-
+        $this->set('title_for_layout', 'Adicionar item');
         if ($this->request->is('POST')) {
             $image_temp = $this->request->data['Item']['image'];
             if (!empty($image_temp['name'])) {
@@ -234,6 +236,7 @@ class ItemsController extends AppController {
  * @param integer $id
  */
     public function edit($id = null) {
+        $this->set('title_for_layout', 'Editar item');
         $this->Item->id = $id;
         if ($this->request->is('POST') || $this->request->is('PUT')) {
             $previous_image = $this->request->data['Item']['previous_image'];
@@ -249,6 +252,12 @@ class ItemsController extends AppController {
             }
 
             $this->request->data['Item']['image_path'] = $image;
+            
+            //Se a classe for alterada gerar um novo código para o item
+            if($this->request->data['Item']['item_class_id'] != $this->request->data['Item']['bd_item_class_id']) {
+                $keycode = $this->__getKeycode($this->request->data['Item']['item_class_id']);
+                $this->request->data['Item']['keycode'] = $keycode;
+            }
 
             if ($this->Item->save($this->request->data)) {
                 $this->__removeImage($previous_image);
@@ -463,14 +472,6 @@ class ItemsController extends AppController {
 
         $options['joins'] = array(
             array(
-                'table' => 'items',
-                'alias' => 'Item',
-                'type' => 'INNER',
-                'conditions' => array(
-                    'PngcCode.id = Item.pngc_code_id'
-                )
-            ),
-            array(
                 'table' => 'expense_groups',
                 'alias' => 'ExpenseGroup',
                 'type' => 'INNER',
@@ -517,7 +518,7 @@ class ItemsController extends AppController {
 
         endforeach;
         $pngcCodes = array('' => 'Selecione um item') + $values;
-
+        
         return $pngcCodes;
     }
 

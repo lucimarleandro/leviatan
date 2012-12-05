@@ -1,6 +1,6 @@
 <?php 
-$this->Html->addCrumb('Itens', '/items');
-$this->Html->addCrumb('Editar', '/items/edit/'.$this->request->data['Item']['id']);
+$this->Html->addCrumb('Itens', array('controller'=>'items', 'action'=>'index'));
+$this->Html->addCrumb('Editar', array('controller'=>'items', 'action'=>'edit', $this->request->data['Item']['id']));
 
 echo $this->Html->link(
 	$this->Html->image('back'),
@@ -30,6 +30,7 @@ echo $this->Html->link(
                     ?>
                 </div>
             </div>
+            <?php echo $this->Form->input('bd_item_class_id', array('type'=>'hidden', 'value'=>$this->request->data['Item']['item_class_id']));?>
             <div class="control-group required">
                 <label class="control-label" for="Classe do item">Classe</label>
                 <div class="controls">
@@ -223,7 +224,11 @@ $('#item-group-id').change(function(){
         success: function(result){
             var options = "";    		
             $.each(result, function(key, val) {
+                if(key == '') {
+                    options = '<option value="' + key + '">' + val + '</option>' + options;
+                }else {
                     options += '<option value="' + key + '">' + val + '</option>';
+                }
             });
 
             $('#ItemItemClassId').html(options);
@@ -242,7 +247,11 @@ $(document).ready(function(){
 	    success: function(result){
 	    	var options = "";    		
     		$.each(result, function(key, val) {
-    			options += '<option value="' + key + '">' + val + '</option>';
+    			 if(key == '') {
+                    options = '<option value="' + key + '">' + val + '</option>' + options;
+                }else {
+                    options += '<option value="' + key + '">' + val + '</option>';
+                }
     		});    		
     		$('#ItemItemClassId').html(options);
     		$("select option[value=<?php echo $this->request->data['ItemClass']['id'];?>]").attr("selected", true);

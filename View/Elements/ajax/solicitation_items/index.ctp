@@ -14,7 +14,7 @@
                 <?php foreach ($items AS $item): ?>
                     <tr>
                         <td><?php echo $item['Item']['keycode']; ?></td>
-                        <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', $item['Item']['id'])); ?></td>
+                        <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])); ?></td>
                         <td>
                             <?php
                             if (in_array($item['Item']['id'], $cart_items)) {

@@ -18,7 +18,7 @@
                     <td>
                         <?php
                         echo $this->Html->link(
-                                $item['Item']['name'], array('controller' => 'items', 'action' => 'view', $item['Item']['id'])
+                                $item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])
                         );
                         ?>
                     </td>
@@ -27,11 +27,11 @@
                     <td><?php echo $item['SolicitationItem']['quantity'] ?></td>
                     <td>
                         <?php
-                        if ($item['SolicitationItem']['status_id'] == APROVADO) {
+                        if($item['SolicitationItem']['status_id'] == APROVADO) {
                             echo $this->Html->image('check', array('title' => 'O item foi aprovado'));
-                        } elseif ($item['SolicitationItem']['status_id'] == PENDENTE) {
+                        }elseif($item['SolicitationItem']['status_id'] == PENDENTE) {
                             echo $this->Html->image('pending', array('title' => 'O item está em processo de análise'));
-                        } elseif ($item['SolicitationItem']['status_id'] == NEGADO) {
+                        }elseif($item['SolicitationItem']['status_id'] == NEGADO) {
                             echo $this->Html->link(
                                     $this->Html->image('deny'), 'javascript:void(0)', array(
                                 'escape' => false,

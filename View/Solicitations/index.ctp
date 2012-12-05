@@ -1,5 +1,5 @@
 <?php 
-$this->Html->addCrumb('Solicitações', '/solicitations');
+$this->Html->addCrumb('Solicitações', array('controller'=>'solicitations', 'action'=>'index'));
 ?>
 <?php if(empty($solicitations)) {?>
 	<h3><?php echo __('Não há solicitações');?>
@@ -26,7 +26,7 @@ $this->Html->addCrumb('Solicitações', '/solicitations');
 						<?php 
 						echo $this->Html->link(
 							$this->Html->image('preview'),
-							array('controller'=>'solicitations', 'action'=>'view', $solicitation['Solicitation']['id']),
+							array('controller'=>'solicitations', 'action'=>'view', 'id'=>$solicitation['Solicitation']['id']),
 							array(
 								'escape'=>false, 
 								'alt'=>'Visualizar', 

@@ -1,6 +1,6 @@
 <?php 
-$this->Html->addCrumb('Itens', '/items');
-$this->Html->addCrumb('Adicionar', '/items/add'); 
+$this->Html->addCrumb('Itens', array('controller'=>'items', 'action'=>'index'));
+$this->Html->addCrumb('Adicionar', array('controller'=>'items', 'action'=>'add')); 
 
 echo $this->Html->link(
 	$this->Html->image('back'),
@@ -207,8 +207,12 @@ $('#item-group-id').change(function(){
         url:url,
         success: function(result){
             var options = "";    		
-            $.each(result, function(key, val) {
+            $.each(result, function(key, val) {                
+                 if(key == '') {
+                    options = '<option value="' + key + '">' + val + '</option>' + options;
+                }else {
                     options += '<option value="' + key + '">' + val + '</option>';
+                }
             });
 
             $('#ItemItemClassId').html(options);

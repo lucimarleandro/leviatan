@@ -31,14 +31,171 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 	
-	
-	Router::connect('/admin/acl',
+    Router::connect('/gerencia.html',
 		array(
-			'plugin' => 'acl',
-			'controller' => 'acl',
-			'action' => 'index',
-			'admin' => true
+			'controller'=>'manager',
+			'action'=>'index',
 		)
+	);
+    //Itens
+	//-------------
+     //Home
+    Router::connect('/home.html',
+		array(
+			'controller'=>'items',
+			'action'=>'home',
+		)
+	);
+     //index
+    Router::connect('/itens.html',
+		array(
+			'controller'=>'items',
+			'action'=>'index',
+		)
+	);
+    //Adicionar itens
+    Router::connect('/adicionar-item.html',
+		array(
+			'controller'=>'items',
+			'action'=>'add',
+		)
+	);
+    //Visualizar item
+    Router::connect('/item-:id.html',
+		array(
+			'controller'=>'items',
+			'action'=>'view',
+		),
+        array(
+            'pass'=>array('id'),
+            'id'=>'[0-9]+'
+        )
+	);
+    //Editar item
+    Router::connect('/editar-item-:id.html',
+		array(
+			'controller'=>'items',
+			'action'=>'edit',
+		),
+        array(
+            'pass'=>array('id'),
+            'id'=>'[0-9]+'
+        )
+	);
+    //-------------------------
+    //Pedidos
+    Router::connect('/pedidos.html',
+		array(
+			'controller'=>'orders',
+			'action'=>'index',
+		)
+	);
+    //Solicitações
+    //---------------------------
+    //Analisar solicitações
+    Router::connect('/analisar-solicitacoes.html',
+		array(
+			'controller'=>'solicitations',
+			'action'=>'analyze',
+		)
+	);
+    //Analisar solicitações
+    Router::connect('/minhas-solicitacoes.html',
+		array(
+			'controller'=>'solicitations',
+			'action'=>'index',
+		)
+	);
+    //Fazer Solicitação
+    Router::connect('/fazer-solicitacao.html',
+		array(
+			'controller'=>'solicitation_items',
+			'action'=>'index',
+		)
+	);
+    //Fazer Solicitação
+    Router::connect('/finalizar-solicitacao.html',
+		array(
+			'controller'=>'cart_items',
+			'action'=>'index',
+		)
+	);    
+    //Visualizar solicitação
+    Router::connect('/solicitacao-:id.html',
+		array(
+			'controller'=>'solicitations',
+			'action'=>'view',
+		),
+        array(
+            'pass'=>array('id'),
+            'id'=>'[0-9]+'
+        )
+	);
+    //Visualizar classe do item
+    Router::connect('/classe-do-item-:id.html',
+		array(
+			'controller'=>'item_classes',
+			'action'=>'view',
+		),
+        array(
+            'pass'=>array('id'),
+            'id'=>'[0-9]+'
+        )
+	);
+    //Visualizar PNGC do item
+    Router::connect('/pngc-do-item-:id.html',
+		array(
+			'controller'=>'pngc_codes',
+			'action'=>'view',
+		),
+        array(
+            'pass'=>array('id'),
+            'id'=>'[0-9]+'
+        )
+	);
+    //Visualizar grupo de gastos
+    Router::connect('/grupo-de-gastos-:id.html',
+		array(
+			'controller'=>'expense_groups',
+			'action'=>'view',
+		),
+        array(
+            'pass'=>array('id'),
+            'id'=>'[0-9]+'
+        )
+	);
+    //Visualizar Unidade de medida
+    Router::connect('/unidade-de-medida-:id.html',
+		array(
+			'controller'=>'measure_types',
+			'action'=>'view',
+		),
+        array(
+            'pass'=>array('id'),
+            'id'=>'[0-9]+'
+        )
+	);
+    //Visualizar Categoria do insumo
+    Router::connect('/categoria-insumo-:id.html',
+		array(
+			'controller'=>'input_categories',
+			'action'=>'view',
+		),
+        array(
+            'pass'=>array('id'),
+            'id'=>'[0-9]+'
+        )
+	);
+    //Visualizar subcategoria de insumo
+    Router::connect('/subcatgoria-insumo-:id.html',
+		array(
+			'controller'=>'input_subcategories',
+			'action'=>'view',
+		),
+        array(
+            'pass'=>array('id'),
+            'id'=>'[0-9]+'
+        )
 	);
 
 /**

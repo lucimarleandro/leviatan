@@ -5,7 +5,7 @@
 
         <?php echo $this->Html->charset(); ?>
         <title>
-            <?php echo 'Leviatan' ?>:
+            <?php echo 'Motirõ' ?>:
             <?php echo 'Manutenção' ?>
         </title>
         <meta name="viewport" content="device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
             echo $this->Html->css(array('bootstrap', 'bootstrap-responsive'));
             echo $this->Html->css(array('leviatan'));
 
-            echo $this->Html->script(array('bootstrap.min'));
+            echo $this->Html->script(array('jquery-1.8.0.min', 'bootstrap.min'));
 
             echo $this->fetch('script');
             echo $this->fetch('meta');
@@ -23,10 +23,19 @@
     </head>
     <body data-target=".bs-docs-sidebar" data-spy="scroll" data-twttr-rendered="true">
         <div class="modal1"></div>
+        <?php echo $this->element('navbar');?>
+        <div style="padding:40px 0;">	
+        </div>
         <div class="container">
-            <div class="row">
-                <div class="span9">
-                    <h3>Sistema em manutenção</h3>
+            <div id="alert-message">
+                <?php echo $this->Session->flash(); ?>
+                <?php echo $this->Session->flash('auth'); ?>
+            </div>	
+            <div class="container">
+                <div class="row">
+                    <div class="span9">
+                        <h3>Sistema em manutenção</h3>
+                    </div>
                 </div>
             </div>
         </div>	

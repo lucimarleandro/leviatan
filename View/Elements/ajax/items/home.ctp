@@ -16,7 +16,7 @@
                     <?php foreach ($items AS $item): ?>
                         <tr>
                             <td style="white-space: nowrap"><?php echo $item['Item']['keycode']; ?></td>
-                            <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', $item['Item']['id'])); ?></td>
+                            <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])); ?></td>
                             <td><?php echo $this->Html->link($item['ItemClass']['keycode'], array('controller' => 'item_classes', 'action' => 'view', $item['Item']['item_class_id'])); ?></td>
                             <td><?php echo $this->Html->link($item['PngcCode']['keycode'], array('controller' => 'pngc_codes', 'action' => 'view', $item['Item']['pngc_code_id'])); ?></td>
                         </tr>

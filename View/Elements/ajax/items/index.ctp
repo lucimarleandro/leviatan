@@ -29,13 +29,13 @@
                                 ?>
                             </td>
                             <td style="white-space: nowrap"><?php echo $item['Item']['keycode']; ?></td>
-                            <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', $item['Item']['id'])); ?></td>
-                            <td><?php echo $this->Html->link($item['ItemClass']['keycode'], array('controller' => 'item_classes', 'action' => 'view', $item['Item']['item_class_id'])); ?></td>
-                            <td><?php echo $this->Html->link($item['PngcCode']['keycode'], array('controller' => 'pngc_codes', 'action' => 'view', $item['Item']['pngc_code_id'])); ?></td>
+                            <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])); ?></td>
+                            <td><?php echo $this->Html->link($item['ItemClass']['keycode'], array('controller' => 'item_classes', 'action' => 'view', 'id'=>$item['Item']['item_class_id'])); ?></td>
+                            <td><?php echo $this->Html->link($item['PngcCode']['keycode'], array('controller' => 'pngc_codes', 'action' => 'view', 'id'=>$item['Item']['pngc_code_id'])); ?></td>
                             <td style="white-space: nowrap;">
                                 <?php
                                 echo $this->Html->link(
-                                        $this->Html->image('edit'), array('controller' => 'items', 'action' => 'edit', $item['Item']['id']), array('escape' => false, 'title' => 'Editar item')
+                                        $this->Html->image('edit'), array('controller' => 'items', 'action' => 'edit', 'id'=>$item['Item']['id']), array('escape' => false, 'title' => 'Editar item')
                                 );
                                 echo $this->Form->postLink(
                                         $this->Html->image('delete'), array('controller' => 'items', 'action' => 'delete', $item['Item']['id']), array('escape' => false, 'title' => 'Deletar item', 'confirm' => 'Tem certeza que deseja excluir o item?')

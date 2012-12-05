@@ -15,6 +15,7 @@ class CartItemsController extends AppController {
  * 
  */
     public function index() {
+        $this->set('title_for_layout', 'Finalizar solicitação');
         $ajax = false;
         if ($this->request->is('AJAX')) {
             $ajax = true;
@@ -42,7 +43,7 @@ class CartItemsController extends AppController {
         }
         $this->set(compact('ajax', 'items'));
     }
-
+    
 /**
  * 
  */

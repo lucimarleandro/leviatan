@@ -1,6 +1,6 @@
 <?php 
-$this->Html->addCrumb('Minhas Solicitações', '/solicitations');
-$this->Html->addCrumb('Visualizar', '/solicitations/view/'.$solicitation[0]['Solicitation']['id']);
+$this->Html->addCrumb('Minhas Solicitações', array('controller'=>'solicitations', 'action'=>'index'));
+$this->Html->addCrumb('Visualizar', array('controller'=>'solicitations', 'action'=>'view', $solicitation[0]['Solicitation']['id']));
 if(!$ajax) {
 	echo $this->Html->link(
 		$this->Html->image('back'),

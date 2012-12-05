@@ -73,9 +73,9 @@ class UnitiesController extends AppController {
             $this->request->data['Unity']['address_id'] = $address_id;
 
             $this->Unity->create();
-            if ($this->Unity->save($this->request->data)) {
+            if($this->Unity->save($this->request->data)) {
                 $this->Session->setFlash(__('Cadastrado com sucesso'), 'default', array('class' => 'alert alert-success'));
-            } else {
+            }else {
                 $this->Session->setFlash(__('Não foi possível cadastrar.'), 'default', array('class' => 'alert alert-error'));
             }
             $this->redirect(array('controller' => 'unities', 'action' => 'index'));
@@ -92,6 +92,80 @@ class UnitiesController extends AppController {
         $unityTypes = array('' => 'Selecione um item') + $this->Unity->UnityType->find('list', $options);
 
         $this->set(compact('states', 'healthDistricts', 'unityTypes'));
+    }
+    
+/**
+ * 
+ * @param type $id
+ */
+    public function edit($id = null) {
+        
+        $this->Unity->id = $id;
+        if($this->request->is('POST') || $this->request->is('PUT')) {
+            $data['response'] = $this->request->data['Unity']['cod_response'];
+            $data['cep'] = $this->request->data['Unity']['cep'];
+            $data['address'] = $this->request->data['Unity']['address'];
+            $data['district'] = $this->request->data['Unity']['district'];
+            $data['city'] = $this->request->data['Unity']['city'];
+            if (isset($this->request->data['Unity']['state'])) {
+                $data['state'] = $this->request->data['Unity']['state'];
+            } else {
+                $data['state'] = $this->request->data['Unity']['state_hidden'];
+            }
+
+            $address_id = $this->__checkAddress($data);
+            $this->request->data['Unity']['address_id'] = $address_id;
+            
+            if($this->Unity->save($this->request->data)) {
+                $this->Session->setFlash(__('Cadastrado com sucesso'), 'default', array('class' => 'alert alert-success'));
+            }else {
+                $this->Session->setFlash(__('Não foi possível cadastrar.'), 'default', array('class' => 'alert alert-error'));
+            }
+            $this->redirect(array('controller' => 'unities', 'action' => 'index'));            
+        }
+        
+        $this->request->data = $this->Unity->read();        
+        $this->State->recursive = -1;
+        $options['joins'] = array(
+             array(
+                'table'=>'cities',
+                'alias'=>'City',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'City.state_id = State.id'
+                )
+            ), 
+            array(
+                'table'=>'districts',
+                'alias'=>'District',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'District.city_id = City.id'
+                )
+            ),
+            array(
+                'table'=>'addresses',
+                'alias'=>'Address',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Address.district_id = District.id'
+                )
+            )                              
+        );
+        $options['fields'] = array('State.uf', 'State.name', 'City.name', 'District.name', 'Address.id', 'Address.postal_code','Address.name');
+        $location = array('' => '') + $this->State->find('first', $options);
+        unset($options);
+        $options['order'] = array('State.name' => 'asc');
+        $options['fields'] = array('State.uf', 'State.name');
+        $states = array('' => '') + $this->State->find('list', $options);
+        unset($options);
+        $options['order'] = array('HealthDistrict.name' => 'asc');
+        $healthDistricts = array('' => 'Selecione um item') + $this->Unity->HealthDistrict->find('list', $options);
+        unset($options);
+        $options['order'] = array('UnityType.name' => 'asc');
+        $unityTypes = array('' => 'Selecione um item') + $this->Unity->UnityType->find('list', $options);
+
+        $this->set(compact('states', 'location', 'healthDistricts', 'unityTypes'));
     }
 
 /**

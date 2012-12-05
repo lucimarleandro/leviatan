@@ -1,6 +1,6 @@
 <?php 
-$this->Html->addCrumb('Itens', '/items');
-$this->Html->addCrumb('Visualizar', '/items/view/'.$item['Item']['id']);
+$this->Html->addCrumb('Itens', array('controller'=>'items', 'action'=>'index'));
+$this->Html->addCrumb('Visualizar', array('controller'=>'items', 'action'=>'view', $item['Item']['id']));
 
 echo $this->Html->link(
 	$this->Html->image('back'),
@@ -18,7 +18,7 @@ echo $this->Html->link(
 			<?php 
 			echo $this->Html->link(
 				$item['ItemClass']['keycode'].' - '.$item['ItemClass']['name'],
-				array('controller'=>'item_classes', 'action'=>'view', $item['ItemClass']['id'])
+				array('controller'=>'item_classes', 'action'=>'view', 'id'=>$item['ItemClass']['id'])
 			);
 			?>
 		</dd>
@@ -26,7 +26,7 @@ echo $this->Html->link(
 		<dd><?php 
 			echo $this->Html->link(
 				$item['PngcCode']['keycode'].' - '.$item['InputCategory']['name'].($item['InputSubcategory']['name'] == null ? ' ' : ' - '.$item['InputSubcategory']['name']),
-				array('controller'=>'pngc_codes', 'action'=>'view', $item['PngcCode']['id'])			
+				array('controller'=>'pngc_codes', 'action'=>'view', 'id'=>$item['PngcCode']['id'])			
 			);
 			?>
 		</dd>

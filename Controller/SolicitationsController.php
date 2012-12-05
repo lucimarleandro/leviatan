@@ -23,6 +23,7 @@ class SolicitationsController extends AppController {
  * 
  */
     public function index() {
+        $this->set('title_for_layout', 'Minhas solicitações');
         $this->Solicitation->recursive = 0;
         $options['conditions'] = array(
             'Solicitation.user_id' => $this->Auth->user('id')
@@ -40,6 +41,7 @@ class SolicitationsController extends AppController {
  * 
  */
     public function view($id = null) {
+        $this->set('title_for_layout', 'Visualizar solicitação');
         $ajax = false;
         if ($this->request->is('AJAX')) {
             $ajax = true;
@@ -124,12 +126,20 @@ class SolicitationsController extends AppController {
  */
     public function analyze() {
         
-        
+        $this->set('title_for_layout', 'Analisar solicitações');
         $user = $this->Auth->user();
         $unitySectorId = $user['Employee']['unity_sector_id'];
         
         $this->SolicitationItem->recursive = -1;
-        $options['joins'] = array(
+        $options['joins'] = array(        
+            array(
+                'table'=>'order_items',
+                'alias'=>'OrderItem',
+                'type'=>'LEFT',
+                'conditions'=>array(
+                    'SolicitationItem.id = OrderItem.solicitation_item_id'
+                )
+            ),
             array(
                 'table'=>'items',
                 'alias'=>'Item',
@@ -150,7 +160,11 @@ class SolicitationsController extends AppController {
         );
         $options['fields'] = array('SolicitationItem.solicitation_id');
         $options['group'] = array('SolicitationItem.solicitation_id');
-        
+        $options['conditions'] = array(
+            'OrderItem.id IS NULL',
+            'SolicitationItem.status_id !='=>NEGADO
+        );        
+
         $solicitation_ids = $this->SolicitationItem->find('list', $options);
         
         unset($options);
@@ -202,11 +216,11 @@ class SolicitationsController extends AppController {
             'Solicitation.created', 'Employee.name', 'Unity.name', 'Sector.name'
         );
         $options['conditions'] = array(
-            'Solicitation.status_id' => PENDENTE,
+            'Solicitation.status_id'=>PENDENTE,
             'Solicitation.id'=>$solicitation_ids
         );
         $this->paginate = $options;
-
+        
         $this->Solicitation->recursive = -1;
         $solicitations = $this->paginate();
         $pending = $this->__getSumPendingSolicitationItems();
@@ -320,12 +334,14 @@ class SolicitationsController extends AppController {
             'Employee.name', 'Employee.surname', 'Unity.name', 'Sector.name',
             'UnitySectorResponsible.id', 'UnityResponsible.name', 'SectorResponsible.name'
         );
+        $options['order'] = array(
+            'Item.keycode'=>'asc',
+        );
         $data = $this->SolicitationItem->find('all', $options);
-        
+       
         foreach($data as $value):
             $consolidated[$value['UnitySectorResponsible']['id']][] = $value;
         endforeach;
-        
         $this->set(compact('consolidated'));
         $this->WkHtmlToPdf->createPdf();
     }

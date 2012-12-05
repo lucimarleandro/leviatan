@@ -1,3 +1,7 @@
+<?php 
+$this->Html->addCrumb('Solicitações', array('controller'=>'solicitations', 'action'=>'analyze'));
+$this->Html->addCrumb('Itens', array('controller'=>'solicitation_items', 'action'=>'analyze', $solicitation_id));
+?>
 <?php
 if(!$ajax) { 
 	echo $this->Html->link(

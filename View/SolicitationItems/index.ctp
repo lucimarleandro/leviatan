@@ -1,6 +1,6 @@
 <?php 
-$this->Html->addCrumb('Itens', '/items/');
-$this->Html->addCrumb('Solicitar', '/solicitation_items/');
+$this->Html->addCrumb('Itens', array('controller'=>'items', 'action'=>'index'));
+$this->Html->addCrumb('Solicitar', array('controller'=>'solicitation_items', 'action'=>'index'));
 ?>
 <?php if(!$ajax) {?>
 <div class="box">
@@ -31,7 +31,11 @@ $('#ItemItemGroupId').change(function(){
         success: function(result){
             var options = "";    		
             $.each(result, function(key, val) {
-                options += '<option value="' + key + '">' + val + '</option>';
+                if(key == '') {
+                    options = '<option value="' + key + '">' + val + '</option>' + options;
+                }else {
+                    options += '<option value="' + key + '">' + val + '</option>';
+                } 
             });
 
             $('#ItemItemClassId').html(options);

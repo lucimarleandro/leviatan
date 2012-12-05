@@ -34,7 +34,7 @@ $this->Html->addCrumb('Unidades', '/unities/');
 						<?php 
 						echo $this->Html->link(
 							$this->Html->image('edit'),
-							'javascript:void(0)',
+                            array('controller'=>'unities', 'action'=>'edit', $unity['Unity']['id']),
 							array(
 								'escape'=>false, 
 								'alt'=>'Visualizar', 

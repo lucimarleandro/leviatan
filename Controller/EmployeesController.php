@@ -127,13 +127,11 @@ class EmployeesController extends AppController {
                 'UnitySector.sector_id' => $this->request->data['Employee']['sector_id']
             );
             $options['fields'] = array('UnitySector.id');
-
+            
             $unitySector = $this->UnitySector->find('first', $options);
             $this->request->data['Employee']['unity_sector_id'] = $unitySector['UnitySector']['id'];
 
             $this->Employee->begin();
-            $this->User->begin();
-
             try {
                 if ($this->Employee->save($this->request->data)) {
                     $op['conditions'] = array(
@@ -142,10 +140,11 @@ class EmployeesController extends AppController {
                     $this->User->recursive = -1;
                     $user = $this->User->find('first', $op);
                     if ($user) {
+                        $this->User->begin();
                         $this->User->id = $user['User']['id'];
                         if (!$this->User->saveField('username', $this->request->data['Employee']['registration'])) {
                             throw new Exception('Erro foi possível alterar o registro');
-                        } else {
+                        }else {
                             $this->User->commit();
                         }
                     }
@@ -159,7 +158,7 @@ class EmployeesController extends AppController {
                 $this->redirect(array('action' => 'index'));
             }
 
-            $this->Employee->commit();
+            $this->Employee->commit();            
             $this->Session->setFlash(__('Alterado com sucesso'), 'default', array('class' => 'alert alert-success'));
             $this->redirect(array('action' => 'index'));
         }
@@ -211,6 +210,7 @@ class EmployeesController extends AppController {
                 )
             )
         );
+        $options['order'] = array('Unity.name'=>'asc');
 
         $unities = $this->Unity->find('list', $options);
 

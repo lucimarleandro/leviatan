@@ -35,17 +35,17 @@ class AppModel extends Model {
     //public $actsAs = array('CdiGadgets.Auditor');
 	
     function begin() {
-            $db =& ConnectionManager::getDataSource($this->useDbConfig);
-            $db->begin($this);
+        $db =& ConnectionManager::getDataSource($this->useDbConfig);
+        $db->begin($this);
     }
 
     function commit() {
-            $db =& ConnectionManager::getDataSource($this->useDbConfig);
-            $db->commit($this);
+        $db =& ConnectionManager::getDataSource($this->useDbConfig);
+        $db->commit($this);
     }
 
     function rollback() {
-            $db =& ConnectionManager::getDataSource($this->useDbConfig);
-            $db->rollback($this);
+        $db =& ConnectionManager::getDataSource($this->useDbConfig);
+        $db->rollback($this);
     }
 }

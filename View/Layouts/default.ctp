@@ -5,7 +5,7 @@
 	
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo 'Leviatan' ?>:
+		<?php echo 'Motirõ' ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
 	<meta name="viewport" content="device-width, initial-scale=1.0">
@@ -19,8 +19,7 @@
 				'jquery.validate.min', 'jquery.maskedinput-1.3.min', 'chosen.jquery.min'));
 		echo $this->Html->script(array('functions'));
 		echo $this->Html->script(array('bootstrap.min'));
-		
-		
+        
 		echo $this->fetch('script');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');		
@@ -43,7 +42,7 @@
 			<?php echo $this->element('content');?>	
 		</div>
 	</div>	
-	
+	<?php //echo $this->element('sql_dump');?>
 	<script>
 	$(document).ready(function() {
 		$('.menu li a').click(function(e) {	

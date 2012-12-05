@@ -1,6 +1,5 @@
 <?php
-$this->Html->addCrumb('Solicitações', '/solicitations/'); 
-$this->Html->addCrumb('Analisar', '/solicitations/analyze/');
+$this->Html->addCrumb('Solicitações', array('controller'=>'solicitations', 'action'=>'analyze')); 
 ?>
 
 <?php if(empty($solicitations)) {?>

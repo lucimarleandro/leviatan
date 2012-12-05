@@ -1,7 +1,7 @@
 <?php 
 $this->Html->addCrumb('Gerência', '/manager/');
 $this->Html->addCrumb('Unidade', '/unities/');
-$this->Html->addCrumb('Adicionar', '/unities/add/');
+$this->Html->addCrumb('Editar', '/unities/edit/'.$this->request->data['Unity']['id']);
 
 echo $this->Html->link(
 	$this->Html->image('back'),
@@ -74,15 +74,16 @@ echo $this->Html->link(
 						array(
 							'label'=>false, 
 							'class'=>'input-small',
-							'maxlength'=>8
+							'maxlength'=>8,
+                            'value'=>$location['Address']['postal_code']
 						)
 					);
 					echo $this->Form->button('pesquisar', array('type'=>'button', 'id'=>'search-cep'));
 					?>
 				</div>
 			</div>
-			<?php echo $this->Form->input('cod_response', array('type'=>'hidden'));?>
-			<?php echo $this->Form->input('state_hidden', array('type'=>'hidden'));?>
+			<?php echo $this->Form->input('cod_response', array('type'=>'hidden', 'value'=>3));?>
+			<?php echo $this->Form->input('state_hidden', array('type'=>'hidden', 'value'=>$location['State']['uf']));?>
 			<div class="control-group required">
 				<label class="control-label" for="Estado">Estado</label>
 				<div class="controls">
@@ -91,7 +92,8 @@ echo $this->Html->link(
 						array(
 							'label'=>false, 
 							'disabled'=>'disabled',
-							'options'=>$states
+							'options'=>$states,
+                            'value'=>$location['State']['uf']
 						)
 					);
 					?>
@@ -105,6 +107,7 @@ echo $this->Html->link(
 						array(
 							'label'=>false, 
 							'readonly'=>true,
+                            'value'=>$location['City']['name']
 						)
 					);
 					?>
@@ -118,6 +121,7 @@ echo $this->Html->link(
 						array(
 							'label'=>false, 
 							'readonly'=>true,
+                            'value'=>$location['District']['name']
 						)
 					);
 					?>
@@ -131,7 +135,8 @@ echo $this->Html->link(
 						array(
 							'label'=>false, 
 							'readonly'=>true,
-							'class'=>'span6'
+							'class'=>'span6',
+                            'value'=>$location['Address']['name']
 						)
 					);
 					?>
@@ -262,7 +267,7 @@ $('#search-cep').click(function(e){
 	}
 });
 
-$('#UnityAddForm').validate({
+$('#UnityEditForm').validate({
 	ignore: "",
 	rules: {
 		'data[Unity][cnes]': {

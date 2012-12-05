@@ -7,9 +7,25 @@
             	<span class="icon-bar"></span>
             	<span class="icon-bar"></span>
           	</button>
-          	<?php echo $this->Html->link('Leviatan', array('plugin'=>false, 'admin'=>false, 'controller'=>'items', 'action'=>'home'), array('class'=>'brand'));?>
+            <!-- Logotipo -->
+          	<?php 
+            echo $this->Html->link(
+                'Motirõ', 
+                array('plugin'=>false, 'admin'=>false, 'controller'=>'items', 'action'=>'home'), 
+                array(
+                    'class'=>'brand',
+                )
+            );
+            ?>
           	<div class="nav-collapse">
           		<ul class="nav pull-right">
+                    <li>
+                        <?php echo $this->Html->link('<i class="icon-shopping-cart icon-white"></i>', array('controller'=>'cart_items', 'action'=>'index'), array('escape'=>false, 'style'=>'display:'.((isset($pendingCartItems) && !empty($pendingCartItems)) ? 'block' : 'none'))); ?>
+                        
+                    </li>
+                    <li>                        
+                        <?php echo $this->Html->link('<i class="icon-exclamation-sign icon-white"></i>', array('controller'=>'solicitations', 'action'=>'analyze'), array('escape'=>false, 'style'=>'display:'.(!empty($pendingSolicitationItems) ? 'block' : 'none')));?>
+                    </li>
           			<?php if(isset($user)) {?>          				
 	          			<li class="dropdown">
 							<?php echo $this->Html->link(

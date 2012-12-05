@@ -16,7 +16,7 @@ class SolicitationItemsController extends AppController {
  * 
  */
     public function index() {
-
+        $this->set('title_for_layout', 'Fazer solicitação');
         $ajax = false;
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
@@ -56,7 +56,7 @@ class SolicitationItemsController extends AppController {
  * 
  */
     public function analyze($solicitation_id = null) {
-
+        $this->set('title_for_layout', 'Itens da solicitação');
         $ajax = false;
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
@@ -116,7 +116,8 @@ class SolicitationItemsController extends AppController {
 
         $this->paginate = $options;
         $solicitationItems = $this->paginate();
-
+        
+        $this->set('solicitation_id', $solicitation_id);
         $this->set(compact('solicitationItems', 'ajax'));
     }
 
