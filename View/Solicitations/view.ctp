@@ -1,4 +1,5 @@
 <?php 
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
 $this->Html->addCrumb('Minhas Solicitações', array('controller'=>'solicitations', 'action'=>'index'));
 $this->Html->addCrumb('Visualizar', array('controller'=>'solicitations', 'action'=>'view', $solicitation[0]['Solicitation']['id']));
 if(!$ajax) {
@@ -11,18 +12,13 @@ if(!$ajax) {
 	<ul class="nav nav-tabs" id="myTab">
 		<li class="active"><a title="Descrição da solicitação" href="#text"><?php echo __('Descrição')?></a></li>
 		<li><a title="Itens da solicitação" href="#items"><?php echo __('Itens')?></a></li>
+        <li><a title="Anexo da solicitação" href="#attachment"><?php echo __('Anexo')?></a></li>
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane active well" id="text">	
 			<div id="validation"></div>
 			<?php echo $this->Form->create('Solicitation', array('class'=>'form-horizontal')); ?>
 			<fieldset>
-				<div class="control-group">
-					<label class="control-label" for="Nº da solicitação">Nº da solicitação</label>
-					<div class="controls">
-						<?php echo $solicitation[0]['Solicitation']['keycode']; ?>
-					</div>
-				</div>
 				<div class="control-group">
 					<label class="control-label" for="Nº do memorando">Nº do memorando</label>
 					<div class="controls">
@@ -41,6 +37,15 @@ if(!$ajax) {
 		<div class="tab-pane well" id="items">
 			<?php echo $this->element('ajax/solicitations/view');?>
 		</div>		
+        <div class="tab-pane well" id="attachment">
+            <?php 
+            if($solicitation[0]['Solicitation']['attachment']) {
+                echo $solicitation[0]['Solicitation']['attachment'];
+            }else {
+                echo '<b>Não existe anexo</b>';
+            }
+            ?>
+        </div>
 	</div>
 <?php 
 }else {	

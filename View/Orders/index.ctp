@@ -1,5 +1,6 @@
 <?php 
-$this->Html->addCrumb('Pedidos', '/orders/');
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Pedidos', array('controller'=>'orders', 'action'=>'index'));
 ?>
 <?php if(empty($orders)) {?>
     <h3><?php echo __('Não há pedidos');?></h3>

@@ -1,6 +1,7 @@
 <?php
-$this->Html->addCrumb('Usuários', '/users/');
-$this->Html->addCrumb('Perfil', '/users/profile/'.$profile['User']['id']);
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Usuários', array('controller'=>'users', 'action'=>'index'));
+$this->Html->addCrumb('Perfil', array('controller'=>'users', 'action'=>'profile', $profile['User']['id']));
  
 echo $this->Html->link(
 	$this->Html->image('back'),

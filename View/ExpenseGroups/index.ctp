@@ -1,6 +1,7 @@
 <?php 
-$this->Html->addCrumb('Gerência', '/manager/');
-$this->Html->addCrumb('Grupos de Gastos', '/expense_groups/');
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
+$this->Html->addCrumb('Unidades de Medidas', array('controller'=>'expense_groups', 'action'=>'index'));
 ?>
 <div style="padding-bottom: 20px;">
 	<?php 

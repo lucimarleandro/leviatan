@@ -22,7 +22,7 @@
         <!-- solicitante-->
         <p align="center" style="margin-top: 30px;"><?php echo $value[0]['Employee']['name'].' '.$value[0]['Employee']['surname'];?></p>
     </div>
-
+    
     <!-- Pula página -->
     <div class="page-break"></div>
     
@@ -54,9 +54,35 @@
         </tbody>
     </table>
     
+    <!-- Anexo do memorando-->
+    <?php 
+    if($value[0]['Solicitation']['attachment']) {
+    ?>
+        <!-- Pula página -->
+        <div class="page-break"></div>
+        
+        <!-- Anexo -->
+        <p style="margin-top: 70px;">
+        <b>Unidade:</b> <?php echo $value[0]['Unity']['name'];?>
+        <br>
+        <b>Setor:</b> <?php echo $value[0]['Sector']['name'];?>
+        <br>
+        <b>Nº do memorando:</b> <?php echo $value[0]['Solicitation']['memo_number'];?>
+        </p>
+        
+        <div style="text-align: center; margin-top: 30px; font-weight: bold">Anexo</div>
+        
+        <!-- anexo da solicitação-->
+        <div style="text-align: justify; margin-top: 50px; line-height: 170%;">
+            <?php echo $value[0]['Solicitation']['attachment'];?>
+        </div>       
+    <?php
+    }    
+    ?>
+    
     <!-- Pula página -->
     <div class="page-break"></div>
-<?php endforeach; ?>
+<?php endforeach;?>
 
 
 

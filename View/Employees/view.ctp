@@ -1,7 +1,8 @@
 <?php
-$this->Html->addCrumb('Gerência', '/manager/');
-$this->Html->addCrumb('Funcionários', '/employees/');
-$this->Html->addCrumb('Visualizar', '/employees/view/'.$employee['Employee']['id']);
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
+$this->Html->addCrumb('Funcionários', array('controller'=>'employees', 'action'=>'index'));
+$this->Html->addCrumb('Visualizar', array('controller'=>'employees', 'action'=>'view', $employee['Employee']['id']));
  
 echo $this->Html->link(
 	$this->Html->image('back'),

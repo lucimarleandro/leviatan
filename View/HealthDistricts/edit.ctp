@@ -1,7 +1,8 @@
 <?php 
-$this->Html->addCrumb('Gerência', '/manager/');
-$this->Html->addCrumb('Distritos Sanitários', '/health_districts/');
-$this->Html->addCrumb('Editar', '/health_districts/edit/'.$this->request->data['HealthDistrict']['id']);
+$this->Html->addCruumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
+$this->Html->addCrumb('Distritos Sanitários', array('controller'=>'health_districts', 'action'=>'index'));
+$this->Html->addCrumb('Editar', array('controller'=>'health_districts', 'action'=>'edit', $this->request->data['HealthDistrict']['id']));
 
 echo $this->Html->link(
 	$this->Html->image('back'),

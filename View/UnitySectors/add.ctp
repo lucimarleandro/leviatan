@@ -1,7 +1,8 @@
 <?php
-$this->Html->addCrumb('Gerência', '/manager/');
-$this->Html->addCrumb('Unidades-Setores', '/unity_sectors/');
-$this->Html->addCrumb('Adicionar', '/unity_sectors/add');
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Gerência', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Unidades-Setores', array('controller'=>'unity_sectors', 'action'=>'index'));
+$this->Html->addCrumb('Adicionar', array('controller'=>'unity_sectors', 'action'=>'add'));
  
 echo $this->Html->link(
 	$this->Html->image('back'),

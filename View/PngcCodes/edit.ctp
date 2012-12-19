@@ -1,3 +1,10 @@
+<?php
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
+$this->Html->addCrumb('PNGC', array('controller'=>'pngc_codes', 'action'=>'index'));
+$this->Html->addCrumb('Editar', array('controller'=>'pngc_codes', 'action'=>'edit', $this->request->data['PngcCode']['id']));
+?>
+
 <div class="pngcCodes form">
 <?php echo $this->Form->create('PngcCode'); ?>
 	<fieldset>

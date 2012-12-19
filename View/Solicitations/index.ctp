@@ -1,4 +1,5 @@
 <?php 
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
 $this->Html->addCrumb('Solicitações', array('controller'=>'solicitations', 'action'=>'index'));
 ?>
 <?php if(empty($solicitations)) {?>

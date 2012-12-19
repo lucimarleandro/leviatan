@@ -1,7 +1,8 @@
 <?php 
-$this->Html->addCrumb('Gerência', '/manager/');
-$this->Html->addCrumb('Classes dos Itens', '/item_classes/');
-$this->Html->addCrumb('Adicionar', '/item_classes/add');
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
+$this->Html->addCrumb('Classes dos Itens', array('controller'=>'item_classes', 'action'=>'index'));
+$this->Html->addCrumb('Adicionar', array('controller'=>'item_classes', 'action'=>'add'));
 
 echo $this->Html->link(
 	$this->Html->image('back'),

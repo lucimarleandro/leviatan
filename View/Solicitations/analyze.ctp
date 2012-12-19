@@ -1,4 +1,5 @@
 <?php
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
 $this->Html->addCrumb('Solicitações', array('controller'=>'solicitations', 'action'=>'analyze')); 
 ?>
 
@@ -6,6 +7,25 @@ $this->Html->addCrumb('Solicitações', array('controller'=>'solicitations', 'ac
     <h3><?php echo __('Não há Solicitações para análise');?></h3>
 <?php }else {?>
     <div class="box-content">
+        <div class="control-group required">
+            <h4 style="font-weight: bold;">Parecer do Pedido</h4>
+            <div class="controls">
+                <?php 
+                echo $this->Tinymce->input('Order.opinion', 
+                    array(
+                        'label'=>false,
+                        'class'=>'span9',
+                        'rows'=>10,
+                    ),array(
+                        'language'=>'pt',
+                        'onchange_callback'=>'onChangeOpinion'
+                    ),
+                    'basic'
+                );
+                ?>
+            </div>
+        </div>
+        <label class="error" style="display: none;">Campo Obrigatório</label>
         <table id="table" class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -54,14 +74,35 @@ $this->Html->addCrumb('Solicitações', array('controller'=>'solicitations', 'ac
 <?php }?>
 
 <script>
+
+function onChangeOpinion(editor) {
+    tinyMCE.triggerSave();
+    
+    if(editor.getContent() == '') {
+        $('.error').fadeIn();
+    }else {
+        $('.error').fadeOut();
+    }    
+}
+
 $('#generate-request').click(function(e){
+    
+    if($('#OrderOpinion').val() == '') {
+        $('.error').fadeIn();
+        return;
+    }else {
+         $('.error').fadeOut();
+    }
+    
+    
     e.preventDefault();
 
     var elements = $('.solicitation_id');
     var solicitation_ids = new Array();
+    var opinion = $('#OrderOpinion').val();
 
     $.each(elements, function(index, value) {
-            solicitation_ids[index] = $(this).val();
+        solicitation_ids[index] = $(this).val();
     });
 
     $.ajax({
@@ -77,7 +118,7 @@ $('#generate-request').click(function(e){
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
-                    data: {solicitation_ids: solicitation_ids},
+                    data: {solicitation_ids: solicitation_ids, opinion:opinion},
                     url: forUrl('/orders/add'),
                     success: function(restul) {
                         if(result['return']) {
@@ -90,5 +131,6 @@ $('#generate-request').click(function(e){
             }
         }	
     });
+    
 });
 </script>

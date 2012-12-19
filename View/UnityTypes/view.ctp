@@ -1,7 +1,8 @@
 <?php 
-$this->Html->addCrumb('Gerência', '/manager/');
-$this->Html->addCrumb('Tipos de Unidades', '/unity_types/');
-$this->Html->addCrumb('Visualizar', '/unity_types/view/'.$type['UnityType']['id']);
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Gerência', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Tipos de Unidades', array('controller'=>'unity_types', 'action'=>'index'));
+$this->Html->addCrumb('Visualizar', array('controller'=>'unity_types', 'action'=>'view', $type['UnityType']['id']));
 
 echo $this->Html->link(
 	$this->Html->image('back'),

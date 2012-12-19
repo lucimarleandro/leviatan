@@ -51,6 +51,7 @@ $('#save-justification').click(function(){
 						'<img alt="" src="/img/deny">' +
 					'</a>'
 				);
+                $('.select[data-solicitation-item-id="'+solicitation_item_id+'"]').attr('disabled', true);
 			}else {
 				$('#alert-message').html('<div id="flashMessage" class="alert alert-error">Não foi possível concluir a operação. Por favor, entre em contato com o administrador do sistema</div>');
 				return false;
@@ -64,12 +65,12 @@ $('#JustificationAddForm').validate({
 	rules: {
 		'data[Justification][description]': {
 		    required: true
-		},
+		}
 	},
 	messages: {
 		'data[Justification][description]': {
 		    required: 'Campo obrigatório'
-		},
+		}
 	},
 	highlight: function(label) {
 		$(label).closest('.control-group').addClass('error');

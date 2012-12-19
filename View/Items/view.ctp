@@ -1,4 +1,5 @@
 <?php 
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
 $this->Html->addCrumb('Itens', array('controller'=>'items', 'action'=>'index'));
 $this->Html->addCrumb('Visualizar', array('controller'=>'items', 'action'=>'view', $item['Item']['id']));
 

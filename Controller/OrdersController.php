@@ -156,6 +156,8 @@ class OrdersController extends AppController {
                 $data = array();
                 $this->Order->create();
                 $data['Order']['keycode'] = $this->__getKeycode();
+                $data['Order']['opinion'] = $this->request->data['opinion'];
+                
                 foreach ($value as $v):
                     $this->OrderItem->create();
                     $data['OrderItem'][]['solicitation_item_id'] = $v;
@@ -219,7 +221,7 @@ class OrdersController extends AppController {
             return json_encode(array('return'=>true));
         }
     }
-
+    
 /**
  * 
  */
@@ -236,7 +238,7 @@ class OrdersController extends AppController {
             $data[$key] = $solicitation;
             $data[$key]['solicitation_items'] = $items;
         endforeach;
-
+        
         //Consolidado
         $items = array();
         $columns = array();
@@ -303,6 +305,14 @@ class OrdersController extends AppController {
  */
     private function ____getOptionsOrderItem($order_id) {
         $options['joins'] = array(
+            array(
+                'table' => 'orders',
+                'alias' => 'Order',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'OrderItem.order_id = Order.id'
+                )
+            ),            
             array(
                 'table' => 'solicitation_items',
                 'alias' => 'SolicitationItem',
@@ -402,7 +412,7 @@ class OrdersController extends AppController {
         );
         $options['conditions'] = array('OrderItem.order_id' => $order_id);
         $options['fields'] = array(
-            'Solicitation.id', 'Solicitation.keycode', 'Solicitation.memo_number', 'Solicitation.description', 'Solicitation.created',
+            'Order.opinion', 'Solicitation.id', 'Solicitation.keycode', 'Solicitation.memo_number', 'Solicitation.description', 'Solicitation.attachment','Solicitation.created',
             'Employee.name', 'Employee.surname', 'Unity.name', 'Sector.name', 'UnityResponsible.name', 'SectorResponsible.name'
         );
         $options['group'] = array('SolicitationItem.solicitation_id');

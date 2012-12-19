@@ -1,7 +1,8 @@
 <?php 
-$this->Html->addCrumb('Gerência', '/manager/');
-$this->Html->addCrumb('Unidades de Medidas', '/measure_types/');
-$this->Html->addCrumb('editar', '/measure_types/edit/'.$this->request->data['MeasureType']['id']);
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
+$this->Html->addCrumb('Unidades de Medidas', array('controller'=>'measure_types', 'action'=>'index'));
+$this->Html->addCrumb('editar', array('controller'=>'measure_types', 'action'=>'edit', $this->request->data['MeasureType']['id']));
 
 echo $this->Html->link(
 	$this->Html->image('back'),

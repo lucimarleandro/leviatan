@@ -28,15 +28,32 @@
 <body data-target=".bs-docs-sidebar" data-spy="scroll" data-twttr-rendered="true">
 	<div class="modal1"></div>
 	<?php echo $this->element('navbar');?>
-	<!--		-->
-	<div style="padding:40px 0;">	
+
+    <!--		-->
+	<div style="padding:25px 0;">	
 	</div>
-	<!--		-->
-	<div id="alert-message">
+    <!-- -->
+    
+    <!-- Breadcrumb -->
+    <div class="row affix">
+        <div class="span12">
+        <?php
+        echo $this->Html->getCrumbList(array('id'=>'breadcrumb'));
+        ?>
+        </div>
+    </div>
+    
+    <!-- -->
+    <div style="padding:25px 0;">	
+	</div>
+    <!-- -->
+	
+    <div id="alert-message">
 		<?php echo $this->Session->flash(); ?>
 		<?php echo $this->Session->flash('auth'); ?>
 	</div>	
 	<div class="container">
+        
 		<div class="row">
 			<?php echo $this->element('menu');?>
 			<?php echo $this->element('content');?>	

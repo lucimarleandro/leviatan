@@ -41,6 +41,8 @@ class SolicitationItemsController extends AppController {
 
         $options['limit'] = 10;
         $options['order'] = array('Item.keycode' => 'asc');
+        $options['conditions'][] = array('Item.status_id'=>ATIVO);
+        
         $this->paginate = $options;
 
         $items = $this->paginate('Item');
@@ -85,6 +87,54 @@ class SolicitationItemsController extends AppController {
         
         $options['joins'] = array(
             array(
+                'table'=>'solicitations',
+                'alias'=>'Solicitation',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'SolicitationItem.solicitation_id = Solicitation.id'
+                )
+            ),
+            array(
+                'table'=>'users',
+                'alias'=>'User',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Solicitation.user_id = User.id'
+                )
+            ),
+            array(
+                'table'=>'employees',
+                'alias'=>'Employee',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Employee.id = User.employee_id'
+                )
+            ),
+            array(
+                'table'=>'unity_sectors',
+                'alias'=>'UnitySector',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Employee.unity_sector_id = UnitySector.id'
+                )
+            ),
+            array(
+                'table'=>'unities',
+                'alias'=>'Unity',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'UnitySector.unity_id= Unity.id'
+                )
+            ),
+            array(
+                'table'=>'sectors',
+                'alias'=>'Sector',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'UnitySector.sector_id = Sector.id'
+                )
+            ),
+            array(
                 'table'=>'items',
                 'alias'=>'Item',
                 'type'=>'INNER',
@@ -106,10 +156,12 @@ class SolicitationItemsController extends AppController {
             'SolicitationItem.solicitation_id' => $solicitation_id
         );
         $options['order'] = array(
-            'Item.name'
+            'Item.name'=>'asc'
         );
         $options['fields'] = array(
-            'SolicitationItem.id', 'SolicitationItem.quantity',
+            'Unity.name', 'Sector.name',
+            'Solicitation.memo_number', 'Solicitation.description', 'Solicitation.attachment',
+            'SolicitationItem.id', 'SolicitationItem.quantity', 'SolicitationItem.solicitation_id',
             'SolicitationItem.status_id', 'Item.name', 'Item.id'
         );
         $options['limit'] = 10;
@@ -184,10 +236,29 @@ class SolicitationItemsController extends AppController {
                 $return = false;
             }
 
-            echo json_encode(array('return' => $return));
+            echo json_encode(array('return'=>$return));
         }
     }
-
+    
+/**
+ * 
+ */
+    public function approveSelected() {
+        $this->autoRender = false;
+        if($this->request->is('ajax')) {
+            
+            $fields = array('SolicitationItem.status_id'=>APROVADO);
+            $conditions = array('SolicitationItem.id'=>$this->request->data['solicitationItemIds']);
+            
+            if($this->SolicitationItem->updateAll($fields, $conditions)) {
+                $return = true;
+            }else {
+                $return = false;
+            }
+            
+            echo json_encode(array('return'=>$return));
+        }
+    }
 /**
  *
  */

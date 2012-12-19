@@ -33,6 +33,9 @@ class ItemsController extends AppController {
             $ajax = true;
             if ($this->request->data) {
                 $options = array();
+                if (!empty($this->request->data['item_group_id'])) {
+                    $options['conditions'][] = array('ItemGroup.id' => $this->request->data['item_group_id']);
+                }
                 if (!empty($this->request->data['item_class_id'])) {
                     $options['conditions'][] = array('Item.item_class_id' => $this->request->data['item_class_id']);
                 }
@@ -51,8 +54,10 @@ class ItemsController extends AppController {
         $user = $this->Auth->user();
         $unitySectorId = $user['Employee']['unity_sector_id'];
        
+        $this->Item->recursive = -1;
         $options['limit'] = 10;
         $options['order'] = array('Item.keycode' => 'asc');
+        $options['fields'] = array('Item.*', 'ItemClass.*', 'PngcCode.*');
         $options['joins'] = array(
             array(
                 'table'=>'head_orders',
@@ -61,6 +66,30 @@ class ItemsController extends AppController {
                 'conditions'=>array(
                     'Item.item_class_id = HeadOrder.item_class_id',
                     'HeadOrder.unity_sector_id'=>$unitySectorId
+                )
+            ),
+             array(
+                'table'=>'pngc_codes',
+                'alias'=>'PngcCode',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.pngc_code_id = PngcCode.id'
+                )
+            ),
+            array(
+                'table'=>'item_classes',
+                'alias'=>'ItemClass',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = ItemClass.id'
+                )
+            ),
+             array(
+                'table'=>'item_groups',
+                'alias'=>'ItemGroup',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'ItemClass.item_group_id = ItemGroup.id'
                 )
             )
         );
@@ -164,6 +193,9 @@ class ItemsController extends AppController {
             $ajax = true;
             if ($this->request->data) {
                 $options = array();
+                if (!empty($this->request->data['item_group_id'])) {
+                    $options['conditions'][] = array('ItemGroup.id' => $this->request->data['item_group_id']);
+                }
                 if (!empty($this->request->data['item_class_id'])) {
                     $options['conditions'][] = array('Item.item_class_id' => $this->request->data['item_class_id']);
                 }
@@ -178,15 +210,45 @@ class ItemsController extends AppController {
         } else {
             $this->Session->delete('options');
         }
-
+        
+        $this->Item->recursive = -1;
+        
+        $options['joins'] = array(
+            array(
+                'table'=>'pngc_codes',
+                'alias'=>'PngcCode',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.pngc_code_id = PngcCode.id'
+                )
+            ),
+            array(
+                'table'=>'item_classes',
+                'alias'=>'ItemClass',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = ItemClass.id'
+                )
+            ),
+             array(
+                'table'=>'item_groups',
+                'alias'=>'ItemGroup',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'ItemClass.item_group_id = ItemGroup.id'
+                )
+            )
+        );
         $options['limit'] = 10;
         $options['order'] = array('Item.keycode' => 'asc');
-
+        $options['conditions'][] = array('Item.status_id'=>ATIVO);
+        $options['fields'] = array('Item.*', 'ItemClass.*', 'PngcCode.*');
+        
         $this->paginate = $options;
         $items = $this->paginate();
         $groups = $this->__getItemGroups();
         $complete = 'false';
-
+        
         $this->set(compact('items', 'groups', 'ajax', 'complete'));
     }
 
@@ -211,7 +273,7 @@ class ItemsController extends AppController {
 
             $this->request->data['Item']['keycode'] = $keycode;
             $this->request->data['Item']['image_path'] = $image;
-            $this->request->data['Item']['status_id'] = ATIVO;
+            $this->request->data['Item']['status_id'] = PENDENTE;
 
             $this->Item->create();
             if ($this->Item->save($this->request->data)) {
@@ -313,12 +375,33 @@ class ItemsController extends AppController {
     public function autocomplete() {
         $this->autoRender = false;
         if ($this->request->is('AJAX')) {
-
+            
+            if (!empty($this->request->data['item_group_id'])) {
+                $options['conditions'][] = array('ItemGroup.id' => $this->request->data['item_group_id']);
+            }
             if (!empty($this->request->data['item_class_id'])) {
                 $options['conditions'][] = array('Item.item_class_id' => $this->request->data['item_class_id']);
             }
             $options['conditions'][] = array('Item.name LIKE' => '%' . $this->request->data['item_name'] . '%');
-
+            $options['joins'] = array(
+                array(
+                    'table'=>'item_classes',
+                    'alias'=>'ItemClass',
+                    'type'=>'INNER',
+                    'conditions'=>array(
+                        'Item.item_class_id = ItemClass.id'
+                    )
+                ),
+                array(
+                    'table'=>'item_groups',
+                    'alias'=>'ItemGroup',
+                    'type'=>'INNER',
+                    'conditions'=>array(
+                        'ItemClass.item_group_id = ItemGroup.id'
+                    )
+                )
+            );
+            
             $this->Item->recursive = -1;
             $items = $this->Item->find('all', $options);
 
@@ -351,7 +434,7 @@ class ItemsController extends AppController {
                 $result = false;
             }
 
-            echo json_encode(array('result' => $result));
+            echo json_encode($result);
         }
     }
     

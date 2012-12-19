@@ -1,7 +1,8 @@
 <?php 
-$this->Html->addCrumb('Gerência', '/manager/');
-$this->Html->addCrumb('Subcategorias de Insumos', '/input_subcategories/');
-$this->Html->addCrumb('Visualizar', '/input_subcategories/view/'.$subcategory['InputSubcategory']['id']);
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
+$this->Html->addCrumb('Subcategorias de Insumos', array('controller'=>'input_subcategories', 'action'=>'index'));
+$this->Html->addCrumb('Visualizar', array('controller'=>'input_subcategories', 'action'=>'view', $subcategory['InputSubcategory']['id']));
 
 echo $this->Html->link(
 	$this->Html->image('back'),

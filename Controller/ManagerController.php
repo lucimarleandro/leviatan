@@ -46,7 +46,7 @@ class ManagerController extends AppController {
             );
             $count = $this->Permission->find('count', $options);
             
-            $checked[$id] = $count==0;
+            $checked[$id] = $count == 0;
         endforeach;
         
         $this->set(compact('groups', 'checked', 'modules', 'permissions'));

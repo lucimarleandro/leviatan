@@ -166,12 +166,12 @@ class AppController extends Controller {
                     break;
                 case DIRETOR:
                     $menus['Minhas Solicitações'] = array('controller' => 'solicitations', 'action' => 'index', 'admin' => false, 'plugin' => false);
-                    $menus['Fazer Solicitação'] = array('controller' => 'solicitation_items', 'action' => 'index', 'admin' => false, 'plugin' => false);
+                    $menus['Iniciar Nova Solicitação'] = array('controller' => 'solicitation_items', 'action' => 'index', 'admin' => false, 'plugin' => false);
                     $menus['Finalizar Solicitação'] = array('controller' => 'cart_items', 'action' => 'index', 'admin' => false, 'plugin' => false);
                     break;
                 case GERENCIADOR:
                     $menus['Minhas Solicitações'] = array('controller' => 'solicitations', 'action' => 'index', 'admin' => false, 'plugin' => false);
-                    $menus['Fazer Solicitação'] = array('controller' => 'solicitation_items', 'action' => 'index', 'admin' => false, 'plugin' => false);
+                    $menus['Iniciar Nova Solicitação'] = array('controller' => 'solicitation_items', 'action' => 'index', 'admin' => false, 'plugin' => false);
                     $menus['Finalizar Solicitação'] = array('controller' => 'cart_items', 'action' => 'index', 'admin' => false, 'plugin' => false);
                     break;
             }

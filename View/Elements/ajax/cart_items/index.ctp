@@ -9,18 +9,15 @@
         </thead>	
         <tbody>
             <?php foreach ($items AS $item): ?>
-                <tr>
+                <tr class="test">
                     <td><?php echo $item['Item']['name']; ?></td>
                     <td style="white-space: nowrap">
                         <?php echo $this->Form->input('quantity', array('label' => false, 'div' => false, 'type' => 'text', 'class' => 'span1 input-quantity', 'maxLength' => '4', 'value' => $item['CartItem']['quantity'], 'id' => 'input-' . $item['CartItem']['id'])); ?>
-                        <?php
-                        //echo $this->Html->link($this->Html->image('refresh'), 'javascript:void(0)', array('escape' => false, 'class' => 'edit-quantity', 'value' => $item['CartItem']['id'], 'title' => 'Editar quantidade do item'));
-                        ?>
                     </td>
                     <td>
                         <?php
                         echo $this->Html->link(
-                                $this->Html->image('delete'), 'javascript:void(0)', array('escape' => false, 'class' => 'remove-cart-item', 'value' => $item['CartItem']['id'], 'title' => 'Remover o item')
+                            $this->Html->image('delete'), 'javascript:void(0)', array('escape' => false, 'class' => 'remove-cart-item', 'value' => $item['CartItem']['id'], 'title' => 'Remover o item')
                         );
                         echo $this->Form->input('page', array('id' => 'page', 'type' => 'hidden', 'value' => $this->Paginator->current()));
                         ?>
@@ -38,11 +35,9 @@ echo $this->Paginator->options(array(
 );
 ?>
 <?php echo $this->element('pagination'); ?>
-<?php echo $this->Form->button('Finalizar solicitação', array('type' => 'button', 'class' => 'btn btn-primary', 'id' => 'submit-solicitation', 'title' => 'Finaliza a solicitação')); ?>
+<?php echo $this->Form->button('Próxima Etapa', array('class'=>'btn btn-primary', 'id'=>'next'));?>
 
 <script>
-    
-var ajax = false;   
  
 //Permite que sejam digitados apenas números entre 0 e 9
 $(".input-quantity").keyup(function() {
@@ -50,7 +45,9 @@ $(".input-quantity").keyup(function() {
     $(this).val(valor);
 });
 //Edita a quantidade do item
-$(".input-quantity").change(function() {    
+$(".input-quantity").change(function() {
+    
+    noLoading = true;
     var quantity = $(this).val();
     var cart_item_id = $(this).attr('id').replace('input-', '');
     var url = forUrl('/cart_items/edit');
@@ -62,7 +59,6 @@ $(".input-quantity").change(function() {
     }
     
     $('#submit-solicitation').attr('disabled', true);
-    ajax = true;
 
     $.ajax({
         type: 'POST',
@@ -73,7 +69,7 @@ $(".input-quantity").change(function() {
             if(!result['return']) {
                 $('#alert-message').html('<div id="flashMessage" class="alert alert-error">Não foi possível editar. Entre em contato com o administrador do sistema.</div>');
             }
-            ajax = false;
+
             $('#submit-solicitation').attr('disabled', false);
         }
     });
@@ -98,45 +94,31 @@ $('.remove-cart-item').live('click', function(){
                     url: url,
                     success: function(result) {
                         try{
-                            jQuery.parseJSON(result);
+                            jQuery.parseJSON(result);                           
                             $(location).attr('href', forUrl('/solicitation_items/index'));
-                        }catch(e) {
+                        }catch(e) {                                              
                             $('#items').html(result);
                         }						
                     }
                 });	
+            }else {
+                $('#alert-message').html('<div id="flashMessage" class="alert alert-error">Não foi possível excluir o item. Entre em contato com o administrador do sistema.</div>');
             }
         }					
     });
 });
-//----------------
-$('#submit-solicitation').die('click');
-$('#submit-solicitation').live('click', function(e){    
-    e.preventDefault();    
-    if(!ajax) {
-        if(!$('#SolicitationIndexForm').valid()) {
-            $('#myTab a:first').tab('show');	
-            return;	
-        }
 
-        var url = forUrl('/cart_items/checkout');
-        var memo_number = $('#SolicitationMemoNumber').val();
-        var description = $('#SolicitationDescription').val();
-
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            data:{memo_number:memo_number, description:description},
-            url: url,
-            success: function(result) {
-                if(result['return']) {
-                    var url = forUrl('/solicitations/index');
-                    $(location).attr('href',url);		
-                }else {
-                    $('#alert-message').html('<div id="flashMessage" class="alert alert-error">Não foi possível concluir a solicitação. Entre em contato com o administrador do sistema.</div>');
-                }	
-            }
-        });
+//-------------------
+$('#next').die('click');
+$('#next').live('click', function(){
+    var url = forUrl('/cart_items/finalize');
+    
+    if(!$('#SolicitationIndexForm').valid()) {
+        $('#myTab a:first').tab('show');	
+        return;	
     }
+    
+     $(location).attr('href', url);    
 });
+
 </script>

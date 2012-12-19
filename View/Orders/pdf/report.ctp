@@ -1,7 +1,16 @@
+<div style="margin-left:1,5cm;margin-right: 1,5cm"> 
+    <p style="margin-bottom: 20px; font-weight: bold; text-align: center;">Parecer</p>
+    <?php echo $data[0]['Order']['opinion']; ?>
+        
+    <!-- Pula linha para listar os itens solicitados -->
+    <div class="page-break"></div>
+</div>
+
 <?php 
 foreach($data as $key=>$value):
 ?>
     <div style="margin-left:1,5cm;margin-right: 1,5cm">
+        
         <table width="100%" style="margin-top: 40px;">
             <tr>
                 <td align="left">Memo <?php echo $value['Solicitation']['memo_number'];?></td>
@@ -31,11 +40,11 @@ foreach($data as $key=>$value):
 	
 	
     <p style="padding-bottom: 10px;">
-    Unidade: <?php echo $value['Unity']['name'];?>
+    <b>Unidade:</b> <?php echo $value['Unity']['name'];?>
     <br>
-    Setor: <?php echo $value['Sector']['name'];?>
+    <b>Setor:</b> <?php echo $value['Sector']['name'];?>
     <br>
-    Nº do memorando: <?php echo $value['Solicitation']['memo_number'];?>
+    <b>Nº do memorando:</b> <?php echo $value['Solicitation']['memo_number'];?>
     </p>
     <table class="table table-bordered table-condensed">
         <thead>
@@ -55,7 +64,33 @@ foreach($data as $key=>$value):
             <?php endforeach;?>
         </tbody>
     </table>	
-
+    
+    <!-- Anexo do memorando-->
+    <?php 
+    if($value['Solicitation']['attachment']) {
+    ?>
+        <!-- Pula página -->
+        <div class="page-break"></div>
+        
+        <!-- Anexo -->
+        <p style="margin-top: 70px;">
+        <b>Unidade:</b> <?php echo $value['Unity']['name'];?>
+        <br>
+        <b>Setor:</b> <?php echo $value['Sector']['name'];?>
+        <br>
+        <b>Nº do memorando:</b> <?php echo $value['Solicitation']['memo_number'];?>
+        </p>
+        
+        <div style="text-align: center; margin-top: 30px; font-weight: bold">Anexo</div>
+        
+        <!-- anexo da solicitação-->
+        <div style="text-align: justify; margin-top: 50px; line-height: 170%;">
+            <?php echo $value['Solicitation']['attachment'];?>
+        </div>       
+    <?php
+    }    
+    ?>
+        
     <div class="page-break"></div>
 <?php
 endforeach;

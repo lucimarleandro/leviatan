@@ -11,7 +11,7 @@
 }?>
 
 <script>
-    $('#ItemItemGroupId').change(function(){
+$('#ItemItemGroupId').change(function(){
     var item_group_id = $(this).val();
 
     if(item_group_id == ''){

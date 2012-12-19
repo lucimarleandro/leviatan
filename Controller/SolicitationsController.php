@@ -107,7 +107,7 @@ class SolicitationsController extends AppController {
         $options['fields'] = array(
             'SolicitationItem.id', 'SolicitationItem.quantity', 'SolicitationItem.status_id', 
             'Item.keycode', 'Item.id', 'Item.name',
-            'Solicitation.id', 'Solicitation.keycode', 'Solicitation.memo_number', 'Solicitation.description', 
+            'Solicitation.id', 'Solicitation.keycode', 'Solicitation.memo_number', 'Solicitation.description', 'Solicitation.attachment', 
             'Unity.name', 'Sector.name'
         );
         $options['limit'] = 10;
@@ -329,7 +329,7 @@ class SolicitationsController extends AppController {
         );
         $options['fields'] = array(
             'SolicitationItem.quantity',
-            'Solicitation.description', 'Solicitation.memo_number', 'Solicitation.created',
+            'Solicitation.description', 'Solicitation.memo_number', 'Solicitation.attachment', 'Solicitation.created',
             'Item.keycode', 'Item.name',
             'Employee.name', 'Employee.surname', 'Unity.name', 'Sector.name',
             'UnitySectorResponsible.id', 'UnityResponsible.name', 'SectorResponsible.name'

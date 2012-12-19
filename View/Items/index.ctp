@@ -1,3 +1,4 @@
+<?php $this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home')); ?>
 <?php $this->Html->addCrumb('Itens', array('controller'=>'items', 'action'=>'index')); ?>
 
 <?php if(!$ajax) {?>
@@ -23,16 +24,16 @@
 }?>
 
 <script>
-$('.changeStatus').die('click');
-$('.changeStatus').live('click', function(){
-	
-    var url = forUrl('/items/changeStatus');
-    var item_id = $(this).val();
-    var status_id = '2'; //Item inativo
 
-    if($(this).is(':checked')) {
-        status_id = '1'; //Item ativo
-    }
+$('.approve').die('click');
+$('.approve').live('click', function() {
+    
+    var element = $(this);
+    var url = forUrl('/items/changeStatus');
+    var item_id = element.data('value');
+    var status_id = 1;
+    
+    
     $.ajax({
         type: 'POST',
         dataType: 'JSON',
@@ -42,9 +43,46 @@ $('.changeStatus').live('click', function(){
             item_id: item_id
         },
         success: function(result){
-            if(!result['result']) {
-                    alert('Não foi possível alterar o status do item');
+            if(!result) {
+                alert('Não foi possível alterar o status do item');
+            }else {
+                var check = $('<input>').attr('type', 'checkbox').attr('class', 'changeStatus').attr('checked', 'checked').attr('value', item_id); 
+
+                element.parents('tr').children(':first').append(check);     
+                element.parent().html('ATIVO');                
             }
+        }
+    });
+});
+
+$('.changeStatus').die('click');
+$('.changeStatus').live('click', function(){
+	
+    var element = $(this);
+    var url = forUrl('/items/changeStatus');
+    var item_id = element.val();
+    var status_id = '2'; //Item inativo
+    var name = 'INATIVO';
+    
+    if($(this).is(':checked')) {
+        status_id = '1'; //Item ativo        
+        name = 'ATIVO';
+    }
+    
+    $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: url,
+        data: {
+            status_id: status_id,
+            item_id: item_id
+        },
+        success: function(result){
+            if(!result) {
+                alert('Não foi possível alterar o status do item');
+                return;
+            }
+            element.parents('tr').children(':last').html(name);            
         }
     });
 });
