@@ -5,7 +5,7 @@ $this->Html->addCrumb('Unidades-Setores', array('controller'=>'unity_sectors', '
 $this->Html->addCrumb('Adicionar', array('controller'=>'unity_sectors', 'action'=>'add'));
  
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'unity_sectors', 'action'=>'index'),
 	array('escape'=>false)		
 );

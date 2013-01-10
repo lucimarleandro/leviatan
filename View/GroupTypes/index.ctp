@@ -16,7 +16,7 @@ $this->Html->addCrumb('Tipos de Grupos', array('controller'=>'group_types', 'act
 <?php if(empty($groups)) {?>
 	<h3><?php echo __('Não há Tipos de Grupos');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -35,10 +35,10 @@ $this->Html->addCrumb('Tipos de Grupos', array('controller'=>'group_types', 'act
 					);
 					?>
 					</td>
-					<td>
+					<td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
+							$this->Html->image('edit.png'),
 							array('controller'=>'group_types', 'action'=>'edit', $group['GroupType']['id']),
 							array(
 								'escape'=>false, 
@@ -47,7 +47,7 @@ $this->Html->addCrumb('Tipos de Grupos', array('controller'=>'group_types', 'act
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'group_types', 'action'=>'delete', $group['GroupType']['id']),
 							array(
 								'escape'=>false, 

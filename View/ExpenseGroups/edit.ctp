@@ -5,7 +5,7 @@ $this->Html->addCrumb('Unidades de Medidas', array('controller'=>'expense_groups
 $this->Html->addCrumb('Editar', array('controller'=>'expense_groups', 'action'=>'exit', $this->request->data['ExpenseGroup']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'expense_groups', 'action'=>'index'),
 	array('escape'=>false)		
 );

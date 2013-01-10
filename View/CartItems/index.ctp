@@ -25,7 +25,7 @@ $this->Html->addCrumb('Finalizar', array('controller'=>'cart_items', 'action'=>'
                                         array(
                                             'label'=>false, 
                                             'class'=>'input-mini',
-                                            'value'=>$temp['SolicitationTemporary']['memo_number']
+                                            'value'=>isset($temp['SolicitationTemporary']['memo_number']) ? $temp['SolicitationTemporary']['memo_number'] : ''
                                         )
                                     );
                                     ?>
@@ -40,7 +40,7 @@ $this->Html->addCrumb('Finalizar', array('controller'=>'cart_items', 'action'=>'
                                                 'label'=>false,
                                                 'class'=>'span6',
                                                 'rows'=>10,
-                                                'value'=>$temp['SolicitationTemporary']['description']
+                                                'value'=>isset($temp['SolicitationTemporary']['description']) ? $temp['SolicitationTemporary']['description'] : ''
                                             ),array(
                                                 'language'=>'pt',
                                                 'onchange_callback'=>'changeContent'
@@ -59,7 +59,7 @@ $this->Html->addCrumb('Finalizar', array('controller'=>'cart_items', 'action'=>'
                                                 'label'=>false,
                                                 'class'=>'span6',
                                                 'rows'=>10,
-                                                'value'=>$temp['SolicitationTemporary']['attachment']
+                                                'value'=>isset($temp['SolicitationTemporary']['attachment']) ? $temp['SolicitationTemporary']['attachment'] : ''
                                             ),array(
                                                 'language'=>'pt',
                                                 'onchange_callback'=>'changeContent'
@@ -72,7 +72,7 @@ $this->Html->addCrumb('Finalizar', array('controller'=>'cart_items', 'action'=>'
                             </fieldset>
                         <?php echo $this->Form->end();?>
                     </div>
-                    <div class="tab-pane well" id="items">
+                    <div class="tab-pane" id="items">
                         <?php echo $this->element('ajax/cart_items/index');?>
                     </div>		
                 </div>

@@ -67,7 +67,7 @@ class DATABASE_CONFIG {
         'host' => 'localhost',
         'login' => 'root',
         'password' => '123456',
-        'database' => 'leviatan',
+        'database' => 'motiro',
         'prefix' => '',
         'encoding' => 'utf8',
     );

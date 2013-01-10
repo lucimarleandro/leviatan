@@ -37,7 +37,7 @@
                             <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])); ?></td>
                             <td><?php echo $this->Html->link($item['ItemClass']['keycode'], array('controller' => 'item_classes', 'action' => 'view', 'id'=>$item['Item']['item_class_id'])); ?></td>
                             <td><?php echo $this->Html->link($item['PngcCode']['keycode'], array('controller' => 'pngc_codes', 'action' => 'view', 'id'=>$item['Item']['pngc_code_id'])); ?></td>
-                            <td style="white-space: nowrap;">
+                            <td class="acoes">
                                 <?php
                                 if($item['Item']['status_id'] == PENDENTE) {
                                     if($user['group_id'] == HOMOLOGADOR) {
@@ -53,12 +53,12 @@
                                         );
                                     }
                                     echo $this->Html->link(
-                                        $this->Html->image('edit'), 
+                                        $this->Html->image('edit.png'), 
                                             array('controller' => 'items', 'action' => 'edit', 'id'=>$item['Item']['id']), 
                                             array('escape' => false, 'title' => 'Editar item')
                                     );
                                     echo $this->Form->postLink(
-                                        $this->Html->image('delete'), 
+                                        $this->Html->image('delete.png'), 
                                             array('controller' => 'items', 'action' => 'delete', $item['Item']['id']), 
                                             array('escape' => false, 'title' => 'Deletar item', 'confirm' => 'Tem certeza que deseja excluir o item?')
                                     );

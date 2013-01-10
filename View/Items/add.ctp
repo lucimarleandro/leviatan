@@ -4,9 +4,9 @@ $this->Html->addCrumb('Itens', array('controller'=>'items', 'action'=>'index'));
 $this->Html->addCrumb('Adicionar', array('controller'=>'items', 'action'=>'add')); 
 
 echo $this->Html->link(
-	$this->Html->image('back'),
-	array('controller'=>'items', 'action'=>'index'),
-	array('escape'=>false)		
+    $this->Html->image('back.png'),
+    array('controller'=>'items', 'action'=>'index'),
+    array('escape'=>false)		
 );
 ?>
 <div class="well">
@@ -58,14 +58,14 @@ echo $this->Html->link(
             <div class="control-group required">
                     <label class="control-label" for="nome do item">Nome</label>
                     <div class="controls">
-                            <?php 
-                            echo $this->Form->input('name', 
-                                    array(
-                                            'label'=>false, 
-                                            'class'=>'span6',
-                                    )
-                            );
-                            ?>
+                        <?php 
+                        echo $this->Form->input('name', 
+                            array(
+                                'label'=>false, 
+                                'class'=>'span6',
+                            )
+                        );
+                        ?>
                     </div>
             </div>
             <div class="control-group required">
@@ -74,15 +74,15 @@ echo $this->Html->link(
                             <?php 
                             echo $this->Tinymce->input('Item.description', 
                                     array(
-                                            'label'=>false,
-                                            'class'=>'span6',
-                                            'rows'=>10
+                                        'label'=>false,
+                                        'class'=>'span6',
+                                        'rows'=>10
                                     ),array(
-                                            'language'=>'pt',
-                                            'onchange_callback'=>'function(editor) {
-                                                    tinyMCE.triggerSave();
-                                                    $("#" + editor.id).valid();
-                                            }'
+                                        'language'=>'pt',
+                                        'onchange_callback'=>'function(editor) {
+                                                tinyMCE.triggerSave();
+                                                $("#" + editor.id).valid();
+                                        }'
                                     ),
                                     'basic'
                             );

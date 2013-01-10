@@ -5,7 +5,7 @@ $this->Html->addCrumb('Grupos dos itens', array('controller'=>'item_groups', 'ac
 $this->Html->addCrumb('Visualizar', array('controller'=>'item_groups', 'action'=>'view', $group['ItemGroup']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	'javascript:window.history.go(-1)',
 	array('escape'=>false)
 );

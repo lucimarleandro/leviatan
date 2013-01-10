@@ -5,7 +5,7 @@ $this->Html->addCrumb('Setores', array('controller'=>'sectors', 'action'=>'index
 $this->Html->addCrumb('Visualizar', array('controller'=>'sectors', 'action'=>'view', $sector['Sector']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	'javascript:window.history.go(-1)',
 	array('escape'=>false)
 );

@@ -5,7 +5,7 @@ $this->Html->addCrumb('Classes dos Itens', array('controller'=>'item_classes', '
 $this->Html->addCrumb('Visualizar', array('controller'=>'item_classes', 'action'=>'view', $class['ItemClass']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	'javascript:window.history.go(-1)',
 	array('escape'=>false)
 );

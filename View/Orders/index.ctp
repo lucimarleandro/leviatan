@@ -21,7 +21,7 @@ $this->Html->addCrumb('Pedidos', array('controller'=>'orders', 'action'=>'index'
                             <td>
                             <?php 
                             echo $this->Form->postLink(
-                                $this->Html->image('preview'), 
+                                $this->Html->image('preview.png'), 
                                 array('controller'=>'orders','action'=>'view', $order['Order']['created']), 
                                 array('escape'=>false, 'title'=>'Visualizar pedidos')
                             ); 

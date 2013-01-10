@@ -16,7 +16,7 @@ $this->Html->addCrumb('Categorias de Insumos', array('controller'=>'input_catego
 <?php if(empty($categories)) {?>
 	<h3><?php echo __('Não Categorias de Insumos');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -44,10 +44,10 @@ $this->Html->addCrumb('Categorias de Insumos', array('controller'=>'input_catego
 					);
 					?>
 					</td>
-					<td style="white-space: nowrap;">
+					<td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
+							$this->Html->image('edit.png'),
 							array('controller'=>'input_categories', 'action'=>'edit', $category['InputCategory']['id']),
 							array(
 								'escape'=>false, 
@@ -56,7 +56,7 @@ $this->Html->addCrumb('Categorias de Insumos', array('controller'=>'input_catego
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'input_categories', 'action'=>'delete', $category['InputCategory']['id']),
 							array(
 								'escape'=>false, 

@@ -5,7 +5,7 @@ $this->Html->addCrumb('Funcionários', array('controller'=>'employees', 'action'
 $this->Html->addCrumb('Visualizar', array('controller'=>'employees', 'action'=>'view', $employee['Employee']['id']));
  
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	'javascript:window.history.go(-1)',
 	array('escape'=>false)
 );

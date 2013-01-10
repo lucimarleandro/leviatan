@@ -16,7 +16,7 @@ $this->Html->addCrumb('PNGC', array('controller'=>'pngc_codes', 'action'=>'index
 <?php if(empty($pngcs)) {?>
 	<h3><?php echo __('Não há PNGCs');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -71,10 +71,10 @@ $this->Html->addCrumb('PNGC', array('controller'=>'pngc_codes', 'action'=>'index
 					);
 					?>
 					</td>
-					<td style="white-space: nowrap;">
+					<td class="acoes">
 						<?php 
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'pngc_codes', 'action'=>'delete', $pngc['PngcCode']['id']),
 							array(
 								'escape'=>false, 

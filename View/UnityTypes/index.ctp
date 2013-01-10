@@ -16,7 +16,7 @@ $this->Html->addCrumb('Tipos de Unidades', array('controller'=>'unity_types', 'a
 <?php if(empty($types)) {?>
 	<h3><?php echo __('Não há tipos de unidades');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -35,10 +35,10 @@ $this->Html->addCrumb('Tipos de Unidades', array('controller'=>'unity_types', 'a
 					);
 					?>
 					</td>
-					<td>
+					<td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
+							$this->Html->image('edit.png'),
 							array('controller'=>'unity_types', 'action'=>'edit', $type['UnityType']['id']),
 							array(
 								'escape'=>false, 
@@ -47,7 +47,7 @@ $this->Html->addCrumb('Tipos de Unidades', array('controller'=>'unity_types', 'a
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'unity_types', 'action'=>'delete', $type['UnityType']['id']),
 							array(
 								'escape'=>false, 

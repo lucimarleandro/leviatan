@@ -15,7 +15,7 @@ $this->Html->addCrumb('Unidade', array('controller'=>'unities', 'action'=>'index
 <?php if(empty($unities)) {?>
 	<h3><?php echo __('Não há solicitações');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -31,11 +31,11 @@ $this->Html->addCrumb('Unidade', array('controller'=>'unities', 'action'=>'index
 					<td><?php echo $unity['Unity']['cnes'];?></td>
 					<td><?php echo $this->Html->link($unity['Unity']['name'], array('controller'=>'unities', 'action'=>'view', $unity['Unity']['id']));?></td>
 					<td><?php echo $unity['Address']['name'];?></td>
-					<td>
+					<td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
-                            array('controller'=>'unities', 'action'=>'edit', $unity['Unity']['id']),
+							$this->Html->image('edit.png'),
+                                                        array('controller'=>'unities', 'action'=>'edit', $unity['Unity']['id']),
 							array(
 								'escape'=>false, 
 								'alt'=>'Visualizar', 
@@ -43,7 +43,7 @@ $this->Html->addCrumb('Unidade', array('controller'=>'unities', 'action'=>'index
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'unities', 'action'=>'delete', $unity['Unity']['id']),
 							array(
 								'escape'=>false, 

@@ -226,6 +226,7 @@ class OrdersController extends AppController {
  * 
  */
     public function report($order_id = null) {
+        $this->layout = 'default';
         $this->OrderItem->recursive = -1;
         $this->SolicitationItem->recursive = -1;
         //As solicitações sem repetições

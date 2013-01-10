@@ -3,17 +3,8 @@
 
 <?php if(!$ajax) {?>
 <div class="box">
-    <?php echo $this->element('box_search');?>
+    <?php echo $this->element('box_search', array('allItems'=>array('controller'=>'items', 'action'=>'index')));?>
     <?php echo $this->Form->input('url', array('type'=>'hidden', 'id'=>'url', 'value'=>'/items/index'));?>
-
-    <div style="padding-bottom: 20px;">
-        <?php 
-        echo $this->Html->link('Adicionar', 
-            array('controller'=>'items', 'action'=>'add'), 
-            array('class'=>'btn', 'escape'=>false)
-        );
-        ?>
-    </div>
 
     <div id="items">
         <?php echo $this->element('ajax/items/index');?>
@@ -32,8 +23,7 @@ $('.approve').live('click', function() {
     var url = forUrl('/items/changeStatus');
     var item_id = element.data('value');
     var status_id = 1;
-    
-    
+
     $.ajax({
         type: 'POST',
         dataType: 'JSON',
@@ -42,14 +32,13 @@ $('.approve').live('click', function() {
             status_id: status_id,
             item_id: item_id
         },
-        success: function(result){
+        success: function(result){            
             if(!result) {
                 alert('Não foi possível alterar o status do item');
             }else {
                 var check = $('<input>').attr('type', 'checkbox').attr('class', 'changeStatus').attr('checked', 'checked').attr('value', item_id); 
-
                 element.parents('tr').children(':first').append(check);     
-                element.parent().html('ATIVO');                
+                element.parents('tr').fadeOut();             
             }
         }
     });
@@ -82,7 +71,8 @@ $('.changeStatus').live('click', function(){
                 alert('Não foi possível alterar o status do item');
                 return;
             }
-            element.parents('tr').children(':last').html(name);            
+            element.parents('tr').children(':last').html(name);    
+            element.parents('tr').fadeOut();
         }
     });
 });

@@ -18,12 +18,12 @@
                         <td>
                             <?php
                             if (in_array($item['Item']['id'], $cart_items)) {
-                                echo $this->Html->image('shopping-cart', array('title' => 'O item está na lista de solicitações'));
+                                echo $this->Html->image('shopping-cart.png', array('title' => 'O item está na lista de solicitações'));
                             } else if (in_array($item['Item']['id'], $pending)) {
-                                echo $this->Html->image('pending', array('title' => 'O item está em processo de análise'));
+                                echo $this->Html->image('pending.png', array('title' => 'O item está em processo de análise'));
                             } else {
                                 echo $this->Html->link(
-                                        $this->Html->image('add'), 'javascript:void(0)', array('escape' => false, 'class' => 'request-item', 'value' => $item['Item']['id'], 'title' => 'Solicitar o item')
+                                        $this->Html->image('add.png'), 'javascript:void(0)', array('escape' => false, 'class' => 'request-item', 'value' => $item['Item']['id'], 'title' => 'Solicitar o item')
                                 );
                             }
                             ?>

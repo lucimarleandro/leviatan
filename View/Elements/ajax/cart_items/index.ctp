@@ -14,10 +14,10 @@
                     <td style="white-space: nowrap">
                         <?php echo $this->Form->input('quantity', array('label' => false, 'div' => false, 'type' => 'text', 'class' => 'span1 input-quantity', 'maxLength' => '4', 'value' => $item['CartItem']['quantity'], 'id' => 'input-' . $item['CartItem']['id'])); ?>
                     </td>
-                    <td>
+                    <td class="acoes">
                         <?php
                         echo $this->Html->link(
-                            $this->Html->image('delete'), 'javascript:void(0)', array('escape' => false, 'class' => 'remove-cart-item', 'value' => $item['CartItem']['id'], 'title' => 'Remover o item')
+                            $this->Html->image('delete.png'), 'javascript:void(0)', array('escape' => false, 'class' => 'remove-cart-item', 'value' => $item['CartItem']['id'], 'title' => 'Remover o item')
                         );
                         echo $this->Form->input('page', array('id' => 'page', 'type' => 'hidden', 'value' => $this->Paginator->current()));
                         ?>

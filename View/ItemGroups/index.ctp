@@ -16,7 +16,7 @@ $this->Html->addCrumb('Grupos dos itens', array('controller'=>'item_groups', 'ac
 <?php if(empty($groups)) {?>
 	<h3><?php echo __('Não há Grupo de Itens');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -47,10 +47,10 @@ $this->Html->addCrumb('Grupos dos itens', array('controller'=>'item_groups', 'ac
 					);
 					?>
 					</td>
-					<td style="white-space: nowrap;">
+					<td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
+							$this->Html->image('edit.png'),
 							array('controller'=>'item_groups', 'action'=>'edit', $group['ItemGroup']['id']),
 							array(
 								'escape'=>false, 
@@ -59,7 +59,7 @@ $this->Html->addCrumb('Grupos dos itens', array('controller'=>'item_groups', 'ac
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'item_groups', 'action'=>'delete', $group['ItemGroup']['id']),
 							array(
 								'escape'=>false, 

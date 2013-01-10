@@ -1,5 +1,5 @@
 <?php
-$this->Html->addCruumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
 $this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
 $this->Html->addCrumb('Relação unidade-classe do item', array('controller'=>'head_orders', 'action'=>'index'));
 ?>
@@ -15,7 +15,7 @@ $this->Html->addCrumb('Relação unidade-classe do item', array('controller'=>'h
 <?php if(empty($headOrders)) {?>
     <h3><?php echo __('Não há relação de unidade com as classes dos itens');?></h3>
 <?php } else {?>
-    <div class="box-content well">
+    <div class="box-content">
         <table id="table" class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -31,10 +31,10 @@ $this->Html->addCrumb('Relação unidade-classe do item', array('controller'=>'h
                         <td><?php echo $hd['Unity']['name'];?></td>
                         <td><?php echo $hd['Sector']['name'];?></td>
                         <td><?php echo $hd['ItemClass']['keycode'].'-'.$hd['ItemClass']['name'];?></td>
-                        <td>
+                        <td class="acoes">
                             <?php 
                             echo $this->Form->postLink(
-                                $this->Html->image('delete'),
+                                $this->Html->image('delete.png'),
                                 array('controller'=>'head_orders', 'action'=>'delete', $hd['HeadOrder']['id']),
                                 array(
                                     'escape'=>false, 

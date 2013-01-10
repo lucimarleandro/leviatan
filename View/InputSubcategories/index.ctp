@@ -16,7 +16,7 @@ $this->Html->addCrumb('Subcategorias de Insumos', array('controller'=>'input_sub
 <?php if(empty($subcategories)) {?>
 	<h3><?php echo __('Não há Subcategorias de Insumos');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -44,10 +44,10 @@ $this->Html->addCrumb('Subcategorias de Insumos', array('controller'=>'input_sub
 					);
 					?>
 					</td>
-					<td style="white-space: nowrap;">
+					<td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
+							$this->Html->image('edit.png'),
 							array('controller'=>'input_subcategories', 'action'=>'edit', $subcategory['InputSubcategory']['id']),
 							array(
 								'escape'=>false, 
@@ -56,7 +56,7 @@ $this->Html->addCrumb('Subcategorias de Insumos', array('controller'=>'input_sub
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'input_subcategories', 'action'=>'delete', $subcategory['InputSubcategory']['id']),
 							array(
 								'escape'=>false, 

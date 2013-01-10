@@ -21,8 +21,11 @@ class SolicitationItemsController extends AppController {
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
             $ajax = true;
-            if ($this->request->data) {
+            if($this->request->data) {
                 $options = array();
+                if (!empty($this->request->data['item_group_id'])) {
+                    $options['conditions'][] = array('ItemGroup.id' => $this->request->data['item_group_id']);
+                }
                 if (!empty($this->request->data['item_class_id'])) {
                     $options['conditions'][] = array('Item.item_class_id' => $this->request->data['item_class_id']);
                 }
@@ -38,13 +41,46 @@ class SolicitationItemsController extends AppController {
             $this->Session->delete('options');
         }
 
-
+        $this->Item->recursive = -1;
         $options['limit'] = 10;
         $options['order'] = array('Item.keycode' => 'asc');
         $options['conditions'][] = array('Item.status_id'=>ATIVO);
+        $options['fields'] = array('Item.*', 'ItemClass.*', 'PngcCode.*', 'Status.*');
+        $options['joins'] = array(
+            array(
+                'table'=>'item_classes',
+                'alias'=>'ItemClass',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.item_class_id = ItemClass.id'
+                )
+            ),
+            array(
+                'table'=>'item_groups',
+                'alias'=>'ItemGroup',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'ItemClass.item_group_id = ItemGroup.id'
+                )
+            ),array(
+                'table'=>'pngc_codes',
+                'alias'=>'PngcCode',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.pngc_code_id = PngcCode.id'
+                )
+            ),
+            array(
+                'table'=>'statuses',
+                'alias'=>'Status',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'Item.status_Id = Status.id'
+                )
+            ),
+        );
         
         $this->paginate = $options;
-
         $items = $this->paginate('Item');
         $groups = $this->__getItemGroups();
         $cart_items = $this->__getCartItems();

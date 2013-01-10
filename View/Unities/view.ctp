@@ -5,7 +5,7 @@ $this->Html->addCrumb('Unidade', array('controller'=>'unities', 'action'=>'index
 $this->Html->addCrumb('Visualizar', array('controller'=>'unities', 'action'=>'view', $unity['Unity']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	'javascript:window.history.go(-1)',
 	array('escape'=>false)
 );

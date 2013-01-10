@@ -25,7 +25,7 @@ class ItemsController extends AppController {
 /**
  * 
  */
-    public function index() {
+    public function index($status = ATIVO) {
         $this->set('title_for_layout', 'Itens');
         $ajax = false;
         if ($this->request->is('ajax')) {
@@ -53,11 +53,14 @@ class ItemsController extends AppController {
         
         $user = $this->Auth->user();
         $unitySectorId = $user['Employee']['unity_sector_id'];
-       
+
         $this->Item->recursive = -1;
         $options['limit'] = 10;
         $options['order'] = array('Item.keycode' => 'asc');
         $options['fields'] = array('Item.*', 'ItemClass.*', 'PngcCode.*');
+        $options['conditions'][] = array(
+            'Item.status_id'=>$status
+        );
         $options['joins'] = array(
             array(
                 'table'=>'head_orders',
@@ -186,6 +189,7 @@ class ItemsController extends AppController {
  * 
  */
     public function home() {
+        $this->layout = 'motiro2';
         $this->set('title_for_layout', 'Home');
         $ajax = false;
         if ($this->request->is('ajax')) {
@@ -210,8 +214,6 @@ class ItemsController extends AppController {
         } else {
             $this->Session->delete('options');
         }
-        
-        $this->Item->recursive = -1;
         
         $options['joins'] = array(
             array(
@@ -244,11 +246,12 @@ class ItemsController extends AppController {
         $options['conditions'][] = array('Item.status_id'=>ATIVO);
         $options['fields'] = array('Item.*', 'ItemClass.*', 'PngcCode.*');
         
+        $this->Item->recursive = -1;
         $this->paginate = $options;
         $items = $this->paginate();
         $groups = $this->__getItemGroups();
         $complete = 'false';
-        
+
         $this->set(compact('items', 'groups', 'ajax', 'complete'));
     }
 

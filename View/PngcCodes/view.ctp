@@ -5,7 +5,7 @@ $this->Html->addCrumb('PNGC', array('controller'=>'pngc_codes', 'action'=>'index
 $this->Html->addCrumb('Visualizar', array('controller'=>'pngc_codes', 'action'=>'view', 'id'=>$pngcCode['PngcCode']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	'javascript:window.history.go(-1)',
 	array('escape'=>false)
 );

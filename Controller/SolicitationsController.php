@@ -47,8 +47,7 @@ class SolicitationsController extends AppController {
             $ajax = true;
             $this->layout = 'ajax';
         }
-        
-        
+                
         $this->SolicitationItem->recursive = -1;        
         $options['joins'] = array(
             array(
@@ -122,7 +121,7 @@ class SolicitationsController extends AppController {
     }
 
 /**
- * 
+ * Solicitações que estão pendentes para o homologador
  */
     public function analyze() {
         
@@ -232,6 +231,7 @@ class SolicitationsController extends AppController {
  * 
  */
     public function printout($id = null) {
+        $this->layout = 'default';
         $this->SolicitationItem->recursive = -1;
                         
         $options['joins'] = array(

@@ -7,7 +7,7 @@ $(document).ready(function() {
             noLoading = true;
         	
             $.ajax({
-            	type: 'POST',
+                type: 'POST',
                 url: url,
                 dataType: "json",
                 data: {
@@ -33,10 +33,13 @@ $(document).ready(function() {
 
         $('#items').load(
             url, 
-            {'item_group_id':item_group_id,'item_class_id': item_class_id, 'item_name': item_name}
+            {
+            'item_group_id':item_group_id,
+            'item_class_id': item_class_id, 
+            'item_name': item_name
+            }
         );		
-    });
-	
+    });       
 });
 
 var noLoading = false;
@@ -44,3 +47,6 @@ var noLoading = false;
 forUrl = function(url) {
     return $('base').attr('href')+url.substr(1);
 }
+
+/* Função que carrega script das abas */
+

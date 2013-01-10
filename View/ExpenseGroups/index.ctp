@@ -15,7 +15,7 @@ $this->Html->addCrumb('Unidades de Medidas', array('controller'=>'expense_groups
 <?php if(empty($groups)) {?>
 	<h3><?php echo __('Não há Grupos de Gastos');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -40,10 +40,10 @@ $this->Html->addCrumb('Unidades de Medidas', array('controller'=>'expense_groups
 					echo $group['ExpenseGroup']['description'];
 					?>
 					</td>
-					<td style="white-space: nowrap;">
+					<td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
+							$this->Html->image('edit.png'),
 							array('controller'=>'expense_groups', 'action'=>'edit', $group['ExpenseGroup']['id']),
 							array(
 								'escape'=>false, 
@@ -52,7 +52,7 @@ $this->Html->addCrumb('Unidades de Medidas', array('controller'=>'expense_groups
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'expense_groups', 'action'=>'delete', $group['ExpenseGroup']['id']),
 							array(
 								'escape'=>false, 

@@ -5,7 +5,7 @@ $this->Html->addCrumb('Relação unidade-classe do item', array('controller'=>'h
 $this->Html->addCrumb('Adicionar', array('controller'=>'head_orders', 'action'=>'add'));
  
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'head_orders', 'action'=>'index'),
 	array('escape'=>false)		
 );

@@ -5,7 +5,7 @@ $this->Html->addCrumb('Usuários', array('controller'=>'users', 'action'=>'index
 $this->Html->addCrumb('Adicionar', array('controller'=>'users', 'action'=>'add'));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'users', 'action'=>'index'),
 	array('escape'=>false)		
 );

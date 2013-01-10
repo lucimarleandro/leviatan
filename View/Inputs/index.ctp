@@ -16,7 +16,7 @@ $this->Html->addCrumb('Insumos', array('controller'=>'inputs', 'action'=>'index'
 <?php if(empty($inputs)) {?>
 	<h3><?php echo __('Não há Insumos');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -44,10 +44,10 @@ $this->Html->addCrumb('Insumos', array('controller'=>'inputs', 'action'=>'index'
 					);
 					?>
 					</td>
-					<td style="white-space: nowrap;">
+					<td class="acoes">
 						<?php 
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'inputs', 'action'=>'delete', $input['Input']['id']),
 							array(
 								'escape'=>false, 

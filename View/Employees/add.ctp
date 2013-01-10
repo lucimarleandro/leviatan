@@ -5,7 +5,7 @@ $this->Html->addCrumb('Funcionários', array('controller'=>'employees', 'action'
 $this->Html->addCrumb('Adicionar', array('controller'=>'employees', 'action'=>'add'));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'employees', 'action'=>'index'),
 	array('escape'=>false)		
 );

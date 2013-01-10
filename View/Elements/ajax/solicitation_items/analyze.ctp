@@ -1,7 +1,7 @@
 <?php if (empty($solicitationItems)) { ?>
     <h3><?php echo __('Não há solicitações'); ?></h3>
 <?php } else { ?>
-    <div class="box-content well">
+    <div class="box-content">
         <table id="table" class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -25,20 +25,20 @@
                             ?>
                         </td>
                         <td><?php echo $solicitationItem['SolicitationItem']['quantity']; ?></td>
-                        <td style="white-space: nowrap;" id="element-<?php echo $solicitationItem['SolicitationItem']['id'] ?>">
+                        <td class="acoes" id="element-<?php echo $solicitationItem['SolicitationItem']['id'] ?>">
                             <?php
                             if ($solicitationItem['SolicitationItem']['status_id'] == PENDENTE) {
                                 echo $this->Html->link(
-                                        $this->Html->image('add'), 'javascript:void(0)', array('escape' => false, 'title' => 'Aceitar o item', 'class' => 'accept', 'value' => $solicitationItem['SolicitationItem']['id'])
+                                        $this->Html->image('add.png'), 'javascript:void(0)', array('escape' => false, 'title' => 'Aceitar o item', 'class' => 'accept', 'value' => $solicitationItem['SolicitationItem']['id'])
                                 );
                                 echo $this->Html->link(
-                                        $this->Html->image('stop'), 'javascript:void(0)', array('escape' => false, 'title' => 'Não aceitar o item', 'class' => 'deny', 'value' => $solicitationItem['SolicitationItem']['id'])
+                                        $this->Html->image('stop.png'), 'javascript:void(0)', array('escape' => false, 'title' => 'Não aceitar o item', 'class' => 'deny', 'value' => $solicitationItem['SolicitationItem']['id'])
                                 );
                             } else if ($solicitationItem['SolicitationItem']['status_id'] == APROVADO) {
-                                echo $this->Html->image('check', array('title' => 'Solicitação aprovada'));
+                                echo $this->Html->image('check.png', array('title' => 'Solicitação aprovada'));
                             } else if ($solicitationItem['SolicitationItem']['status_id'] == NEGADO) {
                                 echo $this->Html->link(
-                                        $this->Html->image('deny'), 'javascript:void(0)', array(
+                                        $this->Html->image('deny.png'), 'javascript:void(0)', array(
                                     'escape' => false,
                                     'class' => 'deny-visualization',
                                     'value' => $solicitationItem['SolicitationItem']['id'],
@@ -72,7 +72,7 @@
     $('.accept').live('click', function(e) {
         e.preventDefault();
         var element = $(this);
-        var image = '<?php echo $this->Html->image('check', array('title' => 'Item aceito')) ?>';
+        var image = '<?php echo $this->Html->image('check.png', array('title' => 'Item aceito')) ?>';
         var solicitationItemId = $(this).attr('value');
 
         $.ajax({
@@ -150,7 +150,7 @@
     $('#approve-selected').live('click', function(e){
         e.preventDefault();       
         
-        var image = '<?php echo $this->Html->image('check', array('title' => 'Item aceito')) ?>';
+        var image = '<?php echo $this->Html->image('check.png', array('title' => 'Item aceito')) ?>';
         var solicitationItemIds = new Array();
         
         var i = 0

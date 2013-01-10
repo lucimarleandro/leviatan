@@ -1,0 +1,374 @@
+/* 
+    Document   : motiro2
+    Created on : 18/12/2012, 21:23:16
+    Author     : Jonathan Souza <rds_ralison@yahoo.com.br>
+    Description: Layout CDI v1.0
+*/
+
+@import url('http://fonts.googleapis.com/css?family=Open+Sans');
+
+root { 
+    display: block;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    background: #fff;
+    font-family: 'Verdana', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size: 12px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif;
+}
+
+a {
+    color: #444;
+}
+
+a:hover {
+    color: #000;
+}
+
+
+/*** BIBLIOTECA ***/
+.block { display: block; }
+.esquerda { float: left; }
+.direita { float: right; }
+.centralizado { text-align: center; }
+td.nowrap, th.nowrap { white-space: nowrap; }
+/*** FIM BIBLIOTECA ***/
+
+.barratopo,
+.navmenu,
+.submenu {
+    width: 100%;
+    clear: both;
+    display: block;
+}
+
+.barratopo {
+    background: #c23 url('../img/tricorte.png') no-repeat 55px bottom;
+    color: #fff;
+    overflow: hidden;
+}
+
+.barratopo .cracha {
+    text-align: right;
+    padding: 5px 15px;
+}
+
+.barratopo .aplicacao {
+    padding: 15px 15px 20px;
+}
+
+.barratopo .cracha .usuario span {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.barratopo .cracha .links,
+.barratopo .cracha .links a {
+    font-size: .85em;
+    color: #fff;
+    text-decoration: none;
+}
+
+.barratopo .cracha .links a:hover {
+    text-decoration: underline;
+}
+
+.barratopo .cracha .links {
+    margin-top: 15px;
+}
+
+.navmenu {
+    background: #ccc;
+}
+
+.navmenu ul,
+.navmenu ul li,
+.submenu ul,
+.submenu ul li {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.navmenu ul li {
+    text-align: center;
+    display: inline-block;
+}
+
+/** IE-7 Hack **/
+* + html .navmenu ul li {
+    display: inline;
+    zoom: 1;
+}
+
+.navmenu ul li a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    color: #333;
+    font-size: .75em;
+}
+
+.navmenu ul li a i {
+    font-size: 3em;
+    text-shadow: 1px 1px 0px #999;
+}
+
+.navmenu ul li a:hover {
+    background: #ddd;
+}
+
+.navmenu ul li a.linkAtivo,
+.navmenu ul li a.linkAtivo:hover {
+    color: #e52;
+}
+
+.navmenu ul li a .rotulo {
+    display: block;
+}
+
+.navmenu ul li a .rotulo .circulo {
+    font-size: .75em;
+    font-weight: bold;
+    background: #e52;
+    padding: 3px;
+    color: #fff;
+    border-radius: 12px;
+}
+
+.submenu {
+    background: #bbb;
+    color: #000;
+}
+
+.submenu ul li {
+    display: inline-block;
+}
+
+/** IE-7 Hack **/
+* + html .submenu ul li {
+    display: inline;
+    zoom: 1;
+}
+
+.submenu ul li a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-size: .75em;
+    color: #000;
+}
+
+.submenu ul li a:hover {
+    text-decoration: underline;
+}
+
+.submenu ul li a.linkAtivo,
+.submenu ul li a.linkAtivo:hover {
+    background: #ccc;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.rodape {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 15px;
+    overflow: hidden;
+    font-size: .8em;
+}
+
+.rodape .direita img {
+    margin: 0 10px;
+}
+
+.rodape .esquerda {
+    margin-top: 15px;
+}
+
+.conteudo {
+    margin: 25px auto 50px;
+    width: 95%;
+}
+
+
+.message, .alert {
+    padding: 10px;
+    background: #eee;
+    border: 1px solid #999;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.flash-blue {
+    background: #08c;
+    color: #fff;
+    border-color: #07a;
+}
+
+.flash-error, .alert-error {
+    background: #e10;
+    color: #fff;
+    border-color: #910;
+}
+
+.flash-warning {
+    background: #fa6;
+    color: #830;
+    border-color: #f83;
+}
+
+.flash-success, .alert-success {
+    background: #4d6;
+    color: #152;
+    border-color: #2b4;
+}
+
+table {
+    width: 100%;
+    font-size: .85em;
+}
+
+table th, table td {
+    padding: 5px 8px;
+}
+
+table tbody tr:nth-child(odd) {
+    background: #eee;
+}
+
+table tbody tr td.acoes a {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: #333;
+    padding: 0 5px;
+    position: relative;
+}
+
+table tbody tr td.acoes a:hover {
+    color: #f00;
+}
+
+tbody td a {
+    display: block;
+    text-decoration: none;
+    color: #444;
+}
+
+tbody td a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.acoes a {
+    display: inline;
+}
+
+table thead tr {
+    background-color: #444;
+}
+
+table thead tr td,
+table thead tr th {
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #FFF;
+}
+
+a:hover .popout {
+    display: block;
+}
+
+.popout {
+    position: absolute;
+    left: -50px;
+    top: 2em;
+    width: 100px;
+    text-align: center;
+    z-index: 999;
+    background: #fff;
+    border: 1px solid #444;
+    padding: 3px 5px;
+    display: none;
+    font-size: .8em;
+    border-radius: 3px;
+    color: #444;
+}
+
+
+/** FORMULÀRIO ***/
+label {
+    display: block;
+    clear: both;
+    margin: 5px 0;
+}
+
+a.btn {
+    padding: 5px;
+    border: 1px solid #333;
+    border-radius: 2px;
+}
+
+input, select, button, textarea {
+    font-family: 'Open Sans', 'Segoe UI', 'Verdana', sans-serif;
+    font-size: 1.1em;
+    color: #666;
+    padding: 3px 5px;
+    border: 1px solid #999;
+    margin: 0 5px 10px;
+    border-radius: 2px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #999;
+    background: #f2f2f2;
+    color: #333;
+}
+
+a.btn:hover,
+button:hover,
+input[type=submit]:hover,
+input[type=button]:hover {
+    cursor: pointer;
+    background: #777;
+    color: #fff;
+    border-color: #000;
+}
+/** FORMULÀRIO - FIM ***/
+
+div.div-450 {
+    margin: 10px auto;
+    width: 450px;
+}
+
+/** Loading **/
+
+div.carregando,
+div.loading {
+   display: none;
+   position: fixed;
+   top: 85px;
+   right: 5px;
+   text-align: center;
+   z-index: 9999;
+   padding: 5px 10px;
+   background: #eee;
+   color: #555;
+   border: 1px solid #999;
+}
+
+div.carregando img,
+div.loading img {
+   vertical-align: top;
+   padding: 5px 0;
+}
+

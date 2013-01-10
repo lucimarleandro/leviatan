@@ -5,7 +5,7 @@ $this->Html->addCrumb('Tipos de Grupos', array('controller'=>'group_types', 'act
 $this->Html->addCrumb('Adicionar', array('controller'=>'group_types', 'action'=>'add'));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'group_types', 'action'=>'index'),
 	array('escape'=>false)		
 );

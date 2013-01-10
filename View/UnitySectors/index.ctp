@@ -15,7 +15,7 @@ $this->Html->addCrumb('Unidades-Setores', array('controller'=>'unity_sectors', '
 <?php if(empty($unitySectors)) {?>
 	<h3><?php echo __('Não há relação de unidade com os setores');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -29,10 +29,10 @@ $this->Html->addCrumb('Unidades-Setores', array('controller'=>'unity_sectors', '
 				<tr>
 					<td><?php echo $us['Unity']['name'];?></td>
 					<td><?php echo $us['Sector']['name'];?></td>
-					<td>
+					<td class="acoes">
 						<?php 
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'unity_sectors', 'action'=>'delete', $us['UnitySector']['id']),
 							array(
 								'escape'=>false, 

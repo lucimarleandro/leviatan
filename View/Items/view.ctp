@@ -4,7 +4,7 @@ $this->Html->addCrumb('Itens', array('controller'=>'items', 'action'=>'index'));
 $this->Html->addCrumb('Visualizar', array('controller'=>'items', 'action'=>'view', $item['Item']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	'javascript:window.history.go(-1)',
 	array('escape'=>false)
 );
@@ -40,6 +40,6 @@ echo $this->Html->link(
 		<dt><?php echo __('Especifição');?></dt>
 		<dd><?php echo $item['Item']['specification'];?></dd>
 		<dt><?php echo __('Imagem')?></dt>
-		<dd><?php echo $item['Item']['image_path'] == null ? $this->Html->image('no-image') : $this->Html->image('items'.DS.$item['Item']['image_path']);?></dd>
+		<dd><?php echo $item['Item']['image_path'] == null ? $this->Html->image('no-image.png') : $this->Html->image('items'.DS.$item['Item']['image_path']);?></dd>
 	</dl>	
 </div>

@@ -6,7 +6,7 @@ $this->Html->addCrumb('Itens', array('controller'=>'solicitation_items', 'action
 <?php
 if(!$ajax) { 
 	echo $this->Html->link(
-		$this->Html->image('back'),
+		$this->Html->image('back.png'),
 		array('controller'=>'solicitations', 'action'=>'analyze'),
 		array('escape'=>false, 'title'=>'Retorna para a lista de solicitações')
 	);
@@ -24,7 +24,7 @@ if(!$ajax) {
             <p><?php echo '<b>Nº memorando: </b>'.$solicitationItems[0]['Solicitation']['memo_number']; ?></p>
             <?php echo $solicitationItems[0]['Solicitation']['description']; ?>
         </div>   
-        <div class="tab-pane well" id="items">
+        <div style="overflow: hidden;" class="tab-pane" id="items">
             <?php echo $this->element('ajax/solicitation_items/analyze');?>
         </div>
         <div class="tab-pane well" id="attachment">

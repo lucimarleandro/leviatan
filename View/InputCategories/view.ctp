@@ -5,7 +5,7 @@ $this->Html->addCrumb('Categorias de Insumos', array('controller'=>'input_catego
 $this->Html->addCrumb('Visualizar', array('controller'=>'input_categories', 'action'=>'view', $category['InputCategory']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	'javascript:window.history.go(-1)',
 	array('escape'=>false)
 );

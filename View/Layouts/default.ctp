@@ -15,7 +15,7 @@
 		echo $this->Html->css(array('jquery-ui-1.9.0.custom'));
 		echo $this->Html->css(array('leviatan', 'chosen'));
 		
-		echo $this->Html->script(array('jquery-1.8.0.min', 'jquery-ui-1.9.0.custom.min', 
+		echo $this->Html->script(array('jquery-1.8.3.min', 'jquery-ui-1.9.0.custom.min', 
 				'jquery.validate.min', 'jquery.maskedinput-1.3.min', 'chosen.jquery.min'));
 		echo $this->Html->script(array('functions'));
 		echo $this->Html->script(array('bootstrap.min'));

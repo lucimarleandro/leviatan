@@ -15,7 +15,7 @@ $this->Html->addCrumb('Funcionários', array('controller'=>'employees', 'action'
 <?php if(empty($employees)) {?>
 	<h3><?php echo __('Não há funcionários');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -39,10 +39,10 @@ $this->Html->addCrumb('Funcionários', array('controller'=>'employees', 'action'
 					<td><?php echo $employee['Employee']['name'];?></td>
 					<td><?php echo $employee['Employee']['email']?></td>
 					<td><?php echo $employee['Employee']['phone'];?></td>
-					<td>
+                    <td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
+							$this->Html->image('edit.png'),
 							array('controller'=>'employees', 'action'=>'edit', $employee['Employee']['id']),
 							array(
 								'escape'=>false, 
@@ -51,7 +51,7 @@ $this->Html->addCrumb('Funcionários', array('controller'=>'employees', 'action'
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'employees', 'action'=>'delete', $employee['Employee']['id']),
 							array(
 								'escape'=>false, 

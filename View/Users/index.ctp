@@ -14,13 +14,14 @@ $this->Html->addCrumb('Usuários', array('controller'=>'users', 'action'=>'index
 <?php if(empty($users)) {?>
 	<h3><?php echo __('Não há usuários');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
 					<th><?php echo __('Grupo')?></th>
 					<th><?php echo __('Login');?></th>
 					<th><?php echo __('Nome');?></th>
+                    <th><?php echo __('Ação');?></th>
 				</tr>
 			</thead>	
 			<tbody>
@@ -36,10 +37,10 @@ $this->Html->addCrumb('Usuários', array('controller'=>'users', 'action'=>'index
 					?>
 					</td>
 					<td><?php echo $user['Employee']['name'].' '.$user['Employee']['surname'];?></td>
-					<td>
+					<td class="acoes">
 						<?php 
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'users', 'action'=>'delete', $user['User']['id']),
 							array(
 								'escape'=>false, 

@@ -15,7 +15,7 @@ $this->Html->addCrumb('Setores', array('controller'=>'sectors', 'action'=>'index
 <?php if(empty($sectors)) {?>
 	<h3><?php echo __('Não há Setores');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -34,10 +34,10 @@ $this->Html->addCrumb('Setores', array('controller'=>'sectors', 'action'=>'index
 					);
 					?>
 					</td>
-					<td>
+					<td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
+							$this->Html->image('edit.png'),
 							array('controller'=>'sectors', 'action'=>'edit', $sector['Sector']['id']),
 							array(
 								'escape'=>false, 
@@ -46,7 +46,7 @@ $this->Html->addCrumb('Setores', array('controller'=>'sectors', 'action'=>'index
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'sectors', 'action'=>'delete', $sector['Sector']['id']),
 							array(
 								'escape'=>false, 

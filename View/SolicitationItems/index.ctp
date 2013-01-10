@@ -5,7 +5,7 @@ $this->Html->addCrumb('Solicitar', array('controller'=>'solicitation_items', 'ac
 ?>
 <?php if(!$ajax) {?>
 <div class="box">
-	<?php echo $this->element('box_search');?>
+	<?php echo $this->element('box_search', array('allItems'=>array('controller'=>'solicitation_items', 'action'=>'index')));?>
 	<?php echo $this->Form->input('url', array('type'=>'hidden', 'id'=>'url', 'value'=>'/solicitation_items/index'));?>
 	<div id="items">
 		<?php echo $this->element('ajax/solicitation_items/index');?>

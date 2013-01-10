@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-	<?php echo $this->Html->image('smsjp-logo');?>
+	<?php echo $this->Html->image('smsjp-logo.png');?>
 	<p style="padding-top:5px; font-weight: bold;;">
 	PREFEITURA MUNICIPAL DE JOÃO PESSOA
 	<br>

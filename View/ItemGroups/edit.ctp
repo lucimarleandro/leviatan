@@ -5,7 +5,7 @@ $this->Html->addCrumb('Grupos dos itens', array('controller'=>'item_groups', 'ac
 $this->Html->addCrumb('Editar', array('controller'=>'item_groups', 'action'=>'edit', $this->request->data['ItemGroup']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'item_groups', 'action'=>'index'),
 	array('escape'=>false)		
 );

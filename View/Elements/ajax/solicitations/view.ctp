@@ -14,7 +14,7 @@
             <?php foreach($solicitation AS $item): ?>
                 <tr>
                     
-                    <td style="white-space: nowrap"><?php echo $item['Item']['keycode']; ?></td>
+                    <td class="acoes"><?php echo $item['Item']['keycode']; ?></td>
                     <td>
                         <?php
                         echo $this->Html->link(
@@ -25,15 +25,15 @@
                     <td><?php echo $item['Unity']['name']; ?></td>
                     <td><?php echo $item['Sector']['name']; ?></td>
                     <td><?php echo $item['SolicitationItem']['quantity'] ?></td>
-                    <td>
+                    <td class="acoes">
                         <?php
                         if($item['SolicitationItem']['status_id'] == APROVADO) {
-                            echo $this->Html->image('check', array('title' => 'O item foi aprovado'));
+                            echo $this->Html->image('check.png', array('title' => 'O item foi aprovado'));
                         }elseif($item['SolicitationItem']['status_id'] == PENDENTE) {
-                            echo $this->Html->image('pending', array('title' => 'O item está em processo de análise'));
+                            echo $this->Html->image('pending.png', array('title' => 'O item está em processo de análise'));
                         }elseif($item['SolicitationItem']['status_id'] == NEGADO) {
                             echo $this->Html->link(
-                                    $this->Html->image('deny'), 'javascript:void(0)', array(
+                                    $this->Html->image('deny.png'), 'javascript:void(0)', array(
                                 'escape' => false,
                                 'class' => 'deny-visualization',
                                 'value' => $item['SolicitationItem']['id'],

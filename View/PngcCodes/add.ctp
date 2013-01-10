@@ -5,7 +5,7 @@ $this->Html->addCrumb('PNGC', array('controller'=>'pngc_codes', 'action'=>'index
 $this->Html->addCrumb('Adicionar', array('controller'=>'pngc_codes', 'action'=>'add'));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'pngc_codes', 'action'=>'index'),
 	array('escape'=>false)		
 );

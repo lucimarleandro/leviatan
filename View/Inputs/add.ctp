@@ -5,7 +5,7 @@ $this->Html->addCrumb('Insumos', array('controller'=>'inputs', 'action'=>'index'
 $this->Html->addCrumb('Adicionar', array('controller'=>'inputs', 'action'=>'add'));
  
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'inputs', 'action'=>'index'),
 	array('escape'=>false)		
 );

@@ -41,11 +41,11 @@ $this->Html->addCrumb('Solicitações', array('controller'=>'solicitations', 'ac
                     <?php foreach($solicitations AS $solicitation):?>
                     <?php echo $this->Form->input('solicitation_id', array('type'=>'hidden', 'value'=>$solicitation['Solicitation']['id'], 'class'=>'solicitation_id', 'id'=>false));?>
                     <tr>
-                        <td>
+                        <td class="acoes">
                         <?php echo $solicitation['Solicitation']['keycode'];?>
                         <?php 
                         echo $this->Html->link(
-                            $this->Html->image('next'), 
+                            $this->Html->image('next.png'), 
                             array('controller'=>'solicitation_items', 'action'=>'analyze', $solicitation['Solicitation']['id']),
                             array('escape'=>false, 'title'=>'Analisar itens da solicitação')
                         );
@@ -58,9 +58,9 @@ $this->Html->addCrumb('Solicitações', array('controller'=>'solicitations', 'ac
                         <td>
                             <?php 
                             if(in_array($solicitation['Solicitation']['id'], $pending)) {
-                                echo $this->Html->image('pending', array('title'=>'A solicitação possui algum item que não foi analisado'));
+                                echo $this->Html->image('pending.png', array('title'=>'A solicitação possui algum item que não foi analisado'));
                             }else {
-                                echo $this->Html->image('check', array('title'=>'A solicitação não possui itens a serem analisados'));
+                                echo $this->Html->image('check.png', array('title'=>'A solicitação não possui itens a serem analisados'));
                             }							
                             ?>
                         </td>

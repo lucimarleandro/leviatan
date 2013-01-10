@@ -5,7 +5,7 @@ $this->Html->addCrumb('Distritos Sanitários', array('controller'=>'health_distr
 $this->Html->addCrumb('Adicionar', array('controller'=>'health_districts', 'action'=>'add'));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'health_districts', 'action'=>'index'),
 	array('escape'=>false)		
 );

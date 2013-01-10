@@ -4,7 +4,7 @@ $this->Html->addCrumb('Usuários', array('controller'=>'users', 'action'=>'index
 $this->Html->addCrumb('Perfil', array('controller'=>'users', 'action'=>'profile', $profile['User']['id']));
  
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'items', 'action'=>'home'),
 	array('escape'=>false)		
 );

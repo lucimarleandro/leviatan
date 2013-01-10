@@ -1,7 +1,7 @@
 <?php if (empty($classes)) { ?>
     <h3><?php echo __('Não há Classes dos Itens'); ?>
     <?php } else { ?>
-        <div class="box-content well">
+        <div class="box-content">
             <table id="table" class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -33,7 +33,7 @@
                                 );
                                 ?>
                             </td>
-                            <td style="white-space: nowrap;">
+                            <td class="acoes">
                                 <?php
                                 echo $this->Html->link(
                                         $this->Html->image('edit'), array('controller' => 'item_classes', 'action' => 'edit', $class['ItemClass']['id']), array(

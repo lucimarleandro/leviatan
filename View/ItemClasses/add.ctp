@@ -5,7 +5,7 @@ $this->Html->addCrumb('Classes dos Itens', array('controller'=>'item_classes', '
 $this->Html->addCrumb('Adicionar', array('controller'=>'item_classes', 'action'=>'add'));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'item_classes', 'action'=>'index'),
 	array('escape'=>false)		
 );

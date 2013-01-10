@@ -5,7 +5,7 @@ $this->Html->addCrumb('Unidade', array('controller'=>'unities', 'action'=>'index
 $this->Html->addCrumb('Editar', array('controller'=>'unities', 'action'=>'edit', $this->request->data['Unity']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'unities', 'action'=>'index'),
 	array('escape'=>false)		
 );

@@ -174,10 +174,9 @@ class UsersController extends AppController {
  * Enter description here ...
  */
     public function login() {
-        $this->autoRender = false;
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
-                $this->redirect($this->Auth->redirect());
+                $this->redirect($this->Auth->loginRedirect);
             } else {
                 $this->Session->setFlash(__('Usuário ou senha incorretos.'), 'default', array('class' => 'alert alert-error'));
                 $this->redirect($this->referer());
@@ -190,12 +189,8 @@ class UsersController extends AppController {
  * Enter description here ...
  */
     public function logout() {
-        // Destruindo a sessão
-        if ($this->Session->valid()) {
-            $this->Session->destroy();
-            $this->Session->setFlash(__('Adeus'), 'default', array('class' => 'alert alert-success'));
-            $this->redirect('/');
-        }
+        $this->Session->setFlash(__('Adeus'), 'default', array('class' => 'alert alert-success'));
+        $this->redirect($this->Auth->logout());
     }
 
 /**

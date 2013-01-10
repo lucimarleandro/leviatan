@@ -1,5 +1,5 @@
 <?php 
-$this->Html->addCruumb('Home', array('controller'=>'items', 'action'=>'home'));
+$this->Html->addCrumb('Home', array('controller'=>'items', 'action'=>'home'));
 $this->Html->addCrumb('Gerência', array('controller'=>'manager', 'action'=>'index'));
 $this->Html->addCrumb('Distritos Sanitários', array('controller'=>'health_districts', 'action'=>'index'));
 ?>
@@ -16,7 +16,7 @@ $this->Html->addCrumb('Distritos Sanitários', array('controller'=>'health_distr
 <?php if(empty($districts)) {?>
 	<h3><?php echo __('Não há Distritos Sanitários');?>
 <?php } else {?>
-	<div class="box-content well">
+	<div class="box-content">
 		<table id="table" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -35,10 +35,10 @@ $this->Html->addCrumb('Distritos Sanitários', array('controller'=>'health_distr
 					);
 					?>
 					</td>
-					<td>
+					<td class="acoes">
 						<?php 
 						echo $this->Html->link(
-							$this->Html->image('edit'),
+							$this->Html->image('edit.png'),
 							array('controller'=>'health_districts', 'action'=>'edit', $district['HealthDistrict']['id']),
 							array(
 								'escape'=>false, 
@@ -47,7 +47,7 @@ $this->Html->addCrumb('Distritos Sanitários', array('controller'=>'health_distr
 							)
 						);						
 						echo $this->Form->postLink(
-							$this->Html->image('delete'),
+							$this->Html->image('delete.png'),
 							array('controller'=>'health_districts', 'action'=>'delete', $district['HealthDistrict']['id']),
 							array(
 								'escape'=>false, 

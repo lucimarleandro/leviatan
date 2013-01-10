@@ -1,37 +1,48 @@
-<?php if (empty($items)) { ?>
-    <h3><?php echo __('Não há Itens'); ?></h3>
-<?php } else { ?>
-    <div class="box-content">
-        <div class="dataTables_wrapper" role="grid">
-            <table id="table" class="table table-bordered table-hover">
-                <thead>
+<div class="box-content">
+    <div class="dataTables_wrapper" role="grid">
+        <table id="table" class="table table-bordered table-hover" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Classe</th>
+                    <th>PNGC</th>
+                </tr>
+            </thead>	
+            <tbody>
+                <?php if(empty($items)) { ?>
                     <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>Classe</th>
-                        <th>PNGC</th>
+                        <td colspan="4">Não há itens</td>
                     </tr>
-                </thead>	
-                <tbody>
-                    <?php foreach ($items AS $item): ?>
-                        <tr>
-                            <td style="white-space: nowrap"><?php echo $item['Item']['keycode']; ?></td>
-                            <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])); ?></td>
-                            <td><?php echo $this->Html->link($item['ItemClass']['keycode'], array('controller' => 'item_classes', 'action' => 'view', $item['Item']['item_class_id'])); ?></td>
-                            <td><?php echo $this->Html->link($item['PngcCode']['keycode'], array('controller' => 'pngc_codes', 'action' => 'view', $item['Item']['pngc_code_id'])); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>	
-            </table>
-        </div>
-    </div>	
-    <?php
-    echo $this->Paginator->options(array(
-        'update' => '#items',
-        'evalScript' => true
-            )
-    );
-    ?>
-    <?php echo $this->element('pagination'); ?>
-<?php
-}?>
+                <?php                 
+                }else {
+                    foreach ($items AS $item): 
+                ?>
+                    <tr>
+                        <td class="centralizado nowrap"><?php echo $item['Item']['keycode']; ?></td>
+                        <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])); ?></td>
+                        <td class="centralizado"><?php echo $this->Html->link($item['ItemClass']['keycode'], array('controller' => 'item_classes', 'action' => 'view', $item['Item']['item_class_id'])); ?></td>
+                        <td class="centralizado"><?php echo $this->Html->link($item['PngcCode']['keycode'], array('controller' => 'pngc_codes', 'action' => 'view', $item['Item']['pngc_code_id'])); ?></td>
+                    </tr>
+                <?php 
+                    endforeach; 
+                }
+                ?>
+            </tbody>	
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <?php
+                        echo $this->Paginator->options(array(
+                                'update' => '#items',
+                                'evalScript' => true
+                            )
+                        );
+                        echo $this->element('pagination'); 
+                        ?>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>	

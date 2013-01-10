@@ -5,7 +5,7 @@ $this->Html->addCrumb('Setores', array('controller'=>'sectors', 'action'=>'index
 $this->Html->addCrumb('Editar', array('controller'=>'sectors', 'action'=>'edit', $this->request->data['Sector']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'sectors', 'action'=>'index'),
 	array('escape'=>false)		
 );

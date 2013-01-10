@@ -5,7 +5,7 @@ $this->Html->addCrumb('Unidades de Medidas', array('controller'=>'measure_types'
 $this->Html->addCrumb('Adicionar', array('controller'=>'measure_types', 'action'=>'add'));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	array('controller'=>'measure_types', 'action'=>'index'),
 	array('escape'=>false)		
 );

@@ -6,7 +6,7 @@ $this->Html->addCrumb('Unidades de Medidas', array('controller'=>'expense_groups
 $this->Html->addCrumb('Visualizar', array('controller'=>'expense_groups', 'action'=>'view', 'id'=>$group['ExpenseGroup']['id']));
 
 echo $this->Html->link(
-	$this->Html->image('back'),
+	$this->Html->image('back.png'),
 	'javascript:window.history.go(-1)',
 	array('escape'=>false)
 );
