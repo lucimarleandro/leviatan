@@ -9,7 +9,7 @@ App::uses('AppController', 'Controller');
  */
 class ItemsController extends AppController {
 
-    public $uses = array('Item', 'ItemGroup', 'ItemClass', 'PngcCode', 'HeadOrder');
+    public $uses = array('Item', 'ItemGroup', 'ItemClass', 'PngcCode', 'HeadOrder', 'CartItem');
     public $components = array('Upload');
     public $helpers = array('Tinymce');
 
@@ -71,7 +71,7 @@ class ItemsController extends AppController {
                     'HeadOrder.unity_sector_id'=>$unitySectorId
                 )
             ),
-             array(
+            array(
                 'table'=>'pngc_codes',
                 'alias'=>'PngcCode',
                 'type'=>'INNER',
@@ -337,7 +337,7 @@ class ItemsController extends AppController {
         $this->request->data = $this->Item->read();
         $groups = $this->__getItemGroupsBySector();
         $pngcCodes = $this->__getPngcCodes();
-
+        
         $this->set(compact('groups', 'pngcCodes'));
     }
 
@@ -350,7 +350,7 @@ class ItemsController extends AppController {
 
         $this->Item->recursive = -1;
         $this->Item->id = $id;
-
+        
         if ($this->request->is('GET')) {
             $this->Session->setFlash(__('Requisição inválida'), 'default', array('class' => 'alert alert-error'));
             $this->redirect(array('controller' => 'items', 'action' => 'index'));
@@ -369,7 +369,7 @@ class ItemsController extends AppController {
             $this->Session->setFlash(__('Erro ao remover'), 'default', array('class' => 'alert alert-error'));
         }
 
-        $this->redirect(array('controller' => 'items', 'action' => 'index'));
+        $this->redirect(array('controller' => 'items', 'action' => 'index', PENDENTE));
     }
 
 /**
@@ -430,11 +430,26 @@ class ItemsController extends AppController {
         if ($this->request->is('ajax')) {
             $this->Item->id = $this->request->data['item_id'];
             $status_id = $this->request->data['status_id'];
-
+            
             if ($this->Item->saveField('status_id', $status_id, false)) {
-                $result = true;
+                /* Quando um item é desativo verifica se está no carrinho de alguém 
+                 * e informa ao homologador que ele ainda poderá aparecer em algumas das 
+                 * solicitações atuais
+                */
+                if($status_id == INATIVO) {
+                    $this->CartItem->recursive = -1;
+                    $cart = $this->CartItem->find('count', array('conditions'=>array('CartItem.item_id'=>$this->Item->id)));
+                    
+                    if($cart == 0) {
+                        $result = array('return'=>true);
+                    }else {
+                        $result = array('return'=>true, 'message'=>__('O item foi inativado, porém ele ainda poderá aparecer em algumas das solicitações atuais.'));
+                    }
+                }else {
+                    $result = array('return'=>true);
+                }                
             } else {
-                $result = false;
+                $result = array('return'=>false, 'message'=>__('Não foi possível salvar o registro. Entre em contato com o administrador do sistema.'));
             }
 
             echo json_encode($result);
@@ -696,5 +711,5 @@ class ItemsController extends AppController {
 
         return $keycode;
     }
-
+    
 }

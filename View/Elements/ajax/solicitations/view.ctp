@@ -18,7 +18,13 @@
                     <td>
                         <?php
                         echo $this->Html->link(
-                                $item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])
+                                $item['Item']['name'],
+                                'javascript:void(0);',
+                                array(
+                                    'id'=>'view',
+                                    'data-controller'=>'items',
+                                    'data-id'=>$item['Item']['id']
+                                )
                         );
                         ?>
                     </td>

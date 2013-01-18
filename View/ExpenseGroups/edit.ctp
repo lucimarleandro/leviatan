@@ -32,13 +32,21 @@ echo $this->Html->link(
 				<label class="control-label" for="Descrição do grupo de gasto">Descrição</label>
 				<div class="controls">
 					<?php 
-					echo $this->Form->input('description', 
-						array(
-							'label'=>false, 
-							'class'=>'input-xxlarge'							
-						)
-					);
-					?>
+                    echo $this->Tinymce->input('ExpenseGroup.description', 
+                        array(
+                            'label'=>false,
+                            'class'=>'span9',
+                            'rows'=>10
+                        ),array(
+                            'language'=>'pt',
+                            'onchange_callback'=>'function(editor) {
+                                tinyMCE.triggerSave();
+                                $("#" + editor.id).valid();
+                            }'
+                        ),
+                        'basic'
+                    );
+                    ?>
 				</div>
 			</div>
 			<div class="form-actions">

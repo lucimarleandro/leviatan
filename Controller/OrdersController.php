@@ -239,7 +239,7 @@ class OrdersController extends AppController {
             $data[$key] = $solicitation;
             $data[$key]['solicitation_items'] = $items;
         endforeach;
-        
+
         //Consolidado
         $items = array();
         $columns = array();
@@ -295,6 +295,9 @@ class OrdersController extends AppController {
         $options['conditions'] = array(
             'SolicitationItem.solicitation_id' => $solicitation_id,
             'SolicitationItem.id' => $solicitation_items
+        );
+        $options['order'] = array(
+            'Item.keycode'=>'ASC'
         );
 
         return $options;

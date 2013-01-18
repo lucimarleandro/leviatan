@@ -40,6 +40,22 @@ $(document).ready(function() {
             }
         );		
     });       
+    
+    $('#view').die('click');
+    $('#view').live('click', function(){
+        var controller = $(this).data('controller');
+        var action = 'view';
+        var id = $(this).data('id');
+        var url = forUrl('/'+controller+'/'+action+'/'+id);
+
+        $.ajax({
+            url: url,
+            success: function(result) {
+                $('.modal-body').html(result);
+                $('#modalView').modal('show');
+            }
+        });
+    });
 });
 
 var noLoading = false;

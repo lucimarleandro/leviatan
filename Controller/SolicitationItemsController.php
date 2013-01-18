@@ -208,6 +208,33 @@ class SolicitationItemsController extends AppController {
         $this->set('solicitation_id', $solicitation_id);
         $this->set(compact('solicitationItems', 'ajax'));
     }
+    
+/**
+ * Lista os itens que estão sendo pedidos na rede
+ * juntamente com suas quantidades
+ */
+    public function network() {
+        
+        $this->SolicitationItem->recursive = 0;
+        
+        $options['conditions'] = array(
+            'SolicitationItem.status_id'=>PENDENTE
+        );
+        $options['fields'] = array(
+            'Item.id', 'Item.keycode', 'Item.name', 'sum(SolicitationItem.quantity) as sum'
+        );
+        $options['order'] = array(
+            'Item.keycode'=>'ASC'
+        );
+        $options['group'] = array(
+            'SolicitationItem.item_id'
+        );
+        $options['limit'] = 10;
+        
+        $data = $this->SolicitationItem->find('all', $options);
+        
+        $this->set(compact('data'));
+    }
 
 /**
  * 

@@ -20,7 +20,13 @@
                         <td>
                             <?php
                             echo $this->Html->link(
-                                $solicitationItem['Item']['name'], array('controller' => 'items', 'action' => 'view', $solicitationItem['Item']['id'])
+                                $solicitationItem['Item']['name'], 
+                                'javascript:void(0);',
+                                array(
+                                    'id'=>'view',
+                                    'data-controller'=>'items',
+                                    'data-id'=>$solicitationItem['Item']['id']
+                                )
                             );
                             ?>
                         </td>

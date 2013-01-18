@@ -123,11 +123,6 @@ class UsersController extends AppController {
     public function profile($user_id = null) {
 
         $this->User->id = $user_id;
-        if (!$this->request->is('POST')) {
-            $this->Session->setFLash(__('Requisição inválida'), 'default', array('class' => 'alert alert-error'));
-            $this->redirect(array('controller' => 'items', 'action' => 'home'));
-        }
-
         if ($this->Auth->user('id') != $user_id) {
             $this->Session->setFLash(__('Você não pode editar o perfil de outro usuário'), 'default', array('class' => 'alert alert-error'));
             $this->redirect(array('controller' => 'items', 'action' => 'home'));
@@ -182,6 +177,7 @@ class UsersController extends AppController {
                 $this->redirect($this->referer());
             }
         }
+        $this->set('noLink', true);
     }
 
 /**

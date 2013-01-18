@@ -1,22 +1,24 @@
-<?php if (empty($items)) { ?>
-    <h3><?php echo __('Não há Itens'); ?></h3>
-<?php } else { ?>
-    <div class="box-content">
-        <div>
-            <table id="table" class="table table-bordered table-hover">
-                <thead>
+<div class="box-content">
+    <div>
+        <table id="table" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <?php  if($user['group_id'] == HOMOLOGADOR) { ?>
+                        <th></th>
+                    <?php } ?>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Classe</th>
+                    <th>PNGC</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>	
+            <tbody>
+                <?php if(empty($items)) {?>
                     <tr>
-                        <?php  if($user['group_id'] == HOMOLOGADOR) { ?>
-                            <th><?php echo $this->Form->checkbox('checkall') ?></th>
-                        <?php } ?>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>Classe</th>
-                        <th>PNGC</th>
-                        <th>Ações</th>
+                        <th colspan="6">Não há itens</th> 
                     </tr>
-                </thead>	
-                <tbody>
+                <?php }else {?>
                     <?php foreach ($items AS $item): ?>
                         <tr>
                             <?php  if($user['group_id'] == HOMOLOGADOR) { ?>
@@ -30,13 +32,51 @@
                                             )
                                         );    
                                     }
+                                    echo $this->Form->input('page', array('id'=>'page', 'type'=>'hidden', 'value'=>$this->Paginator->current()));
                                 ?>
                             </td>
                             <?php } ?>
                             <td style="white-space: nowrap"><?php echo $item['Item']['keycode']; ?></td>
-                            <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])); ?></td>
-                            <td><?php echo $this->Html->link($item['ItemClass']['keycode'], array('controller' => 'item_classes', 'action' => 'view', 'id'=>$item['Item']['item_class_id'])); ?></td>
-                            <td><?php echo $this->Html->link($item['PngcCode']['keycode'], array('controller' => 'pngc_codes', 'action' => 'view', 'id'=>$item['Item']['pngc_code_id'])); ?></td>
+                            <td>
+                                <?php
+                                echo $this->Html->link(
+                                    $item['Item']['name'], 
+                                    'javascript:void(0)', 
+                                    array(
+                                        'id'=>'view', 
+                                        'data-controller'=>'items',
+                                        'data-id'=>$item['Item']['id']
+                                    )
+                                ); 
+                                ?>
+                            </td>
+                            <td>
+                                <?php 
+                                echo 
+                                $this->Html->link(
+                                    $item['ItemClass']['keycode'], 
+                                    'javascript:void(0)',
+                                    array(
+                                        'id'=>'view',
+                                        'data-controller'=>'item_classes',
+                                        'data-id'=>$item['ItemClass']['id']
+                                    )
+                                );
+                                ?>
+                            </td>
+                            <td>
+                                <?php 
+                                echo $this->Html->link(
+                                    $item['PngcCode']['keycode'], 
+                                    'javascript:void(0);',
+                                    array(
+                                        'id'=>'view',
+                                        'data-controller'=>'pngc_codes',
+                                        'data-id'=>$item['PngcCode']['id']
+                                    )
+                                ); 
+                                ?>
+                            </td>
                             <td class="acoes">
                                 <?php
                                 if($item['Item']['status_id'] == PENDENTE) {
@@ -70,19 +110,18 @@
                                 ?>
                             </td>
                         </tr>
-                            <?php endforeach; ?>
-                </tbody>	
-            </table>
-        </div>
-    </div>	
-    <?php
-    echo $this->Paginator->options(array(
+                    <?php endforeach; ?>
+                <?php }?>
+            </tbody>	
+        </table>
+    </div>
+</div>	
+<?php
+echo $this->Paginator->options(
+    array(
         'update' => '#items',
         'evalScript' => true
-            )
-    );
-    ?>
-    <?php echo $this->element('pagination'); ?>
-<?php
-}
+    )
+);
 ?>
+<?php echo $this->element('pagination'); ?>

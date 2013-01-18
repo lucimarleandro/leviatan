@@ -282,6 +282,13 @@ table thead tr th {
     color: #FFF;
 }
 
+table caption {
+    padding: 8px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
 a:hover .popout {
     display: block;
 }

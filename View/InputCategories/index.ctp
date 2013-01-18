@@ -38,10 +38,7 @@ $this->Html->addCrumb('Categorias de Insumos', array('controller'=>'input_catego
 					</td>
 					<td>
 					<?php 
-					echo $this->Html->link(
-						$category['InputCategory']['description'],
-						array('controller'=>'input_categories', 'action'=>'view', $category['InputCategory']['id'])
-					);
+                    echo $category['InputCategory']['description'];
 					?>
 					</td>
 					<td class="acoes">

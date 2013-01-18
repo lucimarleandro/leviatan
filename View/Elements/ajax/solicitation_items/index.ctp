@@ -14,7 +14,19 @@
                 <?php foreach ($items AS $item): ?>
                     <tr>
                         <td><?php echo $item['Item']['keycode']; ?></td>
-                        <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])); ?></td>
+                        <td>
+                            <?php 
+                            echo $this->Html->link(
+                                $item['Item']['name'], 
+                                'javascript:void(0);',
+                                array(
+                                    'id'=>'view',
+                                    'data-controller'=>'items',
+                                    'data-id'=>$item['Item']['id']
+                                )
+                            ); 
+                            ?>
+                        </td>
                         <td>
                             <?php
                             if (in_array($item['Item']['id'], $cart_items)) {
@@ -42,26 +54,3 @@
     ?>
     <?php echo $this->element('pagination'); ?>
 <?php } ?>
-
-<script>
-    $('.request-item').die();
-    $('.request-item').live('click', function(e){
-        e.preventDefault();
-
-        var element = $(this).parent();	
-        var item_id = $(this).attr('value');
-        var url = forUrl('/cart_items/add');
-
-        $.ajax({
-            type: 'POST',
-            dataType: 'JSON',
-            url: url,
-            data:{item_id: item_id},
-            success: function(result){
-                if(result['return']) {
-                    element.html('<?php echo $this->Html->image('shopping-cart.png', array('alt' => 'carrinho', 'title' => 'Item no carrinho de solicitações')) ?>');
-                }
-            }
-        });	
-    });
-</script>

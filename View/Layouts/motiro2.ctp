@@ -59,11 +59,15 @@ $title = empty($title_for_layout) ? $cfg['nome'] : "{$title_for_layout} :: {$cfg
                         <span class="block"><?php echo $user['Employee']['name'];?></span>
                     </div>
                     <div class="links">
-                        <a href="javascript:;">alterar dados</a>
-                        |
-                        <a href="javascript:;">alterar senha</a>
+                        <?php echo $this->Html->link('alterar dados', array('controller'=>'users', 'action'=>'profile', $user['id'])); ?>
                         |
                         <?php echo $this->Html->link('sair', array('controller'=>'users', 'action'=>'logout')); ?>
+                    </div>
+                </div>
+            <?php }else if(!isset($noLink)) { ?>
+                <div class="cracha direita">
+                    <div class="links">
+                        <?php echo $this->Html->link('Fazer login', array('controller'=>'users', 'action'=>'login')); ?>
                     </div>
                 </div>
             <?php } ?>
@@ -91,6 +95,19 @@ $title = empty($title_for_layout) ? $cfg['nome'] : "{$title_for_layout} :: {$cfg
             <div class="direita">
                 <?php echo $this->Html->image('cdilogo64.png', array('alt'=>'CDI/SMSJP')); ?>
                 <?php echo $this->Html->image('smsjplogo64a.png', array('alt'=>'SMS/PMJP')); ?>
+            </div>
+        </div>
+        
+        <div id="modalView" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Descrição</h3>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
             </div>
         </div>
         

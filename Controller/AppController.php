@@ -77,7 +77,7 @@ class AppController extends Controller {
         //Configure AuthComponent
         $this->Auth->loginAction = array('controller'=>'users', 'action'=>'login');
         $this->Auth->loginRedirect = array('controller'=>'items', 'action'=>'home');
-        $this->Auth->logoutRedirect = array('controller'=>'users', 'action'=>'login');
+        $this->Auth->logoutRedirect = array('controller'=>'items', 'action'=>'home');
         // Mensagens de erro
         $this->Auth->authError = '<div class="alert alert-error">' . __('Você precisa fazer login ou não tem autorização para acessar esta página', true) . '</div>';
 
@@ -158,6 +158,7 @@ class AppController extends Controller {
         foreach ($lista_menus as $menu) {
             $menu = $menu['Navigation'];
             $url = json_decode($menu['url'], true);
+            $text = $menu['text'];
 
             // Força a comparação quando for definida a regra de comparação.
             // Quando o link não possui regra de comparação, então só faz a
@@ -171,8 +172,11 @@ class AppController extends Controller {
             
             // Verifica se há notificador para esse menu.
             if (isset($menu['notify'])) {
-                if (method_exists($this, $menu['notify']))
-                    $notify = $this->{$menu['notify']}();
+                $obj = json_decode($menu['notify']);
+                $method = $obj->method;
+                $params = isset($obj->params) ? $obj->params : null;
+                if(method_exists($this, $method))
+                    $notify = $this->{$method}($params);
             }
 
             // Estrutura o array do menu
@@ -204,11 +208,14 @@ class AppController extends Controller {
                 $url = json_decode($sub['url'], true);
                 $text = $sub['text'];
                 $isActive = (is_array($url) && count(array_diff_assoc($url, $activeLink)) == 0);
-                
+
                 // Verifica se há notificador para esse menu.
                 if (isset($sub['notify'])) {
-                    if (method_exists($this, $sub['notify']))
-                        $text .= " ({$this->{$sub['notify']}()})";
+                    $obj = json_decode($sub['notify']);
+                    $method = $obj->method;
+                    $params = $obj->params;
+                    if (method_exists($this, $method))
+                        $text .= " ({$this->{$method}($params)})";
                 }
 
                 $submenu[] = array(
@@ -220,7 +227,7 @@ class AppController extends Controller {
                 unset($sub, $url, $text, $isActive);
             }
         }
-        
+
         $this->set(compact('menus', 'submenu'));
     }
     
@@ -303,6 +310,20 @@ class AppController extends Controller {
         $pending = $this->CartItem->find('count', $options);
         
         return $pending;
+    }
+    
+/**
+ * 
+ */
+    private function __getCountItems($status_id = null) {
+        
+        $options['conditions'] = array(
+            'Item.status_id'=>$status_id
+        );
+        
+        $count = $this->Item->find('count', $options);
+        
+        return $count;
     }
     
 }

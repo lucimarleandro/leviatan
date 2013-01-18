@@ -38,10 +38,7 @@ $this->Html->addCrumb('Subcategorias de Insumos', array('controller'=>'input_sub
 					</td>
 					<td>
 					<?php 
-					echo $this->Html->link(
-						$subcategory['InputSubcategory']['description'],
-						array('controller'=>'input_subcategories', 'action'=>'view', $subcategory['InputSubcategory']['id'])
-					);
+					echo $subcategory['InputSubcategory']['description'];
 					?>
 					</td>
 					<td class="acoes">

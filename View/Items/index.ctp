@@ -3,8 +3,10 @@
 
 <?php if(!$ajax) {?>
 <div class="box">
-    <?php echo $this->element('box_search', array('allItems'=>array('controller'=>'items', 'action'=>'index')));?>
-    <?php echo $this->Form->input('url', array('type'=>'hidden', 'id'=>'url', 'value'=>'/items/index'));?>
+    <?php $params = isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : 1;?>
+    <?php echo $this->Form->input('params', array('type'=>'hidden', 'id'=>'params', 'value'=>$params));?>
+    <?php echo $this->element('box_search', array('allItems'=>array('controller'=>'items', 'action'=>'index', $params)));?>
+    <?php echo $this->Form->input('url', array('type'=>'hidden', 'id'=>'url', 'value'=>'/items/index/'.$params));?>
 
     <div id="items">
         <?php echo $this->element('ajax/items/index');?>
@@ -67,12 +69,25 @@ $('.changeStatus').live('click', function(){
             item_id: item_id
         },
         success: function(result){
-            if(!result) {
-                alert('Não foi possível alterar o status do item');
+            if(!result['return']) {
+                $("#alert-message").addClass('alert alert-error').html(result['message']);
+                element.attr('checked', true);
                 return;
             }
-            element.parents('tr').children(':last').html(name);    
-            element.parents('tr').fadeOut();
+            if(result['message']) {
+                $("#alert-message").addClass('alert alert-info').html(result['message']);
+            }
+            
+            var params = $('#params').val();
+            var page = $('#page').val();
+            var url = forUrl('/items/index/' + params + '/' + 'page:'+page);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                success: function(result) {
+                    $('#items').html(result);
+                }
+            });
         }
     });
 });

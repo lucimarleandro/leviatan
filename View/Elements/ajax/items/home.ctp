@@ -20,9 +20,46 @@
                 ?>
                     <tr>
                         <td class="centralizado nowrap"><?php echo $item['Item']['keycode']; ?></td>
-                        <td><?php echo $this->Html->link($item['Item']['name'], array('controller' => 'items', 'action' => 'view', 'id'=>$item['Item']['id'])); ?></td>
-                        <td class="centralizado"><?php echo $this->Html->link($item['ItemClass']['keycode'], array('controller' => 'item_classes', 'action' => 'view', $item['Item']['item_class_id'])); ?></td>
-                        <td class="centralizado"><?php echo $this->Html->link($item['PngcCode']['keycode'], array('controller' => 'pngc_codes', 'action' => 'view', $item['Item']['pngc_code_id'])); ?></td>
+                        <td>
+                            <?php
+                            echo $this->Html->link(
+                                $item['Item']['name'], 
+                                'javascript:void(0)', 
+                                array(
+                                    'id'=>'view', 
+                                    'data-controller'=>'items',
+                                    'data-id'=>$item['Item']['id']
+                                )
+                            ); 
+                            ?>
+                        </td>
+                        <td>
+                            <?php 
+                            echo 
+                            $this->Html->link(
+                                $item['ItemClass']['keycode'], 
+                                'javascript:void(0)',
+                                array(
+                                    'id'=>'view',
+                                    'data-controller'=>'item_classes',
+                                    'data-id'=>$item['ItemClass']['id']
+                                )
+                            );
+                            ?>
+                        </td>
+                        <td>
+                            <?php 
+                            echo $this->Html->link(
+                                $item['PngcCode']['keycode'], 
+                                'javascript:void(0);',
+                                array(
+                                    'id'=>'view',
+                                    'data-controller'=>'pngc_codes',
+                                    'data-id'=>$item['PngcCode']['id']
+                                )
+                            ); 
+                            ?>
+                        </td>
                     </tr>
                 <?php 
                     endforeach; 
