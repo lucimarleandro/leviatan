@@ -8,24 +8,30 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach($data as $value): ?>
+        <?php if(empty($data)) { ?>
             <tr>
-                <td><?php echo $value['Item']['keycode']; ?></td>
-                <td>
-                    <?php 
-                    echo $this->Html->link(
-                        $value['Item']['name'],
-                        'javascript:void(0);',
-                        array(
-                            'id'=>'view',
-                            'data-controller'=>'items',
-                            'data-id'=>$value['Item']['id']
-                        )
-                    ); 
-                    ?>
-                </td>
-                <td><?php echo $value[0]['sum']; ?></td>
+                <th colspan="3">Não há itens</th>
             </tr>
-        <?php endforeach; ?>
+        <?php }else { ?>
+            <?php foreach($data as $value): ?>
+                <tr>
+                    <td><?php echo $value['Item']['keycode']; ?></td>
+                    <td>
+                        <?php 
+                        echo $this->Html->link(
+                            $value['Item']['name'],
+                            'javascript:void(0);',
+                            array(
+                                'id'=>'view',
+                                'data-controller'=>'items',
+                                'data-id'=>$value['Item']['id']
+                            )
+                        ); 
+                        ?>
+                    </td>
+                    <td><?php echo $value[0]['sum']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php } ?>
     </tbody>
 </table>    

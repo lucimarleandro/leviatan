@@ -62,7 +62,7 @@ $this->Html->addCrumb('Permissões', '/manager/permissions');
                                     </td> 
                                 <?php endforeach; ?>
                             </tr>
-                        <? endforeach; ?>
+                        <?php endforeach; ?>
                 </tbody>	
             </table>
         </div>
