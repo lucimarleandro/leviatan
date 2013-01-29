@@ -1,6 +1,10 @@
 <div style="margin-left:1,5cm;margin-right: 1,5cm"> 
     <p style="margin-bottom: 20px; font-weight: bold; text-align: center;">Parecer</p>
     <?php echo $data[0]['Order']['opinion']; ?>
+    
+     <p align="center" style="margin-top: 60px;">Atenciosamente,</p>
+    <!-- Homologador -->
+    <p align="center" style="margin-top: 30px;"><?php echo $user['Employee']['name'].' '.$user['Employee']['surname'];?></p>
         
     <!-- Pula linha para listar os itens solicitados -->
     <div class="page-break"></div>

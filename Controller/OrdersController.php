@@ -258,9 +258,12 @@ class OrdersController extends AppController {
                 }
             endforeach;
         endforeach;
+        
+        /**Usuário homologador**/
+        $user = $this->Auth->user();
 
         ksort($consolidation);
-        $this->set(compact('data', 'columns', 'consolidation', 'descriptions'));
+        $this->set(compact('data', 'columns', 'consolidation', 'descriptions', 'user'));
         $this->WkHtmlToPdf->createPdf();
     }
 

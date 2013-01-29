@@ -233,7 +233,7 @@ class SolicitationsController extends AppController {
     public function printout($id = null) {
         $this->layout = 'default';
         $this->SolicitationItem->recursive = -1;
-                        
+        
         $options['joins'] = array(
             array(
                 'table' => 'items',

@@ -20,7 +20,7 @@
         <td><?php echo $item['Item']['description'];?></td>
     </tr>
     <tr>
-        <td><?php echo __('Especifição');?></td>
+        <td><?php echo __('Especificação');?></td>
         <td><?php echo $item['Item']['specification'];?></td>
     </tr>
     <tr>
