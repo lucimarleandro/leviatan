@@ -39,31 +39,27 @@ class SolicitationsController extends AppController {
 
 /**
  * 
+ * @param type $id
  */
     public function view($id = null) {
-        $this->set('title_for_layout', 'Visualizar solicitação');
-        $ajax = false;
-        if ($this->request->is('AJAX')) {
-            $ajax = true;
-            $this->layout = 'ajax';
-        }
-                
-        $this->SolicitationItem->recursive = -1;        
+        $this->Solicitation->recursive = -1;
+        $this->SolicitationItem->recursive = -1;                
+        
         $options['joins'] = array(
-            array(
-                'table'=>'solicitations',
-                'alias'=>'Solicitation',
-                'type'=>'INNER',
-                'conditions'=>array(
-                    'SolicitationItem.solicitation_id = Solicitation.id'
-                )
-            ),
             array(
                 'table'=>'items',
                 'alias'=>'Item',
+                'type'=>'inner',
+                'conditions'=>array(
+                    'Item.id = SolicitationItem.item_id'
+                )
+            ),
+            array(
+                'table'=>'item_classes',
+                'alias'=>'ItemClass',
                 'type'=>'INNER',
                 'conditions'=>array(
-                    'SolicitationItem.item_id = Item.id'
+                    'Item.item_class_id = ItemClass.id'
                 )
             ),
             array(
@@ -97,29 +93,46 @@ class SolicitationsController extends AppController {
                 'conditions'=>array(
                     'Sector.id = UnitySector.sector_id',
                  )
-            )            
-       );
-
+            ),
+            array(
+                'table'=>'order_items',
+                'alias'=>'OrderItem',
+                'type'=>'LEFT',
+                'conditions'=>array(
+                    'SolicitationItem.id = OrderItem.solicitation_item_id'
+                )
+            ),
+            array(
+                'table'=>'orders',
+                'alias'=>'Order',
+                'type'=>'INNER',
+                'conditions'=>array(
+                    'OrderItem.order_id = Order.id'
+                )
+            )
+        );
         $options['conditions'] = array(
-            'SolicitationItem.solicitation_id' => $id
+            'SolicitationItem.solicitation_id'=>$id
         );
         $options['fields'] = array(
-            'SolicitationItem.id', 'SolicitationItem.quantity', 'SolicitationItem.status_id', 
-            'Item.keycode', 'Item.id', 'Item.name',
-            'Solicitation.id', 'Solicitation.keycode', 'Solicitation.memo_number', 'Solicitation.description', 'Solicitation.attachment', 
-            'Unity.name', 'Sector.name'
+            'Item.keycode', 'Item.name', 'Item.item_class_id', 'ItemClass.keycode', 'ItemClass.name', 
+            'SolicitationItem.id', 'SolicitationItem.quantity', 'SolicitationItem.status_id',
+            'Unity.name', 'Sector.name',
+            'Order.process_number'
         );
-        $options['limit'] = 10;
-        $options['order'] = array(
-            'Item.keycode'=>'asc'
-        );
-
         $this->paginate = $options;
-        $solicitation = $this->paginate('SolicitationItem');
+        $data = $this->paginate('SolicitationItem');
+        
+        $solicitation = $this->Solicitation->findById($id);
 
-        $this->set(compact('ajax', 'solicitation'));
+        $items = array();
+        foreach($data as $value):
+            $items[$value['ItemClass']['keycode'].'-'.$value['ItemClass']['name']][] = $value;
+        endforeach;
+
+        $this->set(compact('items', 'solicitation'));
     }
-
+    
 /**
  * Solicitações que estão pendentes para o homologador
  */

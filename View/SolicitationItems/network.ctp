@@ -4,7 +4,8 @@
         <tr>
             <th>Código</th>
             <th>Nome</th>
-            <th>Quantidade</th>            
+            <th>Quantidade</th>           
+            <th>Ação</th>
         </tr>
     </thead>
     <tbody>
@@ -30,8 +31,44 @@
                         ?>
                     </td>
                     <td><?php echo $value[0]['sum']; ?></td>
+                    <td>
+                        <?php
+                        if (in_array($value['Item']['id'], $cart_items)) {
+                            echo $this->Html->image('shopping-cart.png', array('title' => 'O item está na lista de solicitações'));
+                        } else if (in_array($value['Item']['id'], $pending)) {
+                            echo $this->Html->image('pending.png', array('title' => 'O item está em processo de análise'));
+                        } else {
+                            echo $this->Html->link(
+                                $this->Html->image('add.png'), 'javascript:void(0)', array('escape'=>false, 'class'=>'request-item', 'value'=>$value['Item']['id'], 'title'=>'Solicitar o item')
+                            );
+                        }
+                        ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         <?php } ?>
     </tbody>
-</table>    
+</table>   
+
+<script>
+$('.request-item').die();
+$('.request-item').live('click', function(e){
+    e.preventDefault();
+
+    var element = $(this).parent();	
+    var item_id = $(this).attr('value');
+    var url = forUrl('/cart_items/add');
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: url,
+        data:{item_id: item_id},
+        success: function(result){
+            if(result['return']) {
+                element.html('<?php echo $this->Html->image('shopping-cart.png', array('alt' => 'carrinho', 'title' => 'Item no carrinho de solicitações')) ?>');
+            }
+        }
+    });	
+});    
+</script>

@@ -22,7 +22,8 @@ table {
   line-height: 18px;
 /*   text-align: left; */
   vertical-align: top;
-  border-top: 1px solid #dddddd;
+  border-top: 1px solid #000;
+  font-size: 8pt;
 }
 
 .table th{
@@ -31,7 +32,7 @@ table {
   text-align: center;
   font-weight: bold;
   vertical-align: top;
-  border-top: 1px solid #dddddd;
+  border-top: 1px solid #000;
 }
 
 .justify {
@@ -47,9 +48,9 @@ table {
 }
 
 .table-bordered {
-  border: 1px solid #dddddd;
+  border: 1px solid #000;
   border-collapse: separate;
-  *border-collapse: collapsed;
+  border-collapse: collapsed;
   border-left: 0;
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
@@ -58,12 +59,17 @@ table {
 
 .table-bordered th,
 .table-bordered td {
-  border-left: 1px solid #dddddd;
+  border-left: 1px solid #000;
 }
 
 .table-condensed th,
 .table-condensed td {
   padding: 4px 5px;
+}
+
+.table-striped tbody tr:nth-child(odd) td,
+.table-striped tbody tr:nth-child(odd) th {
+  background-color: #f9f9f9;
 }
 
 .footer {

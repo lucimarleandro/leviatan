@@ -102,14 +102,12 @@ endforeach;
 
 <!-- Consolidado -->
 <h3 style="text-align:left; padding-bottom:10px;">Consolidado</h3>
-<table class="table table-condensed table-bordered">
+<table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr>
             <th>Código</th>
             <th>Nome</th>
-            <?php foreach($columns as $column): ?>
-                    <th><?php echo $column;?></th>
-            <?php endforeach;?>
+            <th colspan="2">Quantitativo</th>
             <th>Total</th>	
         </tr>
     </thead>
@@ -119,16 +117,23 @@ endforeach;
             <?php $sum = 0;?>
             <tr>
                 <td valign="middle" style="white-space: nowrap;"><?php echo $key;?></td>		
-                <td align="left"><?php echo $descriptions[$key]['name'];?></td>				
-                <?php foreach($columns as $column): ?>
-                    <?php if(array_key_exists($column, $item)) {?>
-                        <td align="center" valign="middle"><?php echo $item[$column];?></td>
-                        <?php $sum += $item[$column];?>
-                    <?php }else {?>
-                        <td align="center" valign="middle"> - </td>
-                    <?php }?>
-                <?php endforeach;?>
-                <?php $amount[$key] = $sum;?>
+                <td align="left"><?php echo $descriptions[$key]['name'];?></td>	
+                <td style="white-space: nowrap;">
+                    <?php foreach($columns as $column): 
+                        echo $column.'<br>';
+                     endforeach;?>
+                </td>
+                <td>
+                    <?php foreach($columns as $column): ?>
+                        <?php if(array_key_exists($column, $item)) {?>
+                            <?php echo $item[$column].'<br>';?>                               
+                            <?php $sum += $item[$column];?>
+                        <?php }else {?>
+                               <?php echo ' - <br>';?>
+                        <?php }?>
+                    <?php endforeach;?>
+                    <?php $amount[$key] = $sum;?> 
+                </td>
                 <td align="center" valign="middle"><?php echo $sum;?></td>		
             </tr>
         <?php endforeach;?>

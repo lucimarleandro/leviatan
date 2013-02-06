@@ -229,11 +229,14 @@ class SolicitationItemsController extends AppController {
         $options['group'] = array(
             'SolicitationItem.item_id'
         );
-        $options['limit'] = 10;
+        //$options['limit'] = 10;
+        
+        $cart_items = $this->__getCartItems();
         
         $data = $this->SolicitationItem->find('all', $options);
+        $pending = $this->__getSolicitationItemsPending();
         
-        $this->set(compact('data'));
+        $this->set(compact('data', 'cart_items', 'pending'));
     }
 
 /**

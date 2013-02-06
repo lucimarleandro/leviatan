@@ -693,16 +693,16 @@ class ItemsController extends AppController {
         );
         $items = $this->Item->find('all', $options);
 
-        if ($items) {
+        if($items) {
 
             $sum = count($items);
 
-            if ($sum < 10) {
+            if($sum < 100) {
                 $keycode = $items[0]['ItemClass']['keycode'] . '-0' . ($sum + 1);
-            } else {
+            }else {
                 $keycode = $items[0]['ItemClass']['keycode'] . '-' . ($sum + 1);
             }
-        } else {
+        }else {
             $this->ItemClass->recursive = -1;
             $itemClass = $this->ItemClass->read(null, $item_class_id);
 

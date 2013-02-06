@@ -274,6 +274,25 @@ class OrdersController extends AppController {
     public function getViewDump($filename) {
         $this->WkHtmlToPdf->getViewDump($filename);
     }
+    
+/**
+ * 
+ */
+    public function setNumberProcess() {
+        $this->autoRender = false;
+        if($this->request->is('AJAX')) {
+            $this->Order->id = $this->request->data['id'];
+            $processNumber = $this->request->data['value'];
+            
+            if($this->Order->saveField('process_number', $processNumber, false)) {
+                $result = array('return'=>true);
+            }else {
+                $result = array('return'=>false, 'message'=>'<div id="flashMessage">Não foi possível salvar o número do processo. Por favor, entre em contato com o administrador do sistema</div>');
+            }
+        }
+
+        return json_encode($result);
+    }
 
 /**
  * 

@@ -256,9 +256,9 @@ table tbody tr td.acoes a:hover {
 }
 
 tbody td a {
-    display: block;
     text-decoration: none;
     color: #444;
+    padding: 0 5px;
 }
 
 tbody td a:hover {
