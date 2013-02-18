@@ -185,7 +185,7 @@ class UsersController extends AppController {
  * Enter description here ...
  */
     public function logout() {
-        $this->Session->setFlash(__('Adeus'), 'default', array('class' => 'alert alert-success'));
+        $this->Session->setFlash(__('Sessão finalizada'), 'default', array('class' => 'alert alert-success'));
         $this->redirect($this->Auth->logout());
     }
 

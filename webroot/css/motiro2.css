@@ -379,3 +379,14 @@ div.loading img {
    padding: 5px 0;
 }
 
+#preview-report {
+    margin-left: 50px; 
+    margin-right: 50px; 
+    border-width: medium; 
+    border-style: solid;
+}
+
+#preview-report hr{
+    border-color: black; 
+    background-color: black;
+}

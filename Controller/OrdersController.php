@@ -135,8 +135,49 @@ class OrdersController extends AppController {
         $this->paginate = $options;
         $this->Order->recursive = -1;
         $orders = $this->paginate();
+        
+        unset($options);
+        
+        $keycodes = array();
+        foreach($order_ids as $id):
+            $options['joins'] = array(
+                array(
+                    'table' => 'solicitation_items',
+                    'alias' => 'SolicitationItem',
+                    'type'  => 'INNER',
+                    'conditions' => array(
+                        'SolicitationItem.id = OrderItem.solicitation_item_id'
+                    )
+                ),
+                array(
+                    'table' => 'items',
+                    'alias' => 'Item',
+                    'type'  => 'INNER',
+                    'conditions' => array(
+                        'Item.id = SolicitationItem.item_id'
+                    )
+                ),
+                array(
+                    'table' => 'item_classes',
+                    'alias' => 'ItemClass',
+                    'type'  => 'INNER',
+                    'conditions' => array(
+                        'Item.item_class_id = ItemClass.id'
+                    )
+                )
+            );
+            $options['fields'] = array(
+                'ItemClass.keycode'
+            );
+            $options['conditions'] = array(
+                'OrderItem.order_id' => $id
+            );        
+            $code = $this->OrderItem->find('first', $options);
+            
+            $keycodes[$id] = $code['ItemClass']['keycode'];
+        endforeach;
 
-        $this->set(compact('orders'));
+        $this->set(compact('orders', 'keycodes'));
     }
 
 /**
@@ -266,6 +307,52 @@ class OrdersController extends AppController {
         $this->set(compact('data', 'columns', 'consolidation', 'descriptions', 'user'));
         $this->WkHtmlToPdf->createPdf();
     }
+    
+/**
+ * 
+ * @param type $orderId
+ */
+    public function preview($order_id) {
+            
+        $this->OrderItem->recursive = -1;
+        $this->SolicitationItem->recursive = -1;
+
+        //As solicitações sem repetições
+        $solicitations = $this->OrderItem->find('all', $this->____getOptionsOrderItem($order_id));
+        //Todos os itens que estão no pedido atual
+        $solicitation_items = $this->OrderItem->find('list', array('conditions' => array('OrderItem.order_id' => $order_id), 'fields' => array('OrderItem.solicitation_item_id')));
+        foreach ($solicitations as $key => $solicitation):
+            //Recupera os itens do pedido a solicitação passada como parãmetro
+            $items = $this->SolicitationItem->find('all', $this->__getOptionsSolicitationItems($solicitation['Solicitation']['id'], $solicitation_items));
+            $data[$key] = $solicitation;
+            $data[$key]['solicitation_items'] = $items;
+        endforeach;
+
+        //Consolidado
+        $items = array();
+        $columns = array();
+        $descriptions = array();
+        foreach ($data as $value):
+            if (!in_array($value['Unity']['name'], $columns)) {
+                $columns[] = $value['Unity']['name'];
+            }
+            $unity = $value['Unity']['name'];
+            foreach ($value['solicitation_items'] as $item):
+                $descriptions[$item['Item']['keycode']] = array('name' => $item['Item']['name'], 'description' => $item['Item']['description'], 'specification' => $item['Item']['specification']);
+                if(isset($consolidation[$item['Item']['keycode']][$unity])) {
+                    $consolidation[$item['Item']['keycode']][$unity] += $item['SolicitationItem']['quantity'];
+                } else {
+                    $consolidation[$item['Item']['keycode']][$unity] = $item['SolicitationItem']['quantity'];
+                }
+            endforeach;
+        endforeach;
+
+        /**Usuário homologador**/
+        $user = $this->Auth->user();
+
+        ksort($consolidation);
+        $this->set(compact('data', 'columns', 'consolidation', 'descriptions', 'user'));
+    }
 
 /**
  *
@@ -284,16 +371,22 @@ class OrdersController extends AppController {
             $this->Order->id = $this->request->data['id'];
             $processNumber = $this->request->data['value'];
             
-            if($this->Order->saveField('process_number', $processNumber, false)) {
-                $result = array('return'=>true);
+            $check = $this->Order->Find('first', array('conditions'=>array('Order.process_number'=>$processNumber)));
+            
+            if(empty($check)) {            
+                if($this->Order->saveField('process_number', $processNumber, false)) {
+                    $result = array('return'=>true);
+                }else {
+                    $result = array('return'=>false, 'message'=>'<div class="alert alert-error" id="flashMessage">Não foi possível salvar o número do processo. Por favor, entre em contato com o administrador do sistema</div>');
+                }
             }else {
-                $result = array('return'=>false, 'message'=>'<div id="flashMessage">Não foi possível salvar o número do processo. Por favor, entre em contato com o administrador do sistema</div>');
+                $result = array('return'=>false, 'message'=>'<div class="alert alert-error" id="flashMessage">Não foi possível salvar o número do processo. Esse número já está cadastrado. </div>');
             }
+           
+            return json_encode($result);
         }
-
-        return json_encode($result);
     }
-
+    
 /**
  * 
  * @param unknown_type $solicitation_id
@@ -438,7 +531,7 @@ class OrdersController extends AppController {
         );
         $options['conditions'] = array('OrderItem.order_id' => $order_id);
         $options['fields'] = array(
-            'Order.opinion', 'Solicitation.id', 'Solicitation.keycode', 'Solicitation.memo_number', 'Solicitation.description', 'Solicitation.attachment','Solicitation.created',
+            'Order.created', 'Order.opinion', 'Solicitation.id', 'Solicitation.keycode', 'Solicitation.memo_number', 'Solicitation.description', 'Solicitation.attachment','Solicitation.created',
             'Employee.name', 'Employee.surname', 'Unity.name', 'Sector.name', 'UnityResponsible.name', 'SectorResponsible.name'
         );
         $options['group'] = array('SolicitationItem.solicitation_id');

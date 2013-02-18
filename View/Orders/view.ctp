@@ -20,7 +20,8 @@ echo $this->Html->link(
                 <thead>
                     <tr>
                         <th>Código</th>
-                        <th>Nº do processo</th>
+                        <th style="text-align: center;">Nº do processo</th>
+                        <th>Classe</th>
                         <th>Ação</th>
                     </tr>
                 </thead>	
@@ -28,7 +29,7 @@ echo $this->Html->link(
                     <?php foreach($orders AS $order):?>
                     <tr>
                         <td><?php echo $order['Order']['keycode'];?></td>
-                        <td>
+                        <td style="text-align: center;">
                             <?php 
                             echo $this->Form->input(
                                 'process_number', 
@@ -55,7 +56,15 @@ echo $this->Html->link(
                             ?>
                         </td>
                         <td>
+                            <?php echo $keycodes[$order['Order']['id']]?>
+                        </td>
+                        <td class="nowrap">
                         <?php 
+                        echo $this->Html->link(
+                            $this->Html->image('preview.png'),
+                            array('controller'=>'orders', 'action'=>'preview', $order['Order']['id']),
+                            array('escape'=>false)
+                        );
                         echo $this->Form->postLink(
                             $this->Html->image('print.png'), 
                             array('controller'=>'orders','action'=>'report', $order['Order']['id'], 'ext'=>'pdf'), 
@@ -70,6 +79,7 @@ echo $this->Html->link(
     </div>	
     <?php echo $this->element('pagination');?>
 <?php }?>
+<div id="preview"></div>
 
 <script>
 $('.edit').live('click', function(){
@@ -81,7 +91,7 @@ $('.edit').live('click', function(){
     var id = elementInput.data('id');
     var value = elementInput.val();
     var url = forUrl('/orders/setNumberProcess');
-    
+   
     $.ajax({
         type: 'POST',
         dataType: 'json',
